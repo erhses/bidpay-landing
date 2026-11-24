@@ -23,7 +23,15 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.mn npm run build
 ```
 
 `NEXT_PUBLIC_SITE_URL` is the public address of the site. It is read at build time and goes into the canonical
-link, the sitemap, `robots.txt` and the share preview. Without it those point at `http://localhost:3000`.
+link, the sitemap, `robots.txt` and the share preview. Without it, a build on Vercel uses the project's production
+address (`*.vercel.app`), and any other build uses `http://localhost:3000`.
+
+## Deploy
+
+The live site is on Vercel, connected to this GitHub repository. Every push to `main` builds and publishes it;
+any other branch or pull request gets its own preview address. Vercel detects Next.js, so the project needs no
+build settings. Once the real domain is known, add it in Vercel and set `NEXT_PUBLIC_SITE_URL` under the
+project's Environment Variables, then redeploy.
 
 The build produces a self-contained server in `.next/standalone`. The Dockerfile packages it:
 
@@ -114,6 +122,6 @@ These are placeholders or unconfirmed and need a decision from the BiD Pay team:
 - **QR target.** `qrTarget` in `site.ts` is the App Store listing, so Android phones scanning it land in the
   wrong store. Use a link that routes each phone to its own store.
 - **Legal pages.** There are no terms or privacy links yet.
-- **Domain.** Set `NEXT_PUBLIC_SITE_URL` once the address is known.
+- **Domain.** Set `NEXT_PUBLIC_SITE_URL` in Vercel once the address is known (see Deploy).
 - **Real devices.** The 3D scene has been checked in a headless browser only. Test it on mid-range Android
   phones before launch.
