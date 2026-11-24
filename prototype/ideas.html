@@ -1,0 +1,124 @@
+<title>BID Pay Hero Ideas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@400..700&family=Golos+Text:wght@400..600&display=swap">
+<style>
+/* Three grown-up alternatives for the first screen, each a working sketch at the same size so they compare fairly. */
+:root { --bg: #f3f4f6; --surface: #fff; --ink: #16181d; --mute: #5b616d; --line: #e0e3e9; --track: #e4e6eb; --orange: #f67420; --f-head: "Geologica", "Golos Text", system-ui, sans-serif; --f-body: "Golos Text", system-ui, sans-serif; color-scheme: light }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font: 16px/1.55 var(--f-body); -webkit-font-smoothing: antialiased }
+h1, h2, h3, p { margin: 0 } h1, h2, h3 { font-family: var(--f-head); font-weight: 600; letter-spacing: -.025em; line-height: 1.1 }
+.wrap { max-width: 1160px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px }
+header h1 { font-size: clamp(28px, 3.6vw, 44px) }
+header p { margin-top: 12px; color: var(--mute); max-width: 62ch; font-size: 17px }
+.note { margin-top: 22px; background: var(--surface); border-radius: 18px; padding: 18px 22px; max-width: 76ch; font-size: 15.5px }
+.note b { font-weight: 600 }
+.idea { margin-top: 44px }
+.idea h2 { font-size: 24px } .idea > p { margin-top: 6px; color: var(--mute); max-width: 68ch }
+.idea dl { margin: 14px 0 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 16px; font-size: 15px; max-width: 76ch }
+.idea dt { color: var(--mute) } .idea dd { margin: 0 }
+.frame { margin-top: 18px; position: relative; overflow: hidden; border-radius: 28px; aspect-ratio: 16 / 8; container-type: inline-size; font-family: var(--f-head); background: var(--surface) }
+.frame > * { position: absolute }
+.frame .h { left: 6cqw; font-size: 5.6cqw; font-weight: 600; letter-spacing: -.035em; line-height: 1.03 }
+.frame .s { left: 6cqw; font: 400 1.75cqw/1.45 var(--f-body); color: rgba(22, 24, 29, .72); width: 30cqw }
+.frame .b { left: 6cqw; background: var(--orange); color: #fff; font-weight: 600; font-size: 1.6cqw; padding: 1.2cqw 2.6cqw; border-radius: 9cqw }
+.bar4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6cqw }
+.bar4 i { height: .9cqw; border-radius: 1cqw; background: var(--track); overflow: hidden }
+.bar4 i::after { content: ""; display: block; height: 100%; width: 0; background: var(--orange) }
+
+/* A: photograph */
+.fa { background: #efe9f4 }
+.fa .ph { inset: 0 0 0 34%; background: url(img/idea-photo.webp) right center / cover }
+.fa .fade { inset: 0; background: linear-gradient(90deg, #f3f0f6 0 33%, rgba(243, 240, 246, 0) 58%) }
+.fa .h { top: 9.5cqw } .fa .s { top: 23cqw } .fa .b { top: 31.5cqw }
+.fa .ui { left: 40cqw; bottom: 5cqw; width: 25cqw; background: #fff; border-radius: 2cqw; padding: 1.9cqw; box-shadow: 0 1.6cqw 4cqw rgba(22, 24, 29, .18) }
+.ui small { display: block; font: 400 1.25cqw var(--f-body); color: var(--mute) } .ui strong { display: block; font-size: 2.9cqw; font-weight: 600; letter-spacing: -.03em; margin: .2cqw 0 1.2cqw }
+.ui em { display: block; font: 500 1.35cqw var(--f-body); font-style: normal; margin-top: 1.1cqw; color: var(--ink) }
+.fa .cap { right: 1.6cqw; top: 1.4cqw; font: 500 1.15cqw var(--f-body); color: #fff; background: rgba(22, 24, 29, .55); padding: .4cqw 1cqw; border-radius: 9cqw }
+
+/* B: the number does the talking */
+.fb .tag { left: 6cqw; top: 5cqw; font: 500 1.7cqw var(--f-body); color: var(--mute) }
+.fb .big { left: 6cqw; top: 9cqw; font-size: 12.5cqw; font-weight: 600; letter-spacing: -.05em; line-height: 1; transform-origin: left top; font-variant-numeric: tabular-nums }
+.fb .cols { left: 6cqw; right: 6cqw; top: 22cqw; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.6cqw }
+.fb .cols div { opacity: 0 }
+.fb .cols i { display: block; height: 1cqw; border-radius: 1cqw; background: var(--track); overflow: hidden }
+.fb .cols i::after { content: ""; display: block; height: 100%; width: 0; background: var(--orange) }
+.fb .cols small { display: block; margin-top: 1.3cqw; font: 400 1.4cqw var(--f-body); color: var(--mute) }
+.fb .cols b { display: block; font-size: 4.2cqw; font-weight: 600; letter-spacing: -.04em; font-variant-numeric: tabular-nums }
+.fb .line { left: 6cqw; right: 6cqw; bottom: 5.5cqw; display: flex; justify-content: space-between; align-items: center }
+.fb .line * { position: static } .fb .line .hh { font-size: 2.6cqw; font-weight: 600; letter-spacing: -.03em }
+.fb .cols.still div { opacity: 1 } .fb .cols.still div:first-child i::after { width: 100% }
+
+/* C: the app itself */
+.fc { background: linear-gradient(160deg, #fff4e8, #ffdfc2) }
+.fc .h { top: 9.5cqw } .fc .s { top: 23cqw } .fc .b { top: 31.5cqw }
+.fc .phone { right: 11cqw; top: 5cqw; width: 27cqw; aspect-ratio: 603 / 1311; border-radius: 4.3cqw; padding: .75cqw; background: #16181d; box-shadow: 0 3cqw 6cqw rgba(120, 60, 10, .25) }
+.fc .phone img { position: static; width: 100%; height: 100%; object-fit: cover; border-radius: 3.6cqw; display: block }
+.fc .ui { right: 33cqw; bottom: 6cqw; width: 23cqw; background: #fff; border-radius: 2cqw; padding: 1.8cqw; box-shadow: 0 1.6cqw 4cqw rgba(120, 60, 10, .2) }
+.rows { margin-top: 1.2cqw; display: grid; gap: .6cqw; font: 400 1.3cqw var(--f-body); color: var(--mute) }
+.rows span { display: flex; justify-content: space-between } .rows b { font-weight: 600; color: var(--ink) } .rows .on, .rows .on b { color: #c9540a }
+
+@media (prefers-reduced-motion: no-preference) {
+  .bar4.play i::after { animation: fill 6s infinite both } .bar4.play i:nth-child(2)::after { animation-delay: .25s } .bar4.play i:nth-child(3)::after { animation-delay: .5s } .bar4.play i:nth-child(4)::after { animation-delay: .75s }
+  @keyframes fill { 0%, 12% { width: 0 } 28%, 92% { width: 100% } 100% { width: 0 } }
+  .fb .big { animation: shrink 8s cubic-bezier(.6, 0, .2, 1) infinite both }
+  @keyframes shrink { 0%, 26% { transform: translateY(5cqw) scale(1); color: var(--ink) } 36%, 92% { transform: translateY(0) scale(.5); color: var(--mute) } 100% { transform: translateY(5cqw) scale(1); color: var(--ink) } }
+  .fb .cols div { animation: col 8s infinite both; animation-delay: calc(var(--i) * .16s) }
+  @keyframes col { 0%, 34% { opacity: 0; translate: 0 2cqw } 42%, 90% { opacity: 1; translate: 0 0 } 96%, 100% { opacity: 0; translate: 0 0 } }
+  .fb .cols div:first-child i::after { animation: paid 8s infinite both }
+  @keyframes paid { 0%, 56% { width: 0 } 66%, 92% { width: 100% } 100% { width: 0 } }
+}
+@media (prefers-reduced-motion: reduce) { .bar4 i:nth-child(-n+2)::after { width: 100% } .fb .cols div { opacity: 1 } .fb .big { transform: scale(.5); color: var(--mute) } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Three other ways to open the page</h1>
+    <p>Each one drops the toy-like objects. They are working sketches at the same size, with placeholder wording, so you can compare the idea and not the polish.</p>
+    <p class="note"><b>What I found on your Facebook and Instagram:</b> the pictures are ad graphics with text baked in and staff event photos, in BID's red and navy. The closest to a Toki-style image is the February 2025 set of women holding phones, but I can only reach it at 640 pixels with the ad text across it. Idea A uses a crop of one as a stand-in. To build A properly I need the original photos from that shoot, without text.</p>
+  </header>
+
+  <section class="idea">
+    <h2>A. A photograph, with the split on top</h2>
+    <p>The Toki approach, kept light. A real person fills the right side and fades into the page; the payment card sits over the picture.</p>
+    <div class="frame fa" lang="mn">
+      <div class="ph"></div><div class="fade"></div>
+      <div class="h">Одоо ав.<br>Хуваан төл.</div>
+      <p class="s">Хүссэн зүйлээ өнөөдөр аваад, төлбөрөө 4 хуваан төлөх апп.</p>
+      <span class="b">Апп татах</span>
+      <div class="ui"><small>Худалдан авалт</small><strong>480,000₮</strong><div class="bar4 play"><i></i><i></i><i></i><i></i></div><em>4 × 120,000₮</em></div>
+      <span class="cap">stand-in photo from your 2025 ad</span>
+    </div>
+    <dl><dt>Feels like</dt><dd>Toki, Revolut, Afterpay</dd><dt>Needs</dt><dd>Two or three clean, high-resolution photos of people. Nothing else on the page can substitute for them.</dd><dt>Risk</dt><dd>With a weak photo it looks like every other fintech site.</dd></dl>
+  </section>
+
+  <section class="idea">
+    <h2>B. The number does the talking</h2>
+    <p>No picture at all. One large amount splits into four payments in plain type, and the first one is paid. Quiet, confident, and nobody else locally does it.</p>
+    <div class="frame fb" lang="mn">
+      <span class="tag">Худалдан авалт</span>
+      <div class="big">1,600,000₮</div>
+      <div class="cols">
+        <div style="--i:0"><i></i><small>1-р төлөлт</small><b>400,000₮</b></div>
+        <div style="--i:1"><i></i><small>2-р төлөлт</small><b>400,000₮</b></div>
+        <div style="--i:2"><i></i><small>3-р төлөлт</small><b>400,000₮</b></div>
+        <div style="--i:3"><i></i><small>4-р төлөлт</small><b>400,000₮</b></div>
+      </div>
+      <div class="line"><span class="hh">Одоо ав. Хуваан төл.</span><span class="b">Апп татах</span></div>
+    </div>
+    <dl><dt>Feels like</dt><dd>Zip's one-liner, Apple Card's big-word tiles, Ramp</dd><dt>Needs</dt><dd>Nothing from you. Type and timing carry it.</dd><dt>Risk</dt><dd>Austere. It impresses designers more than shoppers unless the sections below are rich.</dd></dl>
+  </section>
+
+  <section class="idea">
+    <h2>C. The app itself, large</h2>
+    <p>Your real home screen in a phone that runs off the bottom of the frame, with the payment schedule beside it. What StorePay does further down its page, moved to the top.</p>
+    <div class="frame fc" lang="mn">
+      <div class="h">Одоо ав.<br>Хуваан төл.</div>
+      <p class="s">Хүссэн зүйлээ өнөөдөр аваад, төлбөрөө 4 хуваан төлөх апп.</p>
+      <span class="b">Апп татах</span>
+      <div class="phone"><img src="img/app-home.webp" alt="BiD Pay аппын нүүр дэлгэц"></div>
+      <div class="ui"><small>BID shop · нийт дүн</small><strong>480,000₮</strong><div class="bar4 play"><i></i><i></i><i></i><i></i></div>
+        <div class="rows"><span>1-р төлөлт<b>120,000₮</b></span><span>2-р төлөлт<b>120,000₮</b></span><span class="on">3-р төлөлт · 10/22<b>120,000₮</b></span><span>4-р төлөлт<b>120,000₮</b></span></div></div>
+    </div>
+    <dl><dt>Feels like</dt><dd>Origin, Copilot Money, Cash App</dd><dt>Needs</dt><dd>Nothing from you. Sharper app screenshots would help.</dd><dt>Risk</dt><dd>The safest of the three, and the least surprising.</dd></dl>
+  </section>
+</div>

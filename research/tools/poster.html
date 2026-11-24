@@ -1,0 +1,19 @@
+<!doctype html>
+<!-- Renders the hero's fallback still: one settled frame of the live scene. Served by research/tools/render-stills.js. -->
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@400..700&display=swap">
+<style>html, body { margin: 0; background: transparent } canvas { display: block; width: 900px; height: 918px }</style>
+<script type="importmap">{ "imports": { "three": "./three.module.js" } }</script>
+</head><body>
+<canvas id="c"></canvas>
+<script type="module">
+  import BP from './bp3d.js';
+  await Promise.all([document.fonts.load('600 40px Geologica', '1-р төлөлт 0123456789,₮'), document.fonts.load('500 40px Geologica', '1-р төлөлт')]);
+  // Same framing as the hero's .view box (1 : 1.02). Cycle 0, 4.2 s in: cut, turned over, first payment paid.
+  const cycles = JSON.parse(new URLSearchParams(location.search).get('cycles') || '[[1200000,3]]');
+  const api = BP.hero(document.getElementById('c'), { font: 'Geologica', screen: 'img/app-home.webp', cycles, keep: true });
+  api.pose(0, 4.2);
+  // Pose again once the phone's screen image has loaded.
+  setTimeout(() => { api.pose(0, 4.2); window.done = 'ok'; }, 1500);
+</script>
+</body></html>

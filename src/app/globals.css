@@ -1,0 +1,174 @@
+/* BiD Pay landing page. */
+/* Warm paper and ink with hairline rules. On the page, orange is an accent only: it marks what to press and what is
+   under the pointer. Every 3D object is the same clay in charcoal and orange, from one kit (src/three/kit.js), and
+   every still sits on the same plate. Section markers reuse the app's payment bar. */
+:root {
+  --bg: #f7f6f2;
+  --alt: #eeece6;
+  --surface: #ffffff;
+  --ink: #16181d;
+  --mute: #5f6068;
+  --faint: #8f9097;
+  --line: #d9d6cd;
+  --plate: #efede8;
+  --orange: #f67420;
+  --orange-press: #e96710;
+  --f-head: var(--font-head), system-ui, sans-serif;
+  --f-body: var(--font-body), system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box }
+html { scroll-behavior: smooth }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.55 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: clip }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--ink) }
+h1, h2, h3, p { margin: 0 }
+h1, h2, h3 { font-family: var(--f-head); font-weight: 600; letter-spacing: -.03em; line-height: 1.04; text-wrap: balance }
+a { color: inherit; text-decoration: none }
+img { display: block; max-width: 100% }
+button { font: inherit; color: inherit }
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; border-radius: 4px }
+.wrap { max-width: 1240px; margin-inline: auto; padding-left: max(clamp(16px, 4vw, 44px), env(safe-area-inset-left, 0px)); padding-right: max(clamp(16px, 4vw, 44px), env(safe-area-inset-right, 0px)) }
+.mono { font: 500 14.5px/1.3 var(--f-head); color: var(--mute) }
+.num { font-variant-numeric: tabular-nums }
+.m-only { display: none }
+
+/* ---------- top: notice strip and header ---------- */
+.strip { background: var(--ink); color: #fff; font-size: 14px; text-align: center }
+.strip a { display: block; padding-block: 9px } .strip u { text-underline-offset: 3px }
+.strip a:hover u { color: var(--orange) }
+.page { position: relative }
+/* At the top of the page the header belongs to the hero and scrolls away with it, so it never covers the 3D. */
+.top { position: absolute; z-index: 50; top: 0; left: 0; right: 0; max-width: 1240px; margin-inline: auto; display: flex; align-items: center; gap: 8px; padding: 18px max(clamp(16px, 4vw, 44px), env(safe-area-inset-right, 0px)) 18px max(clamp(16px, 4vw, 44px), env(safe-area-inset-left, 0px)); color: var(--ink) }
+.logo { display: flex; align-items: center; gap: 10px; font: 600 19px var(--f-head); letter-spacing: -.02em }
+.logo img { width: 32px; height: 32px; border-radius: 9px }
+.top nav { display: flex; gap: 2px; margin-left: auto; margin-right: 8px }
+.top nav a { padding: 9px 15px; border-radius: 99px; font-size: 15.5px; color: var(--mute); transition: color .15s, background .15s }
+.top nav a:hover { color: var(--orange) }
+.top nav a.on { color: var(--ink); background: var(--alt) }
+/* Once the hero has scrolled away, the same header returns as a floating bar. */
+.top.stuck { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 10px); width: min(1180px, calc(100% - 28px)); max-width: none; padding: 7px 7px 7px 16px; border-radius: 99px; background: rgba(255, 255, 255, .92); backdrop-filter: blur(14px) saturate(1.3); -webkit-backdrop-filter: blur(14px) saturate(1.3); box-shadow: 0 1px 0 rgba(22, 24, 29, .05), 0 10px 30px rgba(22, 24, 29, .13); animation: drop .4s cubic-bezier(.2, .8, .2, 1) }
+.top.stuck.out { animation: lift .22s ease-in forwards }
+@keyframes drop { from { transform: translateY(-140%) } }
+@keyframes lift { to { transform: translateY(-140%) } }
+.btn { display: inline-block; border-radius: 99px; font: 600 16px var(--f-head); padding: 14px 26px; white-space: nowrap; transition: background .15s, border-color .15s, color .15s, transform .15s }
+.btn:active { transform: scale(.98) }
+.btn.fill { background: var(--orange); color: #fff } .btn.fill:hover { background: var(--orange-press) }
+.btn.line { border: 1px solid #c9c6bd; color: var(--ink) } .btn.line:hover { border-color: var(--orange); color: var(--orange) }
+.btn.small { padding: 10px 20px; font-size: 15px }
+
+/* ---------- hero: light and quiet, one object ---------- */
+.hero { position: relative; overflow-x: clip; background: radial-gradient(46% 60% at 76% 55%, #fff 0, rgba(255, 255, 255, 0) 72%), var(--bg); border-bottom: 1px solid var(--line) }
+.hero-in { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); align-items: center; gap: clamp(12px, 3vw, 40px); min-height: clamp(600px, 88vh, 860px); padding-block: 96px clamp(28px, 4vw, 56px) }
+h1 { font-size: clamp(46px, 5.8vw, 96px); font-weight: 700; letter-spacing: -.045em; line-height: .98 }
+h1 span { display: block }
+.lede { margin-top: 24px; max-width: 19em; color: var(--mute); font-size: clamp(18px, 1.6vw, 23px); line-height: 1.42 }
+.act { margin-top: 34px; display: flex; gap: 10px; flex-wrap: wrap }
+.trust { margin-top: 20px; font-size: 14.5px; color: var(--faint) }
+.view { position: relative; width: 100%; aspect-ratio: 1 / 1.02; cursor: pointer; -webkit-tap-highlight-color: transparent }
+.view canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity .8s }
+.hero.live .view canvas { opacity: 1 }
+.view .poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: opacity .5s }
+/* When the live scene is expected, keep the still out of sight, but bring it back if the scene never arrives. */
+html[data-3d] .view .poster { opacity: 0; animation: unhide 0s linear 5s forwards }
+.hero.live .view .poster { opacity: 0; animation: none }
+@keyframes unhide { to { opacity: 1 } }
+/* the words arrive once, softly */
+.rise { animation: rise .9s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--n, 0) * 80ms) }
+@keyframes rise { from { opacity: 0; transform: translateY(18px) } }
+
+/* ---------- sections ---------- */
+.sec { padding-block: clamp(64px, 8.5vw, 128px) }
+.sec.alt { background: var(--alt); border-block: 1px solid var(--line) }
+.head { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, .7fr); gap: 20px 48px; align-items: end }
+.part { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; font: 500 16px var(--f-head) }
+.b4 { display: inline-grid; grid-template-columns: repeat(4, 20px); gap: 3px }
+.b4 b { height: 6px; border-radius: 3px; background: #cfccc3 } .b4 b.on { background: var(--orange) }
+.sec h2 { font-size: clamp(34px, 4.6vw, 66px); letter-spacing: -.04em }
+.head p { color: var(--mute); font-size: clamp(17px, 1.4vw, 20px); max-width: 26em; padding-bottom: 6px }
+
+/* one plate style for every still on the page */
+.plate { position: relative; overflow: hidden; aspect-ratio: 4 / 3; border-radius: 20px; background: var(--plate) }
+.plate img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.2, .8, .2, 1) }
+
+/* how split payment works: three steps, read left to right */
+.how { --gap: clamp(16px, 2.2vw, 32px); margin: clamp(32px, 4.4vw, 60px) 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap) }
+.how .pic { position: relative }
+.how .next { position: absolute; z-index: 1; top: 50%; right: calc(var(--gap) / -2 - 19px); width: 38px; height: 38px; margin-top: -19px; border-radius: 50%; display: grid; place-items: center; background: var(--surface); border: 1px solid var(--line); color: var(--orange); font: 600 18px/1 var(--f-head) }
+.how .mono { display: block; margin-top: 22px }
+.how h3 { font-size: clamp(21px, 2vw, 27px); letter-spacing: -.025em; margin: 6px 0 8px; transition: color .3s }
+.how p { color: var(--mute); font-size: 16.5px; max-width: 24em }
+.how li:hover .plate img { transform: scale(1.04) }
+.how li:hover h3 { color: var(--orange) }
+
+/* features: three cards of the same build */
+.cards { margin-top: clamp(32px, 4.4vw, 60px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 26px; padding: 12px 12px clamp(22px, 2.4vw, 30px); transition: border-color .3s }
+.card .plate { margin-bottom: 20px }
+.card .mono, .card h3, .card p { margin-inline: clamp(8px, 1.2vw, 14px) }
+.card .mono { display: block }
+.card h3 { font-size: clamp(22px, 2.2vw, 30px); letter-spacing: -.03em; margin-top: 6px; transition: color .3s }
+.card p { margin-top: 8px; color: var(--mute); font-size: 16.5px; max-width: 22em }
+.card:hover { border-color: var(--orange) } .card:hover h3 { color: var(--orange) } .card:hover .plate img { transform: scale(1.04) }
+
+/* app screens */
+.screens { margin-top: clamp(32px, 4.4vw, 60px); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 2.4vw, 32px) }
+.screens figure { margin: 0 }
+/* the same charcoal body as the phone in the hero */
+.phone { width: 100%; aspect-ratio: 603 / 1311; border-radius: 15.5% / 7.2%; padding: 2.8%; background: #2a2c33; box-shadow: 0 24px 44px rgba(22, 24, 29, .16); transition: transform .5s cubic-bezier(.2, .8, .2, 1) }
+.screens figure:hover .phone { transform: translateY(-8px) }
+.phone img { width: 100%; height: 100%; object-fit: cover; border-radius: 13.6% / 6.2% }
+.screens figcaption { margin-top: 20px; font-size: 16px; color: var(--mute); line-height: 1.4; border-top: 1px solid var(--line); padding-top: 14px; transition: border-color .3s }
+.screens figure:hover figcaption { border-top-color: var(--orange) }
+.screens figcaption b { display: block; font: 600 20px var(--f-head); color: var(--ink); letter-spacing: -.02em; margin: 6px 0 4px }
+
+/* questions */
+.faq { margin-top: clamp(28px, 3.6vw, 48px); border-top: 1px solid var(--ink) }
+.faq details { border-bottom: 1px solid var(--line) }
+.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 0; font: 600 clamp(19px, 1.9vw, 25px) var(--f-head); letter-spacing: -.02em; transition: color .15s }
+.faq summary:hover { color: var(--orange) }
+.faq summary::-webkit-details-marker { display: none }
+.faq summary::after { content: "+"; font: 400 28px/1 var(--f-head); color: var(--orange); transition: rotate .25s }
+.faq details[open] summary::after { rotate: 45deg }
+.faq p { color: var(--mute); max-width: 44em; padding: 0 0 24px }
+
+/* closing: light; on a computer the QR code is the thing to look at */
+.get { padding-block: clamp(56px, 7.5vw, 112px) }
+.get .panel { display: grid; grid-template-columns: minmax(0, 1.3fr) auto; gap: 40px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 28px; padding: clamp(28px, 5vw, 72px) }
+.get h2 { font-size: clamp(38px, 6vw, 92px); font-weight: 700; letter-spacing: -.045em; line-height: .98 }
+.get p { margin-top: 18px; font-size: clamp(18px, 1.5vw, 22px); max-width: 24em; color: var(--mute) }
+.stores { margin-top: 28px; display: flex; gap: 10px; flex-wrap: wrap }
+.store { background: var(--ink); color: #fff; border-radius: 14px; padding: 9px 20px 11px; font: 600 17px/1.2 var(--f-head); transition: background .15s }
+.store small { display: block; font: 400 12px var(--f-body); color: #b9bdc6 }
+.store:hover { background: var(--orange) } .store:hover small { color: #fff }
+.code { background: #fff; border-radius: 12px; padding: 10px }
+.code svg { width: 100%; height: 100%; display: block }
+.bigqr { border: 2px solid var(--orange); border-radius: 24px; padding: 14px; width: clamp(180px, 20vw, 240px); text-align: center; font-size: 14px; color: var(--mute) }
+.bigqr .code { width: 100%; aspect-ratio: 1; margin-bottom: 8px }
+
+footer { background: var(--ink); color: #a9abb3; font-size: 15px; padding-block: 48px 56px }
+footer .wrap { display: flex; gap: 32px; justify-content: space-between; flex-wrap: wrap }
+footer .logo { color: #fff }
+footer p { max-width: 34em; margin-top: 16px; font-size: 14px; color: #83858d }
+footer ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 26px; flex-wrap: wrap }
+footer a { transition: color .15s } footer a:hover { color: var(--orange) }
+
+/* things rise into place as they scroll in */
+[data-rv] { transition: opacity .7s cubic-bezier(.2, .7, .2, 1), transform .7s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--d, 0) * 90ms) }
+[data-rv="pre"] { opacity: 0; transform: translateY(30px) }
+
+@media (max-width: 900px) {
+  .top nav { display: none } .top .btn { margin-left: auto }
+  .hero-in { grid-template-columns: 1fr; min-height: 0; gap: 4px; padding-top: 92px }
+  .view { max-width: 520px; width: 100%; margin-inline: auto }
+  .head { grid-template-columns: 1fr }
+  .how { grid-template-columns: 1fr; gap: 40px } .how .next { display: none }
+  .cards { grid-template-columns: 1fr; gap: 16px }
+  .screens { grid-template-columns: repeat(4, 62vw); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; margin-inline: calc(max(16px, env(safe-area-inset-left, 0px)) * -1); padding-inline: max(16px, env(safe-area-inset-left, 0px)); scrollbar-width: none }
+  .screens figure { scroll-snap-align: center }
+  .get .panel { grid-template-columns: 1fr }
+}
+@media (max-width: 560px) {
+  .bigqr, .d-only { display: none } .m-only { display: inline }
+  .act .btn { flex: 1; text-align: center }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto } *, *::before, *::after { transition: none !important; animation: none !important } }

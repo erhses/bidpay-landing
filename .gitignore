@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# build output
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# local settings
+.env*
+!.env.example
+
+# misc
+.DS_Store
+npm-debug.log*
+
+# Vercel CLI project link
+.vercel

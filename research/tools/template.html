@@ -1,0 +1,591 @@
+<title>BidPay Design Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@300..800&family=Golos+Text:wght@400..700&family=JetBrains+Mono:wght@400;500&family=Unbounded:wght@600..900&display=swap">
+<style>
+/* Layout: a working board. Sticky bar with review progress, then findings, four mixed
+   directions, an image-first reference wall with a three-way call on each, and section picks. */
+:root {
+  --bg: #f3f4f6;            /* the BID Pay app's own grey ground */
+  --surface: #ffffff;
+  --sunk: #e9ebef;
+  --ink: #16181d;
+  --muted: #5d6471;
+  --line: #dfe2e8;
+  --accent: #f67420;        /* BID Pay orange, sampled from the app icon */
+  --accent-ink: #b24c08;    /* orange dark enough for text on light */
+  --accent-soft: #fde9db;
+  --on-accent: #ffffff;
+  --love: #17885a;  --love-soft: #dcf3e8;
+  --maybe: #8a6500; --maybe-soft: #f7ecc8;
+  --pass: #c23b2e;  --pass-soft: #f9dfdb;
+  --shadow: 0 1px 2px rgba(22,24,29,.06), 0 8px 24px rgba(22,24,29,.06);
+  --f-display: "Geologica", "Golos Text", system-ui, sans-serif;
+  --f-body: "Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 14px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111318; --surface: #1a1d24; --sunk: #22262f; --ink: #f1f2f4; --muted: #9ca3b0; --line: #2c313c;
+  --accent: #ff8438; --accent-ink: #ffa25f; --accent-soft: #3a2415; --on-accent: #1a0d03;
+  --love: #4fcf97; --love-soft: #143326; --maybe: #e6bd4d; --maybe-soft: #33290f; --pass: #ff8477; --pass-soft: #3b1a16;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #111318; --surface: #1a1d24; --sunk: #22262f; --ink: #f1f2f4; --muted: #9ca3b0; --line: #2c313c;
+  --accent: #ff8438; --accent-ink: #ffa25f; --accent-soft: #3a2415; --on-accent: #1a0d03;
+  --love: #4fcf97; --love-soft: #143326; --maybe: #e6bd4d; --maybe-soft: #33290f; --pass: #ff8477; --pass-soft: #3b1a16;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35); color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--f-body); -webkit-font-smoothing: antialiased }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg) }
+h1, h2, h3, h4 { font-family: var(--f-display); margin: 0; text-wrap: balance; letter-spacing: -.015em }
+p { margin: 0 }
+button { font: inherit; color: inherit; cursor: pointer }
+a { color: var(--accent-ink) }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px }
+.wrap { max-width: 1240px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.mono { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted) }
+
+/* ---------- top bar ---------- */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line) }
+.bar .wrap { display: flex; align-items: center; gap: 18px; padding-block: 10px; flex-wrap: wrap }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--f-display); font-weight: 600; font-size: 15px; white-space: nowrap }
+.brand i { width: 26px; height: 26px; border-radius: 8px; background: var(--accent); display: grid; place-items: center }
+.brand i::before { content: ""; width: 14px; height: 4px; border-radius: 2px; background: linear-gradient(90deg, #fff 0 22%, transparent 22% 26%, #fff 26% 48%, transparent 48% 52%, rgba(255,255,255,.45) 52% 74%, transparent 74% 78%, rgba(255,255,255,.45) 78%) }
+.bar nav { display: flex; gap: 2px; flex-wrap: wrap }
+.bar nav a { color: var(--muted); text-decoration: none; padding: 5px 10px; border-radius: 99px; font-size: 13.5px }
+.bar nav a:hover { color: var(--ink); background: var(--sunk) }
+.prog { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); white-space: nowrap }
+.seg4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; width: 108px }
+.seg4 b { height: 6px; border-radius: 3px; background: var(--sunk); overflow: hidden; display: block }
+.seg4 b i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .35s ease }
+.save { font-size: 12.5px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px }
+.save::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--muted) }
+.save[data-s="saved"]::before { background: var(--love) } .save[data-s="saving"]::before { background: var(--maybe) } .save[data-s="local"]::before { background: var(--pass) }
+
+/* ---------- intro ---------- */
+.intro { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 40px; align-items: end; padding-block: 44px 34px }
+.intro h1 { font-size: clamp(30px, 4.4vw, 50px); font-weight: 650; line-height: 1.04; letter-spacing: -.03em }
+.intro h1 em { font-style: normal; color: var(--accent-ink) }
+.intro .lede { margin-top: 16px; max-width: 58ch; color: var(--muted); font-size: 16px }
+.how { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none }
+.how li { background: var(--surface); border: 1px solid var(--line); border-radius: 99px; padding: 6px 12px; font-size: 13px }
+.how li b { font-weight: 600 }
+.appstrip { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 16px; min-width: 0 }
+.appstrip header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px }
+.appstrip header img { width: 44px; height: 44px; border-radius: 11px }
+.appstrip header div { min-width: 0 }
+.appstrip h3 { font-size: 15px; font-weight: 600 }
+.appstrip header p { font-size: 12.5px; color: var(--muted) }
+.appshots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px }
+.appshots img { width: 100%; border-radius: 10px; border: 1px solid var(--line); display: block }
+.swrow { display: flex; gap: 6px; margin-top: 12px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted) }
+.sw { width: 18px; height: 18px; border-radius: 5px; border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); display: inline-block }
+
+/* ---------- sections ---------- */
+section.blk { padding-block: 34px; border-top: 1px solid var(--line); scroll-margin-top: 64px }
+.blk > header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px }
+.blk h2 { font-size: 24px; font-weight: 620 }
+.blk > header p { color: var(--muted); max-width: 62ch; font-size: 14.5px }
+
+.finds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 34px }
+.find h3 { font-size: 16px; font-weight: 600; line-height: 1.25; margin-bottom: 6px }
+.find p { color: var(--muted); font-size: 14px }
+.find p b { color: var(--ink); font-weight: 600 }
+
+/* ---------- directions ---------- */
+.dirs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px }
+.dir { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; min-width: 0 }
+.dir[data-on="1"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) }
+.dir.wide { grid-column: 1 / -1; flex-direction: row }
+.dir.wide .mock { flex: 0 0 60%; align-self: center }
+.dir.wide .dir-body { min-width: 0 }
+.dir .from { font-size: 13px; color: var(--accent-ink); background: var(--accent-soft); border-radius: 10px; padding: 8px 12px }
+.dir-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 10px; flex: 1 }
+.dir-top { display: flex; align-items: baseline; gap: 10px; justify-content: space-between }
+.dir h3 { font-size: 19px; font-weight: 620 }
+.dir .pitch { color: var(--muted); font-size: 14px }
+.dir dl { margin: 2px 0 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; font-size: 13px }
+.dir dt { color: var(--muted) } .dir dd { margin: 0 }
+.chips { display: flex; flex-wrap: wrap; gap: 5px }
+.chip { font-size: 12px; padding: 3px 9px; border-radius: 99px; background: var(--sunk); border: 0; color: var(--ink); text-decoration: none; white-space: nowrap }
+button.chip:hover, a.chip:hover { background: var(--accent-soft); color: var(--accent-ink) }
+.pick { margin-top: auto; align-self: flex-start; border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 8px 16px; font-weight: 600; font-size: 13.5px }
+.pick:hover { border-color: var(--accent) }
+.pick[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent) }
+
+/* direction mock heroes: fixed look in both themes (they are pictures of a design) */
+.mock { aspect-ratio: 16 / 9; position: relative; overflow: hidden; container-type: inline-size; font-family: "Geologica", system-ui, sans-serif }
+.mock * { position: absolute }
+.mock .cap { right: 2.5cqw; bottom: 2cqw; font: 500 1.7cqw var(--f-mono); letter-spacing: .06em; text-transform: uppercase; opacity: .55 }
+.bar4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8cqw }
+.bar4 i { position: static; height: 1.1cqw; border-radius: 1cqw }
+/* A — clean split */
+.mA { background: #f4f5f7; color: #15171c }
+.mA .nav { left: 5cqw; top: 4cqw; right: 5cqw; height: 3cqw; display: flex; justify-content: space-between; align-items: center }
+.mA .nav * , .mB .nav *, .mC .nav *, .mD .nav * { position: static }
+.mA .logo { font-weight: 700; font-size: 2.3cqw } .mA .logo b { color: #f67420 }
+.mA .navbtn { background: #15171c; color: #fff; font-size: 1.5cqw; padding: .7cqw 1.8cqw; border-radius: 9cqw }
+.mA h4 { left: 5cqw; top: 15cqw; font-size: 6.1cqw; font-weight: 620; line-height: 1.02; letter-spacing: -.035em; width: 46cqw }
+.mA h4 b { color: #f67420; font-weight: 620 }
+.mA .sub { left: 5cqw; top: 31cqw; font-size: 1.85cqw; color: #5d6471; width: 38cqw; line-height: 1.4 }
+.mA .cta { left: 5cqw; top: 39.5cqw; background: #f67420; color: #fff; font-size: 1.7cqw; font-weight: 600; padding: 1.2cqw 2.6cqw; border-radius: 9cqw }
+.mA .ghost { left: 22cqw; top: 39.5cqw; border: .15cqw solid #cfd3da; font-size: 1.7cqw; padding: 1.05cqw 2.2cqw; border-radius: 9cqw }
+.mA .stats { left: 5cqw; top: 48cqw; display: flex; gap: 4cqw; font-size: 1.35cqw; color: #5d6471 }
+.mA .stats * { position: static } .mA .stats b { display: block; color: #15171c; font-size: 2.2cqw; font-weight: 620 }
+.mA .card { right: 5cqw; top: 13cqw; width: 36cqw; background: #fff; border-radius: 2.6cqw; padding: 2.6cqw; box-shadow: 0 2cqw 5cqw rgba(20,24,30,.1) }
+.mA .card * { position: static }
+.mA .card small { font-size: 1.35cqw; color: #5d6471; display: block }
+.mA .card strong { font-size: 3.6cqw; font-weight: 640; letter-spacing: -.02em; display: block; margin: .3cqw 0 1.6cqw }
+.mA .card .bar4 i { background: #e6e8ec } .mA .card .bar4 i.on { background: #f67420 }
+.mA .rows { margin-top: 1.8cqw; display: grid; gap: .9cqw; font-size: 1.45cqw }
+.mA .rows div { display: flex; justify-content: space-between; color: #5d6471 } .mA .rows div b { color: #15171c; font-weight: 600 }
+.mA .rows div.now { color: #b24c08 } .mA .rows div.now b { color: #b24c08 }
+/* B — loud orange */
+.mB { background: #f67420; color: #fff; font-family: "Unbounded", "Geologica", sans-serif }
+.mB .nav { left: 5cqw; top: 4cqw; right: 5cqw; display: flex; justify-content: space-between; align-items: center }
+.mB .logo { font-weight: 800; font-size: 2.2cqw } .mB .navbtn { background: #15171c; color: #fff; font: 600 1.4cqw "Geologica", sans-serif; padding: .8cqw 1.8cqw; border-radius: 9cqw }
+.mB h4 { left: 4.5cqw; top: 11cqw; font-size: 10.6cqw; font-weight: 900; line-height: .9; letter-spacing: -.045em; text-transform: uppercase }
+.mB h4 span { position: static; color: #15171c }
+.mB .phone { right: 9cqw; top: 19cqw; width: 22cqw; height: 46cqw; background: #15171c; border-radius: 3.4cqw; transform: rotate(7deg); box-shadow: 0 3cqw 6cqw rgba(0,0,0,.25) }
+.mB .phone::before { content: ""; position: absolute; inset: 1cqw; border-radius: 2.6cqw; background: linear-gradient(#fff 0 34%, #f3f4f6 34%) }
+.mB .phone::after { content: ""; position: absolute; left: 3cqw; right: 3cqw; top: 9cqw; height: 1.2cqw; border-radius: 1cqw; background: linear-gradient(90deg, #f67420 0 23%, #fff 23% 26%, #f67420 26% 49%, #fff 49% 52%, #e3e5ea 52% 75%, #fff 75% 78%, #e3e5ea 78%) }
+.mB .stick { right: 26cqw; top: 14cqw; width: 12.5cqw; height: 12.5cqw; border-radius: 50%; background: #15171c; color: #fff; display: grid; place-items: center; text-align: center; font-size: 1.75cqw; font-weight: 800; line-height: 1.05; transform: rotate(-12deg) }
+.mB .stick b { position: static; color: #ff9a57; font-size: 3.6cqw; display: block }
+.mB .cta { left: 5cqw; bottom: 6cqw; background: #15171c; color: #fff; font: 600 1.8cqw "Geologica", sans-serif; padding: 1.4cqw 3cqw; border-radius: 9cqw }
+.mB .qr { left: 23.5cqw; bottom: 5.2cqw; width: 6.4cqw; height: 6.4cqw; border-radius: 1.2cqw; background: #fff; padding: .9cqw }
+.mB .qr::before { content: ""; position: absolute; inset: .9cqw; background: conic-gradient(#15171c 25%, #fff 0 50%, #15171c 0 75%, #fff 0) 0 0 / 1.55cqw 1.55cqw }
+/* C — night glass */
+.mC { background: radial-gradient(30cqw 22cqw at 76% 60%, rgba(246,116,32,.62), transparent 72%), radial-gradient(34cqw 20cqw at 10% -4%, rgba(255,150,80,.14), transparent 70%), #0b0c10; color: #fff }
+.mC .nav { left: 5cqw; top: 4cqw; right: 5cqw; display: flex; justify-content: space-between; align-items: center; font-size: 1.5cqw }
+.mC .logo { font-weight: 600; font-size: 2.2cqw } .mC .navbtn { border: .12cqw solid rgba(255,255,255,.3); padding: .7cqw 1.8cqw; border-radius: 9cqw; background: rgba(255,255,255,.06) }
+.mC h4 { left: 5cqw; top: 15cqw; font-size: 5.6cqw; font-weight: 300; line-height: 1.06; letter-spacing: -.03em; width: 44cqw }
+.mC h4 b { font-weight: 600; background: linear-gradient(90deg, #ffb27a, #f67420); -webkit-background-clip: text; background-clip: text; color: transparent }
+.mC .sub { left: 5cqw; top: 31.5cqw; font-size: 1.8cqw; color: rgba(255,255,255,.62); width: 36cqw; line-height: 1.4 }
+.mC .cta { left: 5cqw; top: 40.5cqw; background: #fff; color: #0d0e12; font-size: 1.7cqw; font-weight: 600; padding: 1.2cqw 2.6cqw; border-radius: 9cqw }
+.mC .glass { right: 6cqw; top: 12cqw; width: 30cqw; height: 19cqw; border-radius: 2.4cqw; background: linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.05)); border: .12cqw solid rgba(255,255,255,.3); transform: perspective(60cqw) rotateY(-16deg) rotateX(8deg) rotate(-4deg); box-shadow: 0 3cqw 7cqw rgba(0,0,0,.45) }
+.mC .glass::before { content: "BiD Pay"; position: absolute; left: 2.2cqw; top: 1.8cqw; font-weight: 600; font-size: 2cqw }
+.mC .glass::after { content: "•••• 4173"; position: absolute; left: 2.2cqw; bottom: 1.8cqw; font: 500 1.6cqw var(--f-mono); opacity: .8 }
+.mC .pane { right: 9cqw; top: 31cqw; width: 28cqw; padding: 2cqw; border-radius: 2cqw; background: rgba(20,21,26,.55); border: .12cqw solid rgba(255,255,255,.16); backdrop-filter: blur(8px) }
+.mC .pane * { position: static } .mC .pane small { font-size: 1.3cqw; color: rgba(255,255,255,.6); display: block; margin-bottom: 1.2cqw }
+.mC .pane .bar4 i { background: rgba(255,255,255,.16) } .mC .pane .bar4 i.on { background: #ff8a3d; box-shadow: 0 0 1.4cqw rgba(255,138,61,.8) }
+.mC .pane strong { display: block; margin-top: 1.2cqw; font-size: 2.2cqw; font-weight: 500 }
+/* E — the user's mix: night glass + split hero + QR + timeline + numbers + notice bar */
+.mE { background: radial-gradient(32cqw 24cqw at 78% 58%, rgba(246,116,32,.6), transparent 72%), radial-gradient(34cqw 20cqw at 8% 4%, rgba(255,150,80,.13), transparent 70%), #0b0c10; color: #fff }
+.mE .strip { left: 0; right: 0; top: 0; height: 3.3cqw; background: #f67420; color: #1a0d03; font-size: 1.35cqw; font-weight: 600; display: grid; place-items: center }
+.mE .nav { left: 5cqw; top: 5.6cqw; right: 5cqw; display: flex; justify-content: space-between; align-items: center; font-size: 1.5cqw }
+.mE .logo { font-weight: 600; font-size: 2.2cqw } .mE .navbtn { border: .12cqw solid rgba(255,255,255,.3); padding: .7cqw 1.8cqw; border-radius: 9cqw; background: rgba(255,255,255,.06) }
+.mE h4 { left: 5cqw; top: 13.5cqw; font-size: 5.5cqw; font-weight: 300; line-height: 1.05; letter-spacing: -.03em; width: 44cqw }
+.mE h4 b { font-weight: 600; background: linear-gradient(90deg, #ffb27a, #f67420); -webkit-background-clip: text; background-clip: text; color: transparent }
+.mE .sub { left: 5cqw; top: 28cqw; font-size: 1.75cqw; color: rgba(255,255,255,.62); width: 36cqw; line-height: 1.4 }
+.mE .cta { left: 5cqw; top: 36.5cqw; background: #fff; color: #0b0c10; font-size: 1.7cqw; font-weight: 600; padding: 1.3cqw 2.6cqw; border-radius: 9cqw }
+.mE .qrc { left: 20.5cqw; top: 35cqw; display: flex; align-items: center; gap: 1.2cqw; padding: .9cqw 1.6cqw .9cqw .9cqw; border-radius: 1.6cqw; background: rgba(255,255,255,.08); border: .12cqw solid rgba(255,255,255,.2); font-size: 1.3cqw; line-height: 1.3; color: rgba(255,255,255,.8) }
+.mE .qrc i { width: 5cqw; height: 5cqw; border-radius: .7cqw; background: conic-gradient(#0b0c10 25%, #fff 0 50%, #0b0c10 0 75%, #fff 0) 0 0 / 1.25cqw 1.25cqw; border: .5cqw solid #fff; display: block; flex: none }
+.mE .stats { left: 5cqw; top: 46.5cqw; display: flex; gap: 4.5cqw; font-size: 1.3cqw; color: rgba(255,255,255,.6) }
+.mE .stats b { display: block; color: #fff; font-size: 2.3cqw; font-weight: 500 }
+.mE .pane { right: 6cqw; top: 12.5cqw; width: 34cqw; padding: 2.6cqw; border-radius: 2.6cqw; background: linear-gradient(145deg, rgba(255,255,255,.17), rgba(255,255,255,.04)); border: .12cqw solid rgba(255,255,255,.26); box-shadow: 0 3cqw 7cqw rgba(0,0,0,.45) }
+.mE .pane small { font-size: 1.3cqw; color: rgba(255,255,255,.62); display: block }
+.mE .pane strong { font-size: 3.5cqw; font-weight: 500; letter-spacing: -.02em; display: block; margin: .3cqw 0 1.6cqw }
+.mE .pane .bar4 i { background: rgba(255,255,255,.16) } .mE .pane .bar4 i.on { background: #ff8a3d; box-shadow: 0 0 1.4cqw rgba(255,138,61,.8) }
+.mE .rows { margin-top: 1.9cqw; display: grid; gap: .95cqw; font-size: 1.42cqw }
+.mE .rows div { display: flex; justify-content: space-between; color: rgba(255,255,255,.6) } .mE .rows div b { color: #fff; font-weight: 500 }
+.mE .rows div.now, .mE .rows div.now b { color: #ffa25f }
+/* D — lifestyle */
+.mD { background: #efe6dc; color: #fff }
+.mD .photo { inset: 0; background: radial-gradient(34cqw 44cqw at 66% 62%, #f1b98c 0 38%, transparent 39%), radial-gradient(11cqw 11cqw at 66% 30%, #e9a877 0 99%, transparent 100%), linear-gradient(200deg, #8fb7d9 0%, #c9d9e6 46%, #e9d2bd 47%, #d9b796 100%) }
+.mD .shade { inset: 0; background: linear-gradient(90deg, rgba(20,16,12,.62) 0%, rgba(20,16,12,.25) 46%, transparent 70%) }
+.mD .nav { left: 5cqw; top: 4cqw; right: 5cqw; display: flex; justify-content: space-between; align-items: center; font-size: 1.5cqw }
+.mD .logo { font-weight: 700; font-size: 2.3cqw } .mD .navbtn { background: #fff; color: #15171c; padding: .7cqw 1.8cqw; border-radius: 9cqw; font-weight: 600 }
+.mD h4 { left: 5cqw; top: 17cqw; font-size: 6cqw; font-weight: 640; line-height: 1.02; letter-spacing: -.03em; width: 42cqw }
+.mD .sub { left: 5cqw; top: 32.5cqw; font-size: 1.85cqw; width: 34cqw; line-height: 1.4; opacity: .9 }
+.mD .cta { left: 5cqw; top: 41cqw; background: #f67420; color: #fff; font-size: 1.7cqw; font-weight: 600; padding: 1.2cqw 2.6cqw; border-radius: 9cqw }
+.mD .tag { background: #fff; color: #15171c; border-radius: 9cqw; padding: .9cqw 1.7cqw; font-size: 1.45cqw; font-weight: 600; box-shadow: 0 1cqw 3cqw rgba(0,0,0,.18) }
+.mD .t1 { right: 31cqw; top: 15cqw } .mD .t2 { right: 5cqw; top: 26cqw }
+.mD .buy { right: 6cqw; bottom: 6cqw; width: 27cqw; background: #fff; color: #15171c; border-radius: 2.2cqw; padding: 1.9cqw; box-shadow: 0 2cqw 5cqw rgba(0,0,0,.22) }
+.mD .buy * { position: static } .mD .buy small { display: block; font-size: 1.3cqw; color: #5d6471 }
+.mD .buy strong { display: block; font-size: 2.5cqw; font-weight: 640; margin: .2cqw 0 1.2cqw }
+.mD .buy .bar4 i { background: #e6e8ec } .mD .buy .bar4 i.on { background: #f67420 }
+.mD .cap { color: #fff }
+
+/* ---------- reference wall ---------- */
+.filters { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px }
+.frow { display: flex; gap: 6px; flex-wrap: wrap; align-items: center }
+.frow > span { width: 62px; flex: none }
+.fbtn { border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 5px 12px; font-size: 13px; white-space: nowrap }
+.fbtn:hover { border-color: var(--muted) }
+.fbtn[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink) }
+.fbtn small { opacity: .6; font-size: 11.5px; margin-left: 4px; font-variant-numeric: tabular-nums }
+.wall { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px 22px }
+.ref { display: flex; flex-direction: column; gap: 11px; min-width: 0 }
+.ref[data-v="pass"] .shot img { filter: grayscale(1); opacity: .45 }
+.shot { display: block; width: 100%; padding: 0; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--sunk); aspect-ratio: 16 / 10; position: relative }
+.shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform .5s cubic-bezier(.2,.7,.2,1) }
+.shot:hover img { transform: scale(1.025) }
+.shot .open { position: absolute; right: 10px; bottom: 10px; background: rgba(16,18,22,.78); color: #fff; font-size: 12px; padding: 4px 10px; border-radius: 99px; opacity: 0; transition: opacity .2s }
+.shot:hover .open, .shot:focus-visible .open { opacity: 1 }
+.ref[data-v="love"] .shot { border-color: var(--love); box-shadow: 0 0 0 2px var(--love) }
+.rhead { display: flex; align-items: baseline; gap: 8px; justify-content: space-between }
+.rhead h3 { font-size: 16.5px; font-weight: 600 }
+.rhead .mono { white-space: nowrap }
+.new { font: 500 10px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; background: var(--accent-soft); color: var(--accent-ink); border-radius: 5px; padding: 2px 6px; margin-left: 8px; vertical-align: 2px }
+.ref .why { color: var(--muted); font-size: 13.5px; line-height: 1.5 }
+.tags { display: flex; flex-wrap: wrap; gap: 4px }
+.tag { font: 500 10.5px var(--f-mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 2px 6px }
+.vote { display: inline-grid; grid-template-columns: repeat(3, 1fr); background: var(--sunk); border-radius: 11px; padding: 3px; gap: 2px; width: 100%; max-width: 280px }
+.vote button { border: 0; background: transparent; border-radius: 8px; padding: 6px 4px; font-size: 13px; font-weight: 500; color: var(--muted) }
+.vote button:hover { color: var(--ink) }
+.vote button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.12) }
+.vote button[data-v="love"][aria-pressed="true"] { background: var(--love-soft); color: var(--love) }
+.vote button[data-v="maybe"][aria-pressed="true"] { background: var(--maybe-soft); color: var(--maybe) }
+.vote button[data-v="pass"][aria-pressed="true"] { background: var(--pass-soft); color: var(--pass) }
+.empty { grid-column: 1 / -1; color: var(--muted); padding: 30px 0; text-align: center }
+
+/* ---------- section patterns ---------- */
+.secs { display: flex; flex-direction: column; gap: 26px }
+.sec { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 22px }
+.sec h3 { font-size: 16.5px; font-weight: 600 }
+.sec > div > p { color: var(--muted); font-size: 13.5px; margin-top: 4px }
+.opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px }
+.opt { text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 10px; display: flex; flex-direction: column; gap: 8px; min-width: 0 }
+.opt:hover { border-color: var(--muted) }
+.opt[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) }
+.opt b { font-weight: 600; font-size: 13.5px; line-height: 1.3 }
+.opt span { font-size: 12.5px; color: var(--muted); line-height: 1.4 }
+.wf { width: 100%; aspect-ratio: 16 / 10; background: var(--sunk); border-radius: 8px; position: relative; overflow: hidden }
+.wf i { position: absolute; display: block; border-radius: 2px }
+.wf .T { background: var(--ink); border-radius: 3px } .wf .t { background: color-mix(in srgb, var(--ink) 28%, transparent) }
+.wf .b { background: var(--accent); border-radius: 99px } .wf .g { border: 1.5px solid color-mix(in srgb, var(--ink) 40%, transparent); border-radius: 99px }
+.wf .i { background: color-mix(in srgb, var(--ink) 14%, transparent); border-radius: 5px }
+.wf .p { background: var(--surface); border: 1.5px solid color-mix(in srgb, var(--ink) 55%, transparent); border-radius: 7px }
+.wf .c { background: var(--surface); border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,.12) }
+.wf .q { background: conic-gradient(var(--ink) 25%, var(--surface) 0 50%, var(--ink) 0 75%, var(--surface) 0) 0 0 / 6px 6px; border: 2px solid var(--surface); border-radius: 3px }
+.wf .s { background: linear-gradient(90deg, var(--accent) 0 23%, transparent 23% 25.6%, var(--accent) 25.6% 48.6%, transparent 48.6% 51.2%, color-mix(in srgb, var(--ink) 22%, transparent) 51.2% 74.2%, transparent 74.2% 76.8%, color-mix(in srgb, var(--ink) 22%, transparent) 76.8%); border-radius: 99px }
+.wf .n { background: var(--accent-ink); border-radius: 3px } .wf .a { background: var(--accent) } .wf .d { background: var(--ink) }
+.wf .o { background: color-mix(in srgb, var(--ink) 30%, transparent); border-radius: 50% }
+
+/* ---------- picks ---------- */
+.picks { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 26px }
+.sum { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 14px; min-width: 0 }
+.sum h3 { font-size: 13px; font-family: var(--f-mono); font-weight: 500; text-transform: uppercase; letter-spacing: .05em; color: var(--muted) }
+.sum .none { color: var(--muted); font-size: 14px }
+.sum ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 14px }
+.sum li span { color: var(--muted) }
+textarea { width: 100%; min-height: 150px; resize: vertical; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); font: inherit; padding: 12px 14px }
+textarea::placeholder { color: var(--muted) }
+.btn { border: 0; background: var(--ink); color: var(--bg); border-radius: 99px; padding: 10px 18px; font-weight: 600; font-size: 14px }
+.btn.alt { background: transparent; color: var(--ink); border: 1px solid var(--line) }
+.rowb { display: flex; gap: 10px; align-items: center; flex-wrap: wrap }
+.toast { font-size: 13px; color: var(--love) }
+footer.foot { padding-block: 26px 40px; color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--line) }
+
+/* ---------- detail dialog ---------- */
+dialog { border: 0; padding: 0; background: var(--surface); color: var(--ink); border-radius: 22px; width: min(1180px, calc(100vw - 24px)); height: min(860px, calc(100dvh - 24px)); max-width: none; max-height: none; box-shadow: 0 30px 80px rgba(0,0,0,.4); overflow: hidden }
+dialog::backdrop { background: rgba(12,13,16,.6); backdrop-filter: blur(3px) }
+.dlg { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr); height: 100% }
+.pagebox { background: var(--sunk); overflow-y: auto; position: relative; min-height: 0 }
+.pagebox .chrome { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: color-mix(in srgb, var(--sunk) 90%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); font: 500 11.5px var(--f-mono); color: var(--muted) }
+.pagebox .chrome .seg { margin-left: auto; display: inline-flex; background: var(--surface); border-radius: 8px; padding: 2px }
+.pagebox .chrome .seg button { border: 0; background: transparent; border-radius: 6px; padding: 3px 9px; font: inherit; color: var(--muted) }
+.pagebox .chrome .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg) }
+.pagebox img { display: block; width: 100%; height: auto }
+.pagebox.mob img { width: min(390px, 100%); margin: 20px auto; border-radius: 22px; border: 1px solid var(--line) }
+.side { padding: 22px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; min-height: 0 }
+.side h2 { font-size: 24px; font-weight: 640 }
+.side .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px }
+.x { border: 1px solid var(--line); background: var(--surface); border-radius: 99px; width: 34px; height: 34px; flex: none; font-size: 17px; line-height: 1 }
+.side h4 { font: 500 11.5px var(--f-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 6px }
+.side ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; font-size: 14px }
+.side .links { display: flex; gap: 8px; flex-wrap: wrap }
+.side .links a { font-size: 13px; border: 1px solid var(--line); border-radius: 99px; padding: 5px 12px; text-decoration: none; color: var(--ink) }
+.side .links a:hover { border-color: var(--accent); color: var(--accent-ink) }
+.side textarea { min-height: 84px }
+.navs { display: flex; gap: 8px; margin-top: auto; padding-top: 6px }
+.navs button { flex: 1 }
+
+@media (max-width: 980px) {
+  .intro { grid-template-columns: 1fr; gap: 26px; padding-block: 30px 26px }
+  .finds { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .wall { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .sec { grid-template-columns: 1fr; gap: 12px }
+  .picks { grid-template-columns: 1fr }
+  .prog .lbl { display: none }
+}
+@media (max-width: 700px) {
+  .dirs, .finds, .wall { grid-template-columns: 1fr }
+  .dir.wide { flex-direction: column } .dir.wide .mock { flex: none; width: 100%; align-self: stretch }
+  .bar nav { display: none }
+  dialog { height: calc(100dvh - 16px); width: calc(100vw - 16px) }
+  .dlg { grid-template-columns: 1fr; grid-template-rows: 46% 54% }
+  .frow > span { width: 100% }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important } }
+</style>
+
+<div class="bar"><div class="wrap">
+  <div class="brand"><i></i>BID Pay · landing board</div>
+  <nav aria-label="Board sections">
+    <a href="#findings">Findings</a><a href="#directions">Directions</a><a href="#references">References</a><a href="#sections">Sections</a><a href="#picks">Your picks</a>
+  </nav>
+  <div class="prog"><span class="lbl" id="progLbl">0 of 0 reviewed</span><span class="seg4" aria-hidden="true"><b><i></i></b><b><i></i></b><b><i></i></b><b><i></i></b></span><span class="save" id="save" data-s="idle">Not saved yet</span></div>
+</div></div>
+
+<main class="wrap">
+  <div class="intro">
+    <div>
+      <p class="mono">Design research · November 2026</p>
+      <h1>What should the <em>BID Pay</em> landing page look like?</h1>
+      <p class="lede" id="lede"></p>
+      <ul class="how">
+        <li><b>1</b> Pick a direction, or two to mix</li>
+        <li><b>2</b> Call each reference: Love, Maybe, Pass</li>
+        <li><b>3</b> Choose a pattern per section</li>
+      </ul>
+    </div>
+    <aside class="appstrip" aria-label="BID Pay app today">
+      <header><img src="img/bidpay-icon.webp" alt="BID Pay app icon"><div><h3>Starting point: the app itself</h3><p>BID Pay 1.0.2 on the App Store. Split pay, payments, savings, shop.</p></div></header>
+      <div class="appshots"><img src="img/bidpay-shot0.webp" alt="BID Pay home screen with available limit and a split-payment bar" loading="lazy"><img src="img/bidpay-shot1.webp" alt="BID Pay wallet with debit card and recent transactions" loading="lazy"><img src="img/bidpay-shot2.webp" alt="BID Pay income and expense tracker" loading="lazy"><img src="img/bidpay-shot3.webp" alt="BID Pay customer tiers: Standard, Bronze, Silver, Gold" loading="lazy"></div>
+      <div class="swrow"><span class="sw" style="background:#f67420"></span>#F67420 <span class="sw" style="background:#f3f4f6"></span>#F3F4F6 <span class="sw" style="background:#16181d"></span>#16181D <span class="sw" style="background:#2fb574"></span><span class="sw" style="background:#ef4444"></span> income / expense</div>
+    </aside>
+  </div>
+
+  <section class="blk" id="findings">
+    <header><h2>What the research says</h2><p id="findSub"></p></header>
+    <div class="finds" id="finds"></div>
+  </section>
+
+  <section class="blk" id="directions">
+    <header><h2 id="dirH"></h2><p id="dirSub"></p></header>
+    <div class="dirs" id="dirs"></div>
+  </section>
+
+  <section class="blk" id="references">
+    <header><h2>Reference wall</h2><p id="refSub"></p></header>
+    <div class="filters">
+      <div class="frow" id="fGroup"><span class="mono">Source</span></div>
+      <div class="frow" id="fStyle"><span class="mono">Style</span></div>
+      <div class="frow" id="fVote"><span class="mono">Your call</span></div>
+    </div>
+    <div class="wall" id="wall"></div>
+  </section>
+
+  <section class="blk" id="sections">
+    <header><h2>Section by section</h2><p>The patterns that keep showing up, and who does each one. Choose one per row; skip rows you have no opinion on.</p></header>
+    <div class="secs" id="secs"></div>
+  </section>
+
+  <section class="blk" id="picks">
+    <header><h2>Your picks</h2><p>Everything you choose here is saved to the board, and Claude reads it from there before building.</p></header>
+    <div class="picks">
+      <div class="sum" id="sum"></div>
+      <div>
+        <label class="mono" for="brief" style="display:block;margin-bottom:8px">Anything else Claude should know</label>
+        <textarea id="brief" placeholder="Tone, must-haves, things you dislike, pages you want besides the landing page…"></textarea>
+        <div class="rowb" style="margin-top:12px"><button class="btn" id="copy" type="button">Copy picks as text</button><span class="toast" id="toast" role="status"></span></div>
+        <textarea id="copyOut" hidden readonly aria-label="Picks as text"></textarea>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="foot"><div class="wrap" id="foot"></div></footer>
+
+<dialog id="dlg" aria-labelledby="dName"><div class="dlg">
+  <div class="pagebox" id="pagebox"><div class="chrome"><span id="dUrl"></span><span class="seg"><button type="button" data-view="page" aria-pressed="true">Desktop</button><button type="button" data-view="mob" aria-pressed="false">Phone</button></span></div><img id="dImg" alt=""></div>
+  <div class="side">
+    <div class="top"><div><p class="mono" id="dGroup"></p><h2 id="dName"></h2></div><button class="x" id="dClose" type="button" aria-label="Close">×</button></div>
+    <p id="dWhy" style="color:var(--muted)"></p>
+    <div class="vote" id="dVote" role="group" aria-label="Your call"></div>
+    <div><h4>Take from it</h4><ul id="dTake"></ul></div>
+    <div id="dSkipBox"><h4>Leave behind</h4><ul id="dSkip"></ul></div>
+    <div><h4 id="dTagsH">Tags</h4><div class="tags" id="dTags"></div></div>
+    <div><h4>Colour and type</h4><div class="swrow" id="dPal" style="margin-top:0"></div><p id="dFonts" style="font-size:13px;color:var(--muted);margin-top:6px"></p></div>
+    <div><label for="dNote"><h4>Your note</h4></label><textarea id="dNote" placeholder="What exactly do you like or dislike here?"></textarea></div>
+    <div class="links" id="dLinks"></div>
+    <div class="navs"><button class="btn alt" id="dPrev" type="button">← Previous</button><button class="btn alt" id="dNext" type="button">Next →</button></div>
+  </div>
+</div></dialog>
+
+<script>
+const DATA = /*__DATA__*/null;
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, attrs = {}, kids = []) => { const e = document.createElement(tag); for (const k in attrs) { if (k === 'text') e.textContent = attrs[k]; else if (k === 'html') e.innerHTML = attrs[k]; else e.setAttribute(k, attrs[k]); } [].concat(kids).forEach(c => c && e.append(c)); return e; };
+const REFS = DATA.refs, BY = Object.fromEntries(REFS.map(r => [r.id, r]));
+const GROUPS = { mn: 'Mongolia', bnpl: 'BNPL abroad', craft: 'Premium fintech', mobbin: 'Mobbin picks' };
+const VOTES = { love: 'Love', maybe: 'Maybe', pass: 'Pass' };
+const LS = 'bidpay-board-v1';
+
+/* ---------- state ---------- */
+let state = { votes: {}, notes: {}, dirs: {}, sections: {}, brief: '' };
+/* Saved picks arrive frozen from the store, so always work on a deep copy. */
+const clean = s => { const c = JSON.parse(JSON.stringify(s || {})); return { votes: c.votes || {}, notes: c.notes || {}, dirs: c.dirs || {}, sections: c.sections || {}, brief: c.brief || '' }; };
+try { const raw = localStorage.getItem(LS); if (raw) state = clean(JSON.parse(raw)); } catch (e) {}
+const hasPicks = s => Object.keys(s.votes).length + Object.keys(s.notes).length + Object.keys(s.dirs).length + Object.keys(s.sections).length > 0 || !!s.brief;
+
+let docRef = null, writing = false, dirty = false, timer = null;
+const saveEl = $('#save');
+const setSave = (s, t) => { saveEl.dataset.s = s; saveEl.textContent = t; };
+function persist() {
+  try { localStorage.setItem(LS, JSON.stringify(state)); } catch (e) {}
+  if (!docRef) { setSave('local', 'Saved in this browser only'); return; }
+  dirty = true; setSave('saving', 'Saving…'); clearTimeout(timer); timer = setTimeout(flush, 500);
+}
+async function flush() {
+  if (writing || !dirty || !docRef) return;
+  writing = true; dirty = false;
+  try { await docRef.set({ ...JSON.parse(JSON.stringify(state)), updatedAt: new Date().toISOString() }); if (!dirty) setSave('saved', 'Saved to the board'); }
+  catch (e) { setSave('local', e && e.code === 'invalid_argument' ? 'View only: picks stay in this browser' : 'Could not save. Kept in this browser'); }
+  writing = false; if (dirty) flush();
+}
+(async () => {
+  const db = window.claude && window.claude.use ? await window.claude.use('db') : null;
+  if (!db) { setSave('local', hasPicks(state) ? 'Saved in this browser only' : 'Picks save in this browser'); return; }
+  const ref = db.doc('board/picks');
+  let first = true;
+  const slow = setTimeout(() => setSave('local', 'Saved picks not reachable yet'), 10000);
+  ref.onSnapshot(snap => {
+    if (snap.metadata.fromCache && first && !snap.exists) return;
+    clearTimeout(slow);
+    if (first) {
+      first = false; docRef = ref;
+      if (snap.exists) { state = clean(snap.data()); try { localStorage.setItem(LS, JSON.stringify(state)); } catch (e) {} renderAll(); setSave('saved', 'Saved to the board'); }
+      else if (hasPicks(state)) { persist(); }
+      else setSave('saved', 'Picks save to the board');
+      return;
+    }
+    if (snap.metadata.hasPendingWrites || writing || dirty || !snap.exists) return;
+    const next = clean(snap.data());
+    if (JSON.stringify(next) !== JSON.stringify(clean(state))) { state = next; renderAll(); }
+  }, () => { clearTimeout(slow); docRef = null; setSave('local', 'Saved in this browser only'); });
+})();
+
+/* ---------- static copy ---------- */
+$('#lede').textContent = DATA.lede;
+$('#findSub').textContent = DATA.findSub;
+$('#refSub').textContent = DATA.refSub;
+$('#dirH').textContent = DATA.dirH; $('#dirSub').textContent = DATA.dirSub;
+$('#foot').textContent = DATA.foot;
+DATA.findings.forEach(f => $('#finds').append(el('div', { class: 'find' }, [el('h3', { text: f.h }), el('p', { html: f.p })])));
+
+/* ---------- directions ---------- */
+function renderDirs() {
+  const box = $('#dirs'); box.textContent = '';
+  DATA.directions.forEach(d => {
+    const on = !!state.dirs[d.id];
+    const refs = el('div', { class: 'chips' }, d.refs.map(id => el('button', { class: 'chip', type: 'button', 'data-open': id, text: BY[id] ? BY[id].name : id })));
+    const dl = el('dl', {}, [el('dt', { text: 'Mixes' }), el('dd', {}, refs), el('dt', { text: 'Colour' }), el('dd', { text: d.colour }), el('dt', { text: 'Type' }), el('dd', { text: d.type }), el('dt', { text: 'Motion' }), el('dd', { text: d.motion }), el('dt', { text: 'Risk' }), el('dd', { text: d.risk })]);
+    box.append(el('article', { class: 'dir' + (d.wide ? ' wide' : ''), 'data-on': on ? '1' : '0' }, [
+      el('div', { class: 'mock m' + d.id, role: 'img', 'aria-label': 'Sketch of the ' + d.name + ' hero', html: d.mock }),
+      el('div', { class: 'dir-body' }, [el('div', { class: 'dir-top' }, [el('h3', { text: d.name }), el('span', { class: 'mono', text: d.wide ? 'From your picks' : 'Direction ' + d.id })]), el('p', { class: 'pitch', text: d.pitch }), d.from ? el('p', { class: 'from', text: d.from }) : null, dl,
+        el('button', { class: 'pick', type: 'button', 'data-dir': d.id, 'aria-pressed': String(on), text: on ? 'Picked' : (d.wide ? 'Yes, build from this' : 'Pick this direction') })])
+    ]));
+  });
+}
+
+/* ---------- reference wall ---------- */
+const filt = { group: 'all', style: 'all', vote: 'all' };
+const STYLES = (() => { const c = {}; REFS.forEach(r => r.tags.forEach(t => c[t] = (c[t] || 0) + 1)); return Object.entries(c).filter(e => e[1] >= 3).sort((a, b) => b[1] - a[1]).map(e => e[0]); })();
+function fbtn(kind, val, label, n) { const b = el('button', { class: 'fbtn', type: 'button', 'data-f': kind, 'data-val': val, 'aria-pressed': String(filt[kind] === val), text: label }); if (n != null) b.append(el('small', { text: String(n) })); return b; }
+function renderFilters() {
+  const g = $('#fGroup'), s = $('#fStyle'), v = $('#fVote');
+  [g, s, v].forEach(x => { while (x.children.length > 1) x.lastChild.remove(); });
+  g.append(fbtn('group', 'all', 'All', REFS.length)); Object.keys(GROUPS).forEach(k => g.append(fbtn('group', k, GROUPS[k], REFS.filter(r => r.group === k).length))); if (REFS.some(r => r.round === 2)) g.append(fbtn('group', 'new', 'New in round 2', REFS.filter(r => r.round === 2).length));
+  s.append(fbtn('style', 'all', 'Any')); STYLES.forEach(t => s.append(fbtn('style', t, t)));
+  const cnt = k => REFS.filter(r => (state.votes[r.id] || 'none') === k).length;
+  v.append(fbtn('vote', 'all', 'All')); v.append(fbtn('vote', 'none', 'Not reviewed', cnt('none'))); Object.keys(VOTES).forEach(k => v.append(fbtn('vote', k, VOTES[k], cnt(k))));
+}
+function voteBox(id) { const cur = state.votes[id]; return Object.keys(VOTES).map(k => el('button', { type: 'button', 'data-vote': id, 'data-v': k, 'aria-pressed': String(cur === k), text: VOTES[k] })); }
+function visible() { return REFS.filter(r => (filt.group === 'all' || (filt.group === 'new' ? r.round === 2 : r.group === filt.group)) && (filt.style === 'all' || r.tags.includes(filt.style)) && (filt.vote === 'all' || (state.votes[r.id] || 'none') === filt.vote)).sort((a, b) => (b.round || 1) - (a.round || 1)); }
+function renderWall() {
+  const w = $('#wall'); w.textContent = ''; const list = visible();
+  if (!list.length) { w.append(el('p', { class: 'empty', text: 'Nothing matches these filters.' })); return; }
+  list.forEach(r => {
+    const shot = el('button', { class: 'shot', type: 'button', 'data-open': r.id, 'aria-label': 'Open ' + r.name }, [el('img', { src: 'img/' + r.id + '-hero.webp', alt: r.name + ' home page, first screen', loading: 'lazy' }), el('span', { class: 'open', text: 'Scroll the page' })]);
+    w.append(el('article', { class: 'ref', 'data-v': state.votes[r.id] || '' }, [shot,
+      el('div', { class: 'rhead' }, [el('h3', {}, [r.name, r.round === 2 ? el('span', { class: 'new', text: 'New' }) : null]), el('span', { class: 'mono', text: GROUPS[r.group] })]),
+      el('p', { class: 'why', text: r.why }),
+      el('div', { class: 'tags' }, r.tags.map(t => el('span', { class: 'tag', text: t }))),
+      el('div', { class: 'vote', role: 'group', 'aria-label': 'Your call on ' + r.name }, voteBox(r.id))]));
+  });
+}
+
+/* ---------- sections ---------- */
+function wf(spec) { const box = el('div', { class: 'wf', 'aria-hidden': 'true' }); spec.split('|').forEach(s => { const [k, v] = s.split(':'); const [x, y, w, h] = v.split(',').map(Number); const i = el('i', { class: k }); i.style.cssText = `left:${x}%;top:${y}%;width:${w}%;height:${h}%`; box.append(i); }); return box; }
+function renderSecs() {
+  const box = $('#secs'); box.textContent = '';
+  DATA.sections.forEach(s => {
+    const opts = el('div', { class: 'opts' }, s.opts.map(o => el('button', { class: 'opt', type: 'button', 'data-sec': s.id, 'data-opt': o.id, 'aria-pressed': String(state.sections[s.id] === o.id) }, [wf(o.wf), el('b', { text: o.name }), el('span', { text: o.seen })])));
+    box.append(el('div', { class: 'sec' }, [el('div', {}, [el('h3', { text: s.name }), el('p', { text: s.note })]), opts]));
+  });
+}
+
+/* ---------- picks summary ---------- */
+function briefText() {
+  const L = [], names = k => REFS.filter(r => state.votes[r.id] === k).map(r => r.name + (state.notes[r.id] ? ' (' + state.notes[r.id].trim() + ')' : ''));
+  const dirs = DATA.directions.filter(d => state.dirs[d.id]).map(d => d.id + ' ' + d.name);
+  L.push('BID Pay landing page picks', '', 'Direction: ' + (dirs.join(' + ') || 'not chosen'), 'Love: ' + (names('love').join('; ') || 'none'), 'Maybe: ' + (names('maybe').join('; ') || 'none'), 'Pass: ' + (names('pass').join('; ') || 'none'), '', 'Sections:');
+  DATA.sections.forEach(s => { const o = s.opts.find(o => o.id === state.sections[s.id]); L.push('- ' + s.name + ': ' + (o ? o.name : 'no pick')); });
+  const loose = REFS.filter(r => state.notes[r.id] && !state.votes[r.id]).map(r => r.name + ': ' + state.notes[r.id].trim());
+  if (loose.length) L.push('', 'Notes on unrated references:', ...loose.map(x => '- ' + x));
+  if (state.brief.trim()) L.push('', 'Notes: ' + state.brief.trim());
+  return L.join('\n');
+}
+function renderSum() {
+  const s = $('#sum'); s.textContent = '';
+  const dirs = DATA.directions.filter(d => state.dirs[d.id]);
+  s.append(el('h3', { text: 'Direction' }), dirs.length ? el('ul', {}, dirs.map(d => el('li', { text: d.id + ' · ' + d.name }))) : el('p', { class: 'none', text: 'None picked yet.' }));
+  ['love', 'maybe'].forEach(k => { const l = REFS.filter(r => state.votes[r.id] === k); s.append(el('h3', { text: VOTES[k] + ' · ' + l.length })); s.append(l.length ? el('div', { class: 'chips' }, l.map(r => el('button', { class: 'chip', type: 'button', 'data-open': r.id, text: r.name }))) : el('p', { class: 'none', text: k === 'love' ? 'Mark the references you want the page to feel like.' : 'Nothing here yet.' })); });
+  const picked = DATA.sections.filter(x => state.sections[x.id]);
+  s.append(el('h3', { text: 'Sections · ' + picked.length + ' of ' + DATA.sections.length }));
+  s.append(picked.length ? el('ul', {}, picked.map(x => { const li = el('li'); li.append(el('span', { text: x.name + ': ' }), x.opts.find(o => o.id === state.sections[x.id]).name); return li; })) : el('p', { class: 'none', text: 'No section patterns chosen yet.' }));
+}
+function renderProg() {
+  const n = REFS.filter(r => state.votes[r.id]).length, t = REFS.length, f = n / t;
+  $('#progLbl').textContent = n + ' of ' + t + ' reviewed';
+  document.querySelectorAll('.seg4 b i').forEach((i, k) => i.style.width = Math.max(0, Math.min(1, f * 4 - k)) * 100 + '%');
+}
+function renderAll() { renderDirs(); renderFilters(); renderWall(); renderSecs(); renderSum(); renderProg(); const b = $('#brief'); if (document.activeElement !== b) b.value = state.brief; if (cur) fillDlg(false); }
+
+/* ---------- dialog ---------- */
+const dlg = $('#dlg'); let cur = null, view = 'page';
+function fillDlg(resetNote = true) {
+  const r = BY[cur]; if (!r) return;
+  $('#dName').textContent = r.name; $('#dGroup').textContent = GROUPS[r.group]; $('#dWhy').textContent = r.why; $('#dUrl').textContent = r.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  const img = $('#dImg'); const src = 'img/' + r.id + (view === 'mob' ? '-mobile.webp' : '-page.webp'); if (img.getAttribute('src') !== src) { img.src = src; img.alt = r.name + (view === 'mob' ? ' on a phone' : ' full page capture'); }
+  $('#pagebox').classList.toggle('mob', view === 'mob');
+  document.querySelectorAll('#pagebox .seg button').forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.view === view)); b.hidden = b.dataset.view === 'mob' && !r.mobile; });
+  const fill = (id, arr) => { const u = $(id); u.textContent = ''; arr.forEach(t => u.append(el('li', { text: t }))); };
+  fill('#dTake', r.take); fill('#dSkip', r.skip || []); $('#dSkipBox').hidden = !(r.skip && r.skip.length);
+  $('#dTagsH').textContent = r.mobbin ? 'Mobbin tags' : 'Tags';
+  const tg = $('#dTags'); tg.textContent = ''; r.tags.concat(r.sectionsSeen || []).forEach(t => tg.append(el('span', { class: 'tag', text: t })));
+  const pal = $('#dPal'); pal.textContent = ''; (r.palette || []).forEach(c => { const s = el('span', { class: 'sw', title: c }); s.style.background = c; pal.append(s); });
+  $('#dFonts').textContent = r.fonts && r.fonts.length ? 'Fonts: ' + r.fonts.join(', ') : 'Fonts: system or image-based';
+  const v = $('#dVote'); v.textContent = ''; v.append(...voteBox(r.id));
+  if (resetNote || document.activeElement !== $('#dNote')) $('#dNote').value = state.notes[r.id] || '';
+  const ln = $('#dLinks'); ln.textContent = ''; ln.append(el('a', { href: r.url, target: '_blank', rel: 'noopener', text: 'Open live site ↗' })); if (r.mobbin) ln.append(el('a', { href: r.mobbin, target: '_blank', rel: 'noopener', text: 'View on Mobbin ↗' }));
+}
+function openDlg(id) { cur = id; view = 'page'; fillDlg(); if (!dlg.open) dlg.showModal(); $('#pagebox').scrollTop = 0; }
+function step(d) { const list = visible().length ? visible() : REFS; let i = list.findIndex(r => r.id === cur); i = (i + d + list.length) % list.length; openDlg(list[i].id); }
+$('#dClose').onclick = () => dlg.close(); dlg.addEventListener('close', () => { cur = null; });
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+$('#dPrev').onclick = () => step(-1); $('#dNext').onclick = () => step(1);
+dlg.addEventListener('keydown', e => { if (e.target.tagName === 'TEXTAREA') return; if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1); });
+$('#dNote').addEventListener('input', e => { const v = e.target.value; if (v.trim()) state.notes[cur] = v; else delete state.notes[cur]; persist(); renderSum(); });
+$('#brief').addEventListener('input', e => { state.brief = e.target.value; persist(); });
+
+/* ---------- events ---------- */
+document.addEventListener('click', e => {
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.vote) { const id = t.dataset.vote, v = t.dataset.v; if (state.votes[id] === v) delete state.votes[id]; else state.votes[id] = v; persist(); renderFilters(); renderWall(); renderSum(); renderProg(); if (cur) fillDlg(false); return; }
+  if (t.dataset.open) { openDlg(t.dataset.open); return; }
+  if (t.dataset.dir) { const id = t.dataset.dir; if (state.dirs[id]) delete state.dirs[id]; else state.dirs[id] = true; persist(); renderDirs(); renderSum(); return; }
+  if (t.dataset.sec) { const s = t.dataset.sec, o = t.dataset.opt; if (state.sections[s] === o) delete state.sections[s]; else state.sections[s] = o; persist(); renderSecs(); renderSum(); return; }
+  if (t.dataset.f) { filt[t.dataset.f] = t.dataset.val; renderFilters(); renderWall(); return; }
+  if (t.dataset.view) { view = t.dataset.view; fillDlg(false); $('#pagebox').scrollTop = 0; return; }
+});
+$('#copy').onclick = async () => {
+  const text = briefText(), toast = $('#toast'), out = $('#copyOut');
+  try { await navigator.clipboard.writeText(text); toast.textContent = 'Copied'; out.hidden = true; }
+  catch (e) { out.hidden = false; out.value = text; out.focus(); out.select(); toast.textContent = 'Select the text below and copy it'; }
+  setTimeout(() => { toast.textContent = ''; }, 4000);
+};
+renderAll();
+</script>

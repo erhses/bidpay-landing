@@ -1,0 +1,591 @@
+<title>BidPay Design Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@300..800&family=Golos+Text:wght@400..700&family=JetBrains+Mono:wght@400;500&family=Unbounded:wght@600..900&display=swap">
+<style>
+/* Layout: a working board. Sticky bar with review progress, then findings, four mixed
+   directions, an image-first reference wall with a three-way call on each, and section picks. */
+:root {
+  --bg: #f3f4f6;            /* the BID Pay app's own grey ground */
+  --surface: #ffffff;
+  --sunk: #e9ebef;
+  --ink: #16181d;
+  --muted: #5d6471;
+  --line: #dfe2e8;
+  --accent: #f67420;        /* BID Pay orange, sampled from the app icon */
+  --accent-ink: #b24c08;    /* orange dark enough for text on light */
+  --accent-soft: #fde9db;
+  --on-accent: #ffffff;
+  --love: #17885a;  --love-soft: #dcf3e8;
+  --maybe: #8a6500; --maybe-soft: #f7ecc8;
+  --pass: #c23b2e;  --pass-soft: #f9dfdb;
+  --shadow: 0 1px 2px rgba(22,24,29,.06), 0 8px 24px rgba(22,24,29,.06);
+  --f-display: "Geologica", "Golos Text", system-ui, sans-serif;
+  --f-body: "Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 14px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111318; --surface: #1a1d24; --sunk: #22262f; --ink: #f1f2f4; --muted: #9ca3b0; --line: #2c313c;
+  --accent: #ff8438; --accent-ink: #ffa25f; --accent-soft: #3a2415; --on-accent: #1a0d03;
+  --love: #4fcf97; --love-soft: #143326; --maybe: #e6bd4d; --maybe-soft: #33290f; --pass: #ff8477; --pass-soft: #3b1a16;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #111318; --surface: #1a1d24; --sunk: #22262f; --ink: #f1f2f4; --muted: #9ca3b0; --line: #2c313c;
+  --accent: #ff8438; --accent-ink: #ffa25f; --accent-soft: #3a2415; --on-accent: #1a0d03;
+  --love: #4fcf97; --love-soft: #143326; --maybe: #e6bd4d; --maybe-soft: #33290f; --pass: #ff8477; --pass-soft: #3b1a16;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35); color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--f-body); -webkit-font-smoothing: antialiased }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg) }
+h1, h2, h3, h4 { font-family: var(--f-display); margin: 0; text-wrap: balance; letter-spacing: -.015em }
+p { margin: 0 }
+button { font: inherit; color: inherit; cursor: pointer }
+a { color: var(--accent-ink) }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px }
+.wrap { max-width: 1240px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.mono { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted) }
+
+/* ---------- top bar ---------- */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line) }
+.bar .wrap { display: flex; align-items: center; gap: 18px; padding-block: 10px; flex-wrap: wrap }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--f-display); font-weight: 600; font-size: 15px; white-space: nowrap }
+.brand i { width: 26px; height: 26px; border-radius: 8px; background: var(--accent); display: grid; place-items: center }
+.brand i::before { content: ""; width: 14px; height: 4px; border-radius: 2px; background: linear-gradient(90deg, #fff 0 22%, transparent 22% 26%, #fff 26% 48%, transparent 48% 52%, rgba(255,255,255,.45) 52% 74%, transparent 74% 78%, rgba(255,255,255,.45) 78%) }
+.bar nav { display: flex; gap: 2px; flex-wrap: wrap }
+.bar nav a { color: var(--muted); text-decoration: none; padding: 5px 10px; border-radius: 99px; font-size: 13.5px }
+.bar nav a:hover { color: var(--ink); background: var(--sunk) }
+.prog { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); white-space: nowrap }
+.seg4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; width: 108px }
+.seg4 b { height: 6px; border-radius: 3px; background: var(--sunk); overflow: hidden; display: block }
+.seg4 b i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .35s ease }
+.save { font-size: 12.5px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px }
+.save::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--muted) }
+.save[data-s="saved"]::before { background: var(--love) } .save[data-s="saving"]::before { background: var(--maybe) } .save[data-s="local"]::before { background: var(--pass) }
+
+/* ---------- intro ---------- */
+.intro { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 40px; align-items: end; padding-block: 44px 34px }
+.intro h1 { font-size: clamp(30px, 4.4vw, 50px); font-weight: 650; line-height: 1.04; letter-spacing: -.03em }
+.intro h1 em { font-style: normal; color: var(--accent-ink) }
+.intro .lede { margin-top: 16px; max-width: 58ch; color: var(--muted); font-size: 16px }
+.how { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none }
+.how li { background: var(--surface); border: 1px solid var(--line); border-radius: 99px; padding: 6px 12px; font-size: 13px }
+.how li b { font-weight: 600 }
+.appstrip { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 16px; min-width: 0 }
+.appstrip header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px }
+.appstrip header img { width: 44px; height: 44px; border-radius: 11px }
+.appstrip header div { min-width: 0 }
+.appstrip h3 { font-size: 15px; font-weight: 600 }
+.appstrip header p { font-size: 12.5px; color: var(--muted) }
+.appshots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px }
+.appshots img { width: 100%; border-radius: 10px; border: 1px solid var(--line); display: block }
+.swrow { display: flex; gap: 6px; margin-top: 12px; align-items: center; flex-wrap: wrap; font-size: 12px; color: var(--muted) }
+.sw { width: 18px; height: 18px; border-radius: 5px; border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); display: inline-block }
+
+/* ---------- sections ---------- */
+section.blk { padding-block: 34px; border-top: 1px solid var(--line); scroll-margin-top: 64px }
+.blk > header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px }
+.blk h2 { font-size: 24px; font-weight: 620 }
+.blk > header p { color: var(--muted); max-width: 62ch; font-size: 14.5px }
+
+.finds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 34px }
+.find h3 { font-size: 16px; font-weight: 600; line-height: 1.25; margin-bottom: 6px }
+.find p { color: var(--muted); font-size: 14px }
+.find p b { color: var(--ink); font-weight: 600 }
+
+/* ---------- directions ---------- */
+.dirs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px }
+.dir { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; min-width: 0 }
+.dir[data-on="1"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) }
+.dir.wide { grid-column: 1 / -1; flex-direction: row }
+.dir.wide .mock { flex: 0 0 60%; align-self: center }
+.dir.wide .dir-body { min-width: 0 }
+.dir .from { font-size: 13px; color: var(--accent-ink); background: var(--accent-soft); border-radius: 10px; padding: 8px 12px }
+.dir-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 10px; flex: 1 }
+.dir-top { display: flex; align-items: baseline; gap: 10px; justify-content: space-between }
+.dir h3 { font-size: 19px; font-weight: 620 }
+.dir .pitch { color: var(--muted); font-size: 14px }
+.dir dl { margin: 2px 0 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; font-size: 13px }
+.dir dt { color: var(--muted) } .dir dd { margin: 0 }
+.chips { display: flex; flex-wrap: wrap; gap: 5px }
+.chip { font-size: 12px; padding: 3px 9px; border-radius: 99px; background: var(--sunk); border: 0; color: var(--ink); text-decoration: none; white-space: nowrap }
+button.chip:hover, a.chip:hover { background: var(--accent-soft); color: var(--accent-ink) }
+.pick { margin-top: auto; align-self: flex-start; border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 8px 16px; font-weight: 600; font-size: 13.5px }
+.pick:hover { border-color: var(--accent) }
+.pick[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent) }
+
+/* direction mock heroes: fixed look in both themes (they are pictures of a design) */
+.mock { aspect-ratio: 16 / 9; position: relative; overflow: hidden; container-type: inline-size; font-family: "Geologica", system-ui, sans-serif }
+.mock > * { position: absolute }
+.mock .cap { right: 2.5cqw; bottom: 2cqw; font: 500 1.7cqw var(--f-mono); letter-spacing: .06em; text-transform: uppercase; opacity: .55 }
+.bar4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8cqw }
+.bar4 i { position: static; height: 1.1cqw; border-radius: 1cqw }
+/* A — clean split */
+.mA { background: #f4f5f7; color: #15171c }
+.mA .nav { left: 5cqw; top: 4cqw; right: 5cqw; height: 3cqw; display: flex; justify-content: space-between; align-items: center }
+.mA .nav * , .mB .nav *, .mC .nav *, .mD .nav * { position: static }
+.mA .logo { font-weight: 700; font-size: 2.3cqw } .mA .logo b { color: #f67420 }
+.mA .navbtn { background: #15171c; color: #fff; font-size: 1.5cqw; padding: .7cqw 1.8cqw; border-radius: 9cqw }
+.mA h4 { left: 5cqw; top: 15cqw; font-size: 6.1cqw; font-weight: 620; line-height: 1.02; letter-spacing: -.035em; width: 46cqw }
+.mA h4 b { color: #f67420; font-weight: 620 }
+.mA .sub { left: 5cqw; top: 31cqw; font-size: 1.85cqw; color: #5d6471; width: 38cqw; line-height: 1.4 }
+.mA .cta { left: 5cqw; top: 39.5cqw; background: #f67420; color: #fff; font-size: 1.7cqw; font-weight: 600; padding: 1.2cqw 2.6cqw; border-radius: 9cqw }
+.mA .ghost { left: 22cqw; top: 39.5cqw; border: .15cqw solid #cfd3da; font-size: 1.7cqw; padding: 1.05cqw 2.2cqw; border-radius: 9cqw }
+.mA .stats { left: 5cqw; top: 48cqw; display: flex; gap: 4cqw; font-size: 1.35cqw; color: #5d6471 }
+.mA .stats * { position: static } .mA .stats b { display: block; color: #15171c; font-size: 2.2cqw; font-weight: 620 }
+.mA .card { right: 5cqw; top: 13cqw; width: 36cqw; background: #fff; border-radius: 2.6cqw; padding: 2.6cqw; box-shadow: 0 2cqw 5cqw rgba(20,24,30,.1) }
+.mA .card * { position: static }
+.mA .card small { font-size: 1.35cqw; color: #5d6471; display: block }
+.mA .card strong { font-size: 3.6cqw; font-weight: 640; letter-spacing: -.02em; display: block; margin: .3cqw 0 1.6cqw }
+.mA .card .bar4 i { background: #e6e8ec } .mA .card .bar4 i.on { background: #f67420 }
+.mA .rows { margin-top: 1.8cqw; display: grid; gap: .9cqw; font-size: 1.45cqw }
+.mA .rows div { display: flex; justify-content: space-between; color: #5d6471 } .mA .rows div b { color: #15171c; font-weight: 600 }
+.mA .rows div.now { color: #b24c08 } .mA .rows div.now b { color: #b24c08 }
+/* B — loud orange */
+.mB { background: #f67420; color: #fff; font-family: "Unbounded", "Geologica", sans-serif }
+.mB .nav { left: 5cqw; top: 4cqw; right: 5cqw; display: flex; justify-content: space-between; align-items: center }
+.mB .logo { font-weight: 800; font-size: 2.2cqw } .mB .navbtn { background: #15171c; color: #fff; font: 600 1.4cqw "Geologica", sans-serif; padding: .8cqw 1.8cqw; border-radius: 9cqw }
+.mB h4 { left: 4.5cqw; top: 11cqw; font-size: 10.6cqw; font-weight: 900; line-height: .9; letter-spacing: -.045em; text-transform: uppercase }
+.mB h4 span { position: static; color: #15171c }
+.mB .phone { right: 9cqw; top: 19cqw; width: 22cqw; height: 46cqw; background: #15171c; border-radius: 3.4cqw; transform: rotate(7deg); box-shadow: 0 3cqw 6cqw rgba(0,0,0,.25) }
+.mB .phone::before { content: ""; position: absolute; inset: 1cqw; border-radius: 2.6cqw; background: linear-gradient(#fff 0 34%, #f3f4f6 34%) }
+.mB .phone::after { content: ""; position: absolute; left: 3cqw; right: 3cqw; top: 9cqw; height: 1.2cqw; border-radius: 1cqw; background: linear-gradient(90deg, #f67420 0 23%, #fff 23% 26%, #f67420 26% 49%, #fff 49% 52%, #e3e5ea 52% 75%, #fff 75% 78%, #e3e5ea 78%) }
+.mB .stick { right: 26cqw; top: 14cqw; width: 12.5cqw; height: 12.5cqw; border-radius: 50%; background: #15171c; color: #fff; display: grid; place-items: center; text-align: center; font-size: 1.75cqw; font-weight: 800; line-height: 1.05; transform: rotate(-12deg) }
+.mB .stick b { position: static; color: #ff9a57; font-size: 3.6cqw; display: block }
+.mB .cta { left: 5cqw; bottom: 6cqw; background: #15171c; color: #fff; font: 600 1.8cqw "Geologica", sans-serif; padding: 1.4cqw 3cqw; border-radius: 9cqw }
+.mB .qr { left: 23.5cqw; bottom: 5.2cqw; width: 6.4cqw; height: 6.4cqw; border-radius: 1.2cqw; background: #fff; padding: .9cqw }
+.mB .qr::before { content: ""; position: absolute; inset: .9cqw; background: conic-gradient(#15171c 25%, #fff 0 50%, #15171c 0 75%, #fff 0) 0 0 / 1.55cqw 1.55cqw }
+/* C — night glass */
+.mC { background: radial-gradient(30cqw 22cqw at 76% 60%, rgba(246,116,32,.62), transparent 72%), radial-gradient(34cqw 20cqw at 10% -4%, rgba(255,150,80,.14), transparent 70%), #0b0c10; color: #fff }
+.mC .nav { left: 5cqw; top: 4cqw; right: 5cqw; display: flex; justify-content: space-between; align-items: center; font-size: 1.5cqw }
+.mC .logo { font-weight: 600; font-size: 2.2cqw } .mC .navbtn { border: .12cqw solid rgba(255,255,255,.3); padding: .7cqw 1.8cqw; border-radius: 9cqw; background: rgba(255,255,255,.06) }
+.mC h4 { left: 5cqw; top: 15cqw; font-size: 5.6cqw; font-weight: 300; line-height: 1.06; letter-spacing: -.03em; width: 44cqw }
+.mC h4 b { font-weight: 600; background: linear-gradient(90deg, #ffb27a, #f67420); -webkit-background-clip: text; background-clip: text; color: transparent }
+.mC .sub { left: 5cqw; top: 31.5cqw; font-size: 1.8cqw; color: rgba(255,255,255,.62); width: 36cqw; line-height: 1.4 }
+.mC .cta { left: 5cqw; top: 40.5cqw; background: #fff; color: #0d0e12; font-size: 1.7cqw; font-weight: 600; padding: 1.2cqw 2.6cqw; border-radius: 9cqw }
+.mC .glass { right: 6cqw; top: 12cqw; width: 30cqw; height: 19cqw; border-radius: 2.4cqw; background: linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.05)); border: .12cqw solid rgba(255,255,255,.3); transform: perspective(60cqw) rotateY(-16deg) rotateX(8deg) rotate(-4deg); box-shadow: 0 3cqw 7cqw rgba(0,0,0,.45) }
+.mC .glass::before { content: "BiD Pay"; position: absolute; left: 2.2cqw; top: 1.8cqw; font-weight: 600; font-size: 2cqw }
+.mC .glass::after { content: "•••• 4173"; position: absolute; left: 2.2cqw; bottom: 1.8cqw; font: 500 1.6cqw var(--f-mono); opacity: .8 }
+.mC .pane { right: 9cqw; top: 31cqw; width: 28cqw; padding: 2cqw; border-radius: 2cqw; background: rgba(20,21,26,.55); border: .12cqw solid rgba(255,255,255,.16); backdrop-filter: blur(8px) }
+.mC .pane * { position: static } .mC .pane small { font-size: 1.3cqw; color: rgba(255,255,255,.6); display: block; margin-bottom: 1.2cqw }
+.mC .pane .bar4 i { background: rgba(255,255,255,.16) } .mC .pane .bar4 i.on { background: #ff8a3d; box-shadow: 0 0 1.4cqw rgba(255,138,61,.8) }
+.mC .pane strong { display: block; margin-top: 1.2cqw; font-size: 2.2cqw; font-weight: 500 }
+/* E — the user's mix: night glass + split hero + QR + timeline + numbers + notice bar */
+.mE { background: radial-gradient(32cqw 24cqw at 78% 58%, rgba(246,116,32,.6), transparent 72%), radial-gradient(34cqw 20cqw at 8% 4%, rgba(255,150,80,.13), transparent 70%), #0b0c10; color: #fff }
+.mE .strip { left: 0; right: 0; top: 0; height: 3.3cqw; background: #f67420; color: #1a0d03; font-size: 1.35cqw; font-weight: 600; display: grid; place-items: center }
+.mE .nav { left: 5cqw; top: 5.6cqw; right: 5cqw; display: flex; justify-content: space-between; align-items: center; font-size: 1.5cqw }
+.mE .logo { font-weight: 600; font-size: 2.2cqw } .mE .navbtn { border: .12cqw solid rgba(255,255,255,.3); padding: .7cqw 1.8cqw; border-radius: 9cqw; background: rgba(255,255,255,.06) }
+.mE h4 { left: 5cqw; top: 13.5cqw; font-size: 5.5cqw; font-weight: 300; line-height: 1.05; letter-spacing: -.03em; width: 44cqw }
+.mE h4 b { font-weight: 600; background: linear-gradient(90deg, #ffb27a, #f67420); -webkit-background-clip: text; background-clip: text; color: transparent }
+.mE .sub { left: 5cqw; top: 28cqw; font-size: 1.75cqw; color: rgba(255,255,255,.62); width: 36cqw; line-height: 1.4 }
+.mE .cta { left: 5cqw; top: 36.5cqw; background: #fff; color: #0b0c10; font-size: 1.7cqw; font-weight: 600; padding: 1.3cqw 2.6cqw; border-radius: 9cqw }
+.mE .qrc { left: 20.5cqw; top: 35cqw; display: flex; align-items: center; gap: 1.2cqw; padding: .9cqw 1.6cqw .9cqw .9cqw; border-radius: 1.6cqw; background: rgba(255,255,255,.08); border: .12cqw solid rgba(255,255,255,.2); font-size: 1.3cqw; line-height: 1.3; color: rgba(255,255,255,.8) }
+.mE .qrc i { width: 5cqw; height: 5cqw; border-radius: .7cqw; background: conic-gradient(#0b0c10 25%, #fff 0 50%, #0b0c10 0 75%, #fff 0) 0 0 / 1.25cqw 1.25cqw; border: .5cqw solid #fff; display: block; flex: none }
+.mE .stats { left: 5cqw; top: 46.5cqw; display: flex; gap: 4.5cqw; font-size: 1.3cqw; color: rgba(255,255,255,.6) }
+.mE .stats b { display: block; color: #fff; font-size: 2.3cqw; font-weight: 500 }
+.mE .pane { right: 6cqw; top: 12.5cqw; width: 34cqw; padding: 2.6cqw; border-radius: 2.6cqw; background: linear-gradient(145deg, rgba(255,255,255,.17), rgba(255,255,255,.04)); border: .12cqw solid rgba(255,255,255,.26); box-shadow: 0 3cqw 7cqw rgba(0,0,0,.45) }
+.mE .pane small { font-size: 1.3cqw; color: rgba(255,255,255,.62); display: block }
+.mE .pane strong { font-size: 3.5cqw; font-weight: 500; letter-spacing: -.02em; display: block; margin: .3cqw 0 1.6cqw }
+.mE .pane .bar4 i { background: rgba(255,255,255,.16) } .mE .pane .bar4 i.on { background: #ff8a3d; box-shadow: 0 0 1.4cqw rgba(255,138,61,.8) }
+.mE .rows { margin-top: 1.9cqw; display: grid; gap: .95cqw; font-size: 1.42cqw }
+.mE .rows div { display: flex; justify-content: space-between; color: rgba(255,255,255,.6) } .mE .rows div b { color: #fff; font-weight: 500 }
+.mE .rows div.now, .mE .rows div.now b { color: #ffa25f }
+/* D — lifestyle */
+.mD { background: #efe6dc; color: #fff }
+.mD .photo { inset: 0; background: radial-gradient(34cqw 44cqw at 66% 62%, #f1b98c 0 38%, transparent 39%), radial-gradient(11cqw 11cqw at 66% 30%, #e9a877 0 99%, transparent 100%), linear-gradient(200deg, #8fb7d9 0%, #c9d9e6 46%, #e9d2bd 47%, #d9b796 100%) }
+.mD .shade { inset: 0; background: linear-gradient(90deg, rgba(20,16,12,.62) 0%, rgba(20,16,12,.25) 46%, transparent 70%) }
+.mD .nav { left: 5cqw; top: 4cqw; right: 5cqw; display: flex; justify-content: space-between; align-items: center; font-size: 1.5cqw }
+.mD .logo { font-weight: 700; font-size: 2.3cqw } .mD .navbtn { background: #fff; color: #15171c; padding: .7cqw 1.8cqw; border-radius: 9cqw; font-weight: 600 }
+.mD h4 { left: 5cqw; top: 17cqw; font-size: 6cqw; font-weight: 640; line-height: 1.02; letter-spacing: -.03em; width: 42cqw }
+.mD .sub { left: 5cqw; top: 32.5cqw; font-size: 1.85cqw; width: 34cqw; line-height: 1.4; opacity: .9 }
+.mD .cta { left: 5cqw; top: 41cqw; background: #f67420; color: #fff; font-size: 1.7cqw; font-weight: 600; padding: 1.2cqw 2.6cqw; border-radius: 9cqw }
+.mD .tag { background: #fff; color: #15171c; border-radius: 9cqw; padding: .9cqw 1.7cqw; font-size: 1.45cqw; font-weight: 600; box-shadow: 0 1cqw 3cqw rgba(0,0,0,.18) }
+.mD .t1 { right: 31cqw; top: 15cqw } .mD .t2 { right: 5cqw; top: 26cqw }
+.mD .buy { right: 6cqw; bottom: 6cqw; width: 27cqw; background: #fff; color: #15171c; border-radius: 2.2cqw; padding: 1.9cqw; box-shadow: 0 2cqw 5cqw rgba(0,0,0,.22) }
+.mD .buy * { position: static } .mD .buy small { display: block; font-size: 1.3cqw; color: #5d6471 }
+.mD .buy strong { display: block; font-size: 2.5cqw; font-weight: 640; margin: .2cqw 0 1.2cqw }
+.mD .buy .bar4 i { background: #e6e8ec } .mD .buy .bar4 i.on { background: #f67420 }
+.mD .cap { color: #fff }
+
+/* ---------- reference wall ---------- */
+.filters { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px }
+.frow { display: flex; gap: 6px; flex-wrap: wrap; align-items: center }
+.frow > span { width: 62px; flex: none }
+.fbtn { border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 5px 12px; font-size: 13px; white-space: nowrap }
+.fbtn:hover { border-color: var(--muted) }
+.fbtn[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink) }
+.fbtn small { opacity: .6; font-size: 11.5px; margin-left: 4px; font-variant-numeric: tabular-nums }
+.wall { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px 22px }
+.ref { display: flex; flex-direction: column; gap: 11px; min-width: 0 }
+.ref[data-v="pass"] .shot img { filter: grayscale(1); opacity: .45 }
+.shot { display: block; width: 100%; padding: 0; border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--sunk); aspect-ratio: 16 / 10; position: relative }
+.shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform .5s cubic-bezier(.2,.7,.2,1) }
+.shot:hover img { transform: scale(1.025) }
+.shot .open { position: absolute; right: 10px; bottom: 10px; background: rgba(16,18,22,.78); color: #fff; font-size: 12px; padding: 4px 10px; border-radius: 99px; opacity: 0; transition: opacity .2s }
+.shot:hover .open, .shot:focus-visible .open { opacity: 1 }
+.ref[data-v="love"] .shot { border-color: var(--love); box-shadow: 0 0 0 2px var(--love) }
+.rhead { display: flex; align-items: baseline; gap: 8px; justify-content: space-between }
+.rhead h3 { font-size: 16.5px; font-weight: 600 }
+.rhead .mono { white-space: nowrap }
+.new { font: 500 10px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; background: var(--accent-soft); color: var(--accent-ink); border-radius: 5px; padding: 2px 6px; margin-left: 8px; vertical-align: 2px }
+.ref .why { color: var(--muted); font-size: 13.5px; line-height: 1.5 }
+.tags { display: flex; flex-wrap: wrap; gap: 4px }
+.tag { font: 500 10.5px var(--f-mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 2px 6px }
+.vote { display: inline-grid; grid-template-columns: repeat(3, 1fr); background: var(--sunk); border-radius: 11px; padding: 3px; gap: 2px; width: 100%; max-width: 280px }
+.vote button { border: 0; background: transparent; border-radius: 8px; padding: 6px 4px; font-size: 13px; font-weight: 500; color: var(--muted) }
+.vote button:hover { color: var(--ink) }
+.vote button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.12) }
+.vote button[data-v="love"][aria-pressed="true"] { background: var(--love-soft); color: var(--love) }
+.vote button[data-v="maybe"][aria-pressed="true"] { background: var(--maybe-soft); color: var(--maybe) }
+.vote button[data-v="pass"][aria-pressed="true"] { background: var(--pass-soft); color: var(--pass) }
+.empty { grid-column: 1 / -1; color: var(--muted); padding: 30px 0; text-align: center }
+
+/* ---------- section patterns ---------- */
+.secs { display: flex; flex-direction: column; gap: 26px }
+.sec { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 22px }
+.sec h3 { font-size: 16.5px; font-weight: 600 }
+.sec > div > p { color: var(--muted); font-size: 13.5px; margin-top: 4px }
+.opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px }
+.opt { text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 10px; display: flex; flex-direction: column; gap: 8px; min-width: 0 }
+.opt:hover { border-color: var(--muted) }
+.opt[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) }
+.opt b { font-weight: 600; font-size: 13.5px; line-height: 1.3 }
+.opt span { font-size: 12.5px; color: var(--muted); line-height: 1.4 }
+.wf { width: 100%; aspect-ratio: 16 / 10; background: var(--sunk); border-radius: 8px; position: relative; overflow: hidden }
+.wf i { position: absolute; display: block; border-radius: 2px }
+.wf .T { background: var(--ink); border-radius: 3px } .wf .t { background: color-mix(in srgb, var(--ink) 28%, transparent) }
+.wf .b { background: var(--accent); border-radius: 99px } .wf .g { border: 1.5px solid color-mix(in srgb, var(--ink) 40%, transparent); border-radius: 99px }
+.wf .i { background: color-mix(in srgb, var(--ink) 14%, transparent); border-radius: 5px }
+.wf .p { background: var(--surface); border: 1.5px solid color-mix(in srgb, var(--ink) 55%, transparent); border-radius: 7px }
+.wf .c { background: var(--surface); border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,.12) }
+.wf .q { background: conic-gradient(var(--ink) 25%, var(--surface) 0 50%, var(--ink) 0 75%, var(--surface) 0) 0 0 / 6px 6px; border: 2px solid var(--surface); border-radius: 3px }
+.wf .s { background: linear-gradient(90deg, var(--accent) 0 23%, transparent 23% 25.6%, var(--accent) 25.6% 48.6%, transparent 48.6% 51.2%, color-mix(in srgb, var(--ink) 22%, transparent) 51.2% 74.2%, transparent 74.2% 76.8%, color-mix(in srgb, var(--ink) 22%, transparent) 76.8%); border-radius: 99px }
+.wf .n { background: var(--accent-ink); border-radius: 3px } .wf .a { background: var(--accent) } .wf .d { background: var(--ink) }
+.wf .o { background: color-mix(in srgb, var(--ink) 30%, transparent); border-radius: 50% }
+
+/* ---------- picks ---------- */
+.picks { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 26px }
+.sum { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 14px; min-width: 0 }
+.sum h3 { font-size: 13px; font-family: var(--f-mono); font-weight: 500; text-transform: uppercase; letter-spacing: .05em; color: var(--muted) }
+.sum .none { color: var(--muted); font-size: 14px }
+.sum ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 14px }
+.sum li span { color: var(--muted) }
+textarea { width: 100%; min-height: 150px; resize: vertical; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); font: inherit; padding: 12px 14px }
+textarea::placeholder { color: var(--muted) }
+.btn { border: 0; background: var(--ink); color: var(--bg); border-radius: 99px; padding: 10px 18px; font-weight: 600; font-size: 14px }
+.btn.alt { background: transparent; color: var(--ink); border: 1px solid var(--line) }
+.rowb { display: flex; gap: 10px; align-items: center; flex-wrap: wrap }
+.toast { font-size: 13px; color: var(--love) }
+footer.foot { padding-block: 26px 40px; color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--line) }
+
+/* ---------- detail dialog ---------- */
+dialog { border: 0; padding: 0; background: var(--surface); color: var(--ink); border-radius: 22px; width: min(1180px, calc(100vw - 24px)); height: min(860px, calc(100dvh - 24px)); max-width: none; max-height: none; box-shadow: 0 30px 80px rgba(0,0,0,.4); overflow: hidden }
+dialog::backdrop { background: rgba(12,13,16,.6); backdrop-filter: blur(3px) }
+.dlg { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr); height: 100% }
+.pagebox { background: var(--sunk); overflow-y: auto; position: relative; min-height: 0 }
+.pagebox .chrome { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: color-mix(in srgb, var(--sunk) 90%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); font: 500 11.5px var(--f-mono); color: var(--muted) }
+.pagebox .chrome .seg { margin-left: auto; display: inline-flex; background: var(--surface); border-radius: 8px; padding: 2px }
+.pagebox .chrome .seg button { border: 0; background: transparent; border-radius: 6px; padding: 3px 9px; font: inherit; color: var(--muted) }
+.pagebox .chrome .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg) }
+.pagebox img { display: block; width: 100%; height: auto }
+.pagebox.mob img { width: min(390px, 100%); margin: 20px auto; border-radius: 22px; border: 1px solid var(--line) }
+.side { padding: 22px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; min-height: 0 }
+.side h2 { font-size: 24px; font-weight: 640 }
+.side .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px }
+.x { border: 1px solid var(--line); background: var(--surface); border-radius: 99px; width: 34px; height: 34px; flex: none; font-size: 17px; line-height: 1 }
+.side h4 { font: 500 11.5px var(--f-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 6px }
+.side ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; font-size: 14px }
+.side .links { display: flex; gap: 8px; flex-wrap: wrap }
+.side .links a { font-size: 13px; border: 1px solid var(--line); border-radius: 99px; padding: 5px 12px; text-decoration: none; color: var(--ink) }
+.side .links a:hover { border-color: var(--accent); color: var(--accent-ink) }
+.side textarea { min-height: 84px }
+.navs { display: flex; gap: 8px; margin-top: auto; padding-top: 6px }
+.navs button { flex: 1 }
+
+@media (max-width: 980px) {
+  .intro { grid-template-columns: 1fr; gap: 26px; padding-block: 30px 26px }
+  .finds { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .wall { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .sec { grid-template-columns: 1fr; gap: 12px }
+  .picks { grid-template-columns: 1fr }
+  .prog .lbl { display: none }
+}
+@media (max-width: 700px) {
+  .dirs, .finds, .wall { grid-template-columns: 1fr }
+  .dir.wide { flex-direction: column } .dir.wide .mock { flex: none; width: 100%; align-self: stretch }
+  .bar nav { display: none }
+  dialog { height: calc(100dvh - 16px); width: calc(100vw - 16px) }
+  .dlg { grid-template-columns: 1fr; grid-template-rows: 46% 54% }
+  .frow > span { width: 100% }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important } }
+</style>
+
+<div class="bar"><div class="wrap">
+  <div class="brand"><i></i>BID Pay · landing board</div>
+  <nav aria-label="Board sections">
+    <a href="#findings">Findings</a><a href="#directions">Directions</a><a href="#references">References</a><a href="#sections">Sections</a><a href="#picks">Your picks</a>
+  </nav>
+  <div class="prog"><span class="lbl" id="progLbl">0 of 0 reviewed</span><span class="seg4" aria-hidden="true"><b><i></i></b><b><i></i></b><b><i></i></b><b><i></i></b></span><span class="save" id="save" data-s="idle">Not saved yet</span></div>
+</div></div>
+
+<main class="wrap">
+  <div class="intro">
+    <div>
+      <p class="mono">Design research · November 2026</p>
+      <h1>What should the <em>BID Pay</em> landing page look like?</h1>
+      <p class="lede" id="lede"></p>
+      <ul class="how">
+        <li><b>1</b> Pick a direction, or two to mix</li>
+        <li><b>2</b> Call each reference: Love, Maybe, Pass</li>
+        <li><b>3</b> Choose a pattern per section</li>
+      </ul>
+    </div>
+    <aside class="appstrip" aria-label="BID Pay app today">
+      <header><img src="img/bidpay-icon.webp" alt="BID Pay app icon"><div><h3>Starting point: the app itself</h3><p>BID Pay 1.0.2 on the App Store. Split pay, payments, savings, shop.</p></div></header>
+      <div class="appshots"><img src="img/bidpay-shot0.webp" alt="BID Pay home screen with available limit and a split-payment bar" loading="lazy"><img src="img/bidpay-shot1.webp" alt="BID Pay wallet with debit card and recent transactions" loading="lazy"><img src="img/bidpay-shot2.webp" alt="BID Pay income and expense tracker" loading="lazy"><img src="img/bidpay-shot3.webp" alt="BID Pay customer tiers: Standard, Bronze, Silver, Gold" loading="lazy"></div>
+      <div class="swrow"><span class="sw" style="background:#f67420"></span>#F67420 <span class="sw" style="background:#f3f4f6"></span>#F3F4F6 <span class="sw" style="background:#16181d"></span>#16181D <span class="sw" style="background:#2fb574"></span><span class="sw" style="background:#ef4444"></span> income / expense</div>
+    </aside>
+  </div>
+
+  <section class="blk" id="findings">
+    <header><h2>What the research says</h2><p id="findSub"></p></header>
+    <div class="finds" id="finds"></div>
+  </section>
+
+  <section class="blk" id="directions">
+    <header><h2 id="dirH"></h2><p id="dirSub"></p></header>
+    <div class="dirs" id="dirs"></div>
+  </section>
+
+  <section class="blk" id="references">
+    <header><h2>Reference wall</h2><p id="refSub"></p></header>
+    <div class="filters">
+      <div class="frow" id="fGroup"><span class="mono">Source</span></div>
+      <div class="frow" id="fStyle"><span class="mono">Style</span></div>
+      <div class="frow" id="fVote"><span class="mono">Your call</span></div>
+    </div>
+    <div class="wall" id="wall"></div>
+  </section>
+
+  <section class="blk" id="sections">
+    <header><h2>Section by section</h2><p>The patterns that keep showing up, and who does each one. Choose one per row; skip rows you have no opinion on.</p></header>
+    <div class="secs" id="secs"></div>
+  </section>
+
+  <section class="blk" id="picks">
+    <header><h2>Your picks</h2><p>Everything you choose here is saved to the board, and Claude reads it from there before building.</p></header>
+    <div class="picks">
+      <div class="sum" id="sum"></div>
+      <div>
+        <label class="mono" for="brief" style="display:block;margin-bottom:8px">Anything else Claude should know</label>
+        <textarea id="brief" placeholder="Tone, must-haves, things you dislike, pages you want besides the landing page…"></textarea>
+        <div class="rowb" style="margin-top:12px"><button class="btn" id="copy" type="button">Copy picks as text</button><span class="toast" id="toast" role="status"></span></div>
+        <textarea id="copyOut" hidden readonly aria-label="Picks as text"></textarea>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="foot"><div class="wrap" id="foot"></div></footer>
+
+<dialog id="dlg" aria-labelledby="dName"><div class="dlg">
+  <div class="pagebox" id="pagebox"><div class="chrome"><span id="dUrl"></span><span class="seg"><button type="button" data-view="page" aria-pressed="true">Desktop</button><button type="button" data-view="mob" aria-pressed="false">Phone</button></span></div><img id="dImg" alt=""></div>
+  <div class="side">
+    <div class="top"><div><p class="mono" id="dGroup"></p><h2 id="dName"></h2></div><button class="x" id="dClose" type="button" aria-label="Close">×</button></div>
+    <p id="dWhy" style="color:var(--muted)"></p>
+    <div class="vote" id="dVote" role="group" aria-label="Your call"></div>
+    <div><h4>Take from it</h4><ul id="dTake"></ul></div>
+    <div id="dSkipBox"><h4>Leave behind</h4><ul id="dSkip"></ul></div>
+    <div><h4 id="dTagsH">Tags</h4><div class="tags" id="dTags"></div></div>
+    <div><h4>Colour and type</h4><div class="swrow" id="dPal" style="margin-top:0"></div><p id="dFonts" style="font-size:13px;color:var(--muted);margin-top:6px"></p></div>
+    <div><label for="dNote"><h4>Your note</h4></label><textarea id="dNote" placeholder="What exactly do you like or dislike here?"></textarea></div>
+    <div class="links" id="dLinks"></div>
+    <div class="navs"><button class="btn alt" id="dPrev" type="button">← Previous</button><button class="btn alt" id="dNext" type="button">Next →</button></div>
+  </div>
+</div></dialog>
+
+<script>
+const DATA = {"lede": "51 live sites, captured and compared: Mongolian competitors, pay-later brands abroad, premium fintech, and the sites Mobbin curates for landing-page craft. Mark what you like. The page gets built from your picks.", "findSub": "Round one, 22 November 2026: 29 sites. Round two, the same day: 22 more, chosen around your first picks. The last two findings are new.", "refSub": "Round two adds 22 sites picked around what you loved: dark first screens, glass and 3D objects, bold type, pay-later sites written in Cyrillic, and four more local apps. Open any card to scroll the whole page and see the phone view.", "dirH": "Directions, and your mix so far", "dirSub": "Sketches in BID Pay orange. Copy and numbers are placeholders. The first card is new: it combines the direction and the section patterns you picked in round one.", "foot": "Captures: desktop at 1440 px and phone at 390 px, taken 22 November 2026 with a headless browser. Animated sites are stitched from scroll frames, so a few sections appear mid-transition. Mobbin picks and tags come from Mobbin’s public Sites pages (category, section and style listings); the full Mobbin library needs a login. Premium fintech, BNPL abroad and Mongolian sites were chosen and tagged by Claude. Screenshots belong to their owners and are kept here for internal reference only. Sketch copy and amounts are placeholders.", "findings": [{"h": "Orange is unclaimed at home", "p": "StorePay and MonPay are blue, Pocket and Hipay pink-red, Sono purple, Simple teal, Toki blue and black. <b>No local competitor owns orange.<\/b> The brands people remember abroad commit to one colour across the whole first screen: Cash App green, Tabby mint, Atome yellow, Zip purple."}, {"h": "Nobody local shows the split", "p": "The product is paying in parts, yet no Mongolian site draws it. StorePay comes closest with three phone screens. Zip says it in one line: split big payments into not-so-big ones. <b>The app already has a four-segment payment bar. Make it the signature of the page.<\/b>"}, {"h": "Global BNPL puts a QR code in the first screen", "p": "Klarna, Afterpay, Tabby, Tamara and Atome all show a scannable Get-the-app code before you scroll. Local sites use a download button or store badges instead. For an app-only product, <b>a hero QR is the cheapest conversion win on the page.<\/b>"}, {"h": "Proof sits directly under the button", "p": "StorePay: 680,000+ users, 9,000+ merchants. Toki: 1.5 million users. Tabby and Zip lead with store ratings, Current with press logos. BID Pay is new, so <b>borrow BID’s record<\/b>: licensed since 2005, plus merchant and customer counts if they can be published."}, {"h": "Two camps: people or product", "p": "Toki, Revolut, Afterpay and Current open on a person. Cash App, Zip, Uglycash and Origin open on the phone screen itself. Much of local fintech sits in a weaker third camp: <b>a generic phone render beside a slogan<\/b> (Hipay, MonPay, Simple)."}, {"h": "Two apps need one clear sentence", "p": "BiD stays live beside BID Pay, and bid.mn is the lender’s loan-calculator site. Visitors will ask which app they need. None of the references had to solve this, so it has <b>its own row under Section by section.<\/b>"}, {"h": "A dark first screen would be a local first", "p": "Toki, Ard, Zeel and M bank all turn black further down, but each opens on a bright photo or gradient. Abroad, CRED, Slash and Robinhood Gold open dark and put one lit object in the middle. <b>Night Glass in orange has no local lookalike.<\/b>"}, {"h": "Cyrillic pay-later sites put the offer in the headline", "p": "Podeli: split the payment into 4 parts. Yandex Split: split the payment, no overpayment. Dolyame: postpone the payment, not the shopping. All three set it in <b>heavy geometric Cyrillic at poster size<\/b>, the closest type reference for Mongolian."}], "directions": [{"id": "E", "name": "Your mix so far", "wide": true, "pitch": "Night Glass with the section patterns you chose: claim on the left and product on the right, a QR code beside the button, the payment bar as a timeline, numbers underneath, and a thin bar that points BiD users to the right app.", "from": "Built from round one: direction C, the seven section picks, and the five sites you loved.", "refs": ["origin", "revolut", "toki", "storepay", "uglycash", "cred", "slash", "robinhoodgold"], "colour": "Near-black with one orange glow and frosted panels. Solid orange only on the paid segments and the top bar.", "type": "Geologica Light with one bold gradient word. Heavier, Uglycash-style capitals can carry section headlines further down.", "motion": "Phone or card stays pinned while feature captions scroll past. Segments light up in order.", "risk": "Still the heaviest option to build. Needs a lighter fallback for mid-range Android phones.", "mock": "<div class=\"strip\">BiD апп хайж байна уу? → bid.mn<\/div>\n<div class=\"nav\"><span class=\"logo\">BiD Pay<\/span><span class=\"navbtn\">Апп татах<\/span><\/div>\n<h4>Одоо ав.<br><b>Дараа төл.<\/b><\/h4><p class=\"sub\">Хүссэнээ өнөөдөр аваад, төлбөрөө 4 хуваан төл.<\/p>\n<span class=\"cta\">Апп татах<\/span><div class=\"qrc\"><i><\/i><span>QR уншуулаад<br>татаарай<\/span><\/div>\n<div class=\"stats\"><span><b>2005<\/b>оноос тусгай зөвшөөрөлтэй<\/span><span><b>4×<\/b>хуваан төлөлт<\/span><span><b>000+<\/b>хамтрагч дэлгүүр<\/span><\/div>\n<div class=\"pane\"><small>BID shop · нийт дүн<\/small><strong>480,000₮<\/strong><div class=\"bar4\"><i class=\"on\"><\/i><i class=\"on\"><\/i><i><\/i><i><\/i><\/div><div class=\"rows\"><div><span>1-р төлөлт<\/span><b>120,000₮<\/b><\/div><div><span>2-р төлөлт<\/span><b>120,000₮<\/b><\/div><div class=\"now\"><span>3-р төлөлт · 10/22<\/span><b>120,000₮<\/b><\/div><div><span>4-р төлөлт<\/span><b>120,000₮<\/b><\/div><\/div><\/div>\n<span class=\"cap\">placeholder copy<\/span>"}, {"id": "A", "name": "Clear Split", "pitch": "Light, calm and exact. The payment schedule is the hero image, so the product explains itself before anyone scrolls.", "refs": ["storepay", "current", "ramp", "fruitful", "sono", "afterpay"], "colour": "App grey and white. Orange only on the action and the paid segments.", "type": "Geologica, medium weight, tight tracking. Large ₮ figures in tabular numerals.", "motion": "Segments fill one by one while the amounts count up. Nothing else moves.", "risk": "Can read as plain if the product UI is not drawn with real care.", "mock": "<div class=\"nav\"><span class=\"logo\">BiD <b>Pay<\/b><\/span><span class=\"navbtn\">Апп татах<\/span><\/div>\n<h4>Одоо ав.<br><b>Хуваан төл.<\/b><\/h4><p class=\"sub\">Хүссэн зүйлээ өнөөдөр аваад, төлбөрөө 4 хуваан төл.<\/p>\n<span class=\"cta\">Апп татах<\/span><span class=\"ghost\">Хэрхэн ажилладаг вэ?<\/span>\n<div class=\"stats\"><span><b>2005<\/b>оноос тусгай зөвшөөрөлтэй<\/span><span><b>4×<\/b>хуваан төлөлт<\/span><\/div>\n<div class=\"card\"><small>BID shop · нийт дүн<\/small><strong>480,000₮<\/strong><div class=\"bar4\"><i class=\"on\"><\/i><i class=\"on\"><\/i><i><\/i><i><\/i><\/div><div class=\"rows\"><div><span>1-р төлөлт<\/span><b>120,000₮<\/b><\/div><div><span>2-р төлөлт<\/span><b>120,000₮<\/b><\/div><div class=\"now\"><span>3-р төлөлт · 10/22<\/span><b>120,000₮<\/b><\/div><div><span>4-р төлөлт<\/span><b>120,000₮<\/b><\/div><\/div><\/div>\n<span class=\"cap\">placeholder copy<\/span>"}, {"id": "B", "name": "Loud Orange", "pitch": "Orange from edge to edge and very heavy type. Built to be recognised in half a second and screenshotted by people under 30.", "refs": ["cashapp", "tabby", "uglycash", "slush", "headspace", "atome"], "colour": "Orange floor to ceiling. Black and white on top, nothing else.", "type": "Unbounded Black for display, Geologica for reading. Badges set at an angle.", "motion": "Phone and stickers drift as you scroll. Buttons squash when pressed.", "risk": "Feels less like a licensed lender. Needs strong trust proof directly underneath.", "mock": "<div class=\"nav\"><span class=\"logo\">BiD Pay<\/span><span class=\"navbtn\">Апп татах<\/span><\/div>\n<h4>Одоо ав.<br><span>4 хуваа.<\/span><\/h4><div class=\"phone\"><\/div><div class=\"stick\"><span><b>4×<\/b>хуваан<br>төл<\/span><\/div>\n<span class=\"cta\">Апп татах<\/span><span class=\"qr\"><\/span><span class=\"cap\">placeholder copy<\/span>"}, {"id": "C", "name": "Night Glass", "pitch": "Dark, glowing and dimensional. Positions BID Pay as the premium, technical choice, with the debit card as the hero object.", "refs": ["jeton", "origin", "zip", "affirm", "toki", "mercury"], "colour": "Near-black with an orange glow. Frosted panels and thin white type.", "type": "Geologica Light at display size with one bold word. Mono for card numbers.", "motion": "The card tilts with the cursor. Sections pin and cross-fade on scroll.", "risk": "The heaviest to build, and the heaviest to load on mid-range Android phones.", "mock": "<div class=\"nav\"><span class=\"logo\">BiD Pay<\/span><span class=\"navbtn\">Апп татах<\/span><\/div>\n<h4>Одоо ав.<br><b>Дараа төл.<\/b><\/h4><p class=\"sub\">Хуваан төлөх, хуримтлал, BiD debit карт. Бүгд нэг апп-д.<\/p><span class=\"cta\">Апп татах<\/span>\n<div class=\"glass\"><\/div><div class=\"pane\"><small>3-р төлөлт · 120,000₮<\/small><div class=\"bar4\"><i class=\"on\"><\/i><i class=\"on\"><\/i><i><\/i><i><\/i><\/div><strong>Боломжит эрх 1,850,000₮<\/strong><\/div>\n<span class=\"cap\">placeholder copy<\/span>"}, {"id": "D", "name": "Real People", "pitch": "Photography of customers and shops in Ulaanbaatar, with pieces of the app floating over the scene.", "refs": ["toki", "revolut", "afterpay", "tamara", "klarna", "current"], "colour": "Warm photographs, white UI chips, orange for the action.", "type": "Geologica Semibold over the darkened edge of a photo.", "motion": "Slow parallax on the photo. Chips pop in one after another.", "risk": "Depends entirely on a real photo shoot. Stock photos will sink it.", "mock": "<div class=\"photo\"><\/div><div class=\"shade\"><\/div><div class=\"nav\"><span class=\"logo\">BiD Pay<\/span><span class=\"navbtn\">Апп татах<\/span><\/div>\n<h4>Хүссэнээ<br>одоо ав.<\/h4><p class=\"sub\">Төлбөрөө 4 хуваагаад, санаа амар төл.<\/p><span class=\"cta\">Апп татах<\/span>\n<span class=\"tag t1\">4 хуваан төлөлт<\/span><span class=\"tag t2\">BID shop<\/span>\n<div class=\"buy\"><small>BID shop · 480,000₮<\/small><strong>4 × 120,000₮<\/strong><div class=\"bar4\"><i class=\"on\"><\/i><i><\/i><i><\/i><i><\/i><\/div><\/div>\n<span class=\"cap\">photo goes here · placeholder copy<\/span>"}], "sections": [{"id": "hero", "name": "Hero", "note": "The first screen. It sets the tone for everything after it.", "opts": [{"id": "split", "name": "Claim on the left, product on the right", "seen": "StorePay, MonPay, Hipay, Zip", "wf": "T:7,22,36,9|T:7,34,28,9|t:7,50,30,3|b:7,60,14,8|g:23,60,14,8|c:56,14,36,72|s:60,34,28,4|t:60,46,20,3|t:60,54,24,3|t:60,62,18,3"}, {"id": "photo", "name": "Full-screen photo with app UI on top", "seen": "Toki, Revolut, Afterpay, Klarna", "wf": "i:0,0,100,100|T:7,30,34,9|T:7,42,24,9|b:7,60,14,8|c:62,48,30,38|s:66,62,22,4"}, {"id": "type", "name": "Giant centred type over the phone", "seen": "Uglycash, Tamara, Tabby, Sono", "wf": "T:14,12,72,11|T:24,27,52,11|b:42,45,16,7|p:38,58,24,50"}, {"id": "colour", "name": "One colour, one phone", "seen": "Cash App, Jeton", "wf": "a:0,0,100,100|d:7,38,26,8|d:7,50,18,8|p:39,14,22,100|d:70,44,18,3|d:70,51,14,3"}]}, {"id": "download", "name": "Getting the app", "note": "Most desktop visitors cannot install from where they are sitting. How do they reach the store?", "opts": [{"id": "qr", "name": "QR code in the first screen", "seen": "Klarna, Afterpay, Tabby, Tamara, Atome, CRED, Alif", "wf": "T:7,26,34,9|t:7,42,28,3|c:60,22,30,56|q:67,30,16,26|t:65,62,20,3|t:68,69,14,3"}, {"id": "badges", "name": "Store badges under the headline", "seen": "MonPay, Jeton, Toki", "wf": "T:7,26,34,9|t:7,42,28,3|d:7,56,13,8|d:22,56,13,8|d:37,56,13,8|p:66,14,20,100"}, {"id": "sms", "name": "Phone-number field, link sent by SMS", "seen": "Current. Needs an SMS gateway.", "wf": "T:7,26,34,9|t:7,42,28,3|c:7,56,30,9|b:38,56,13,9|i:60,14,32,72"}]}, {"id": "split", "name": "Explaining the split", "note": "The core of the page. How do four payments get understood in five seconds?", "opts": [{"id": "steps", "name": "Three steps with phone screens", "seen": "StorePay, Uglycash, Hipay", "wf": "T:30,8,40,7|p:12,24,20,54|p:40,24,20,54|p:68,24,20,54|t:13,84,18,3|t:41,84,18,3|t:69,84,18,3"}, {"id": "timeline", "name": "The payment bar as a timeline", "seen": "Tabby, Zip, and BID Pay's own app", "wf": "T:7,14,40,8|t:7,28,30,3|s:7,48,86,7|n:7,62,12,5|n:29,62,12,5|t:51,62,12,5|t:73,62,12,5|t:7,72,10,3|t:29,72,10,3|t:51,72,10,3|t:73,72,10,3"}, {"id": "calc", "name": "Live calculator: type a price, see the payments", "seen": "bid.mn has one for loans", "wf": "T:7,16,32,8|t:7,30,28,3|t:7,37,22,3|c:50,12,42,76|i:54,20,34,10|s:54,40,34,5|n:54,54,16,7|t:54,68,26,3|b:54,76,34,8"}]}, {"id": "proof", "name": "Proof", "note": "BID Pay is new. What makes a first-time visitor trust it?", "opts": [{"id": "numbers", "name": "Row of numbers under the hero", "seen": "StorePay, Toki, Sono, Zeel, Slash, Klarna", "wf": "T:7,14,30,8|b:7,28,13,7|n:7,52,16,10|n:36,52,16,10|n:65,52,16,10|t:7,66,14,3|t:36,66,14,3|t:65,66,14,3"}, {"id": "logos", "name": "Wall of merchant logos", "seen": "Hipay, Current, Titan, Headspace", "wf": "T:30,10,40,7|o:8,34,9,14|o:24,34,9,14|o:40,34,9,14|o:56,34,9,14|o:72,34,9,14|o:16,60,9,14|o:32,60,9,14|o:48,60,9,14|o:64,60,9,14|o:80,60,9,14"}, {"id": "ratings", "name": "Store ratings and customer quotes", "seen": "Tabby, Zip, Lunar, CRED, Copilot Money", "wf": "n:8,16,20,10|t:8,30,16,3|n:40,16,20,10|t:40,30,16,3|c:8,46,26,42|c:37,46,26,42|c:66,46,26,42|t:11,54,18,3|t:40,54,18,3|t:69,54,18,3"}]}, {"id": "features", "name": "Everything else in the app", "note": "Payments, savings, shop, debit card, tiers. How much of it, and in what shape?", "opts": [{"id": "bento", "name": "Grid of cards in mixed sizes", "seen": "Toki, Tamara, Apple Card, MetaMask", "wf": "c:6,10,42,46|c:52,10,42,22|c:52,36,20,20|c:74,36,20,20|c:6,60,28,30|c:38,60,56,30|T:10,16,20,5|T:56,15,18,5|i:10,26,34,24"}, {"id": "rows", "name": "Alternating picture and text rows", "seen": "StorePay, Tabby, Current", "wf": "i:6,8,38,36|T:52,14,30,6|t:52,26,36,3|t:52,33,30,3|T:6,60,30,6|t:6,72,36,3|t:6,79,30,3|i:56,54,38,36"}, {"id": "pinned", "name": "Pinned phone, captions scroll past", "seen": "Zip, Fruitful, Klarna, Toss, Sezzle", "wf": "p:38,6,24,100|T:6,24,24,6|t:6,36,22,3|t:6,43,18,3|T:70,56,24,6|t:70,68,22,3|t:70,75,18,3"}]}, {"id": "twoapps", "name": "BiD and BID Pay", "note": "The older BiD app stays live. Visitors need to know which one is theirs.", "opts": [{"id": "strip", "name": "Thin notice bar at the very top", "seen": "Ramp, Headspace and Slush use this strip for announcements", "wf": "a:0,0,100,9|d:30,3,40,3|T:7,30,36,9|t:7,46,28,3|b:7,58,14,8|p:66,22,20,100"}, {"id": "cards", "name": "Two cards side by side", "seen": "Closest match: the Business / Personal switch on Fluz, Zip and Klarna", "wf": "T:28,8,44,7|c:8,24,40,64|c:52,24,40,64|a:12,32,8,12|d:56,32,8,12|T:12,52,24,5|T:56,52,24,5|t:12,62,30,3|t:56,62,30,3|t:12,69,26,3|t:56,69,26,3|b:12,78,14,6|g:56,78,14,6"}, {"id": "faq", "name": "One answer in the FAQ", "seen": "The quietest option. Tamara and Headspace keep an FAQ above the footer", "wf": "T:7,10,30,7|c:7,26,86,14|c:7,44,86,14|c:7,62,86,14|t:11,31,40,3|t:11,49,34,3|t:11,67,44,3|o:86,29,4,7|o:86,47,4,7|o:86,65,4,7"}]}, {"id": "close", "name": "Closing call to action", "note": "The last screen before the footer.", "opts": [{"id": "dark", "name": "Dark band with phone and store badges", "seen": "Toki", "wf": "d:0,0,100,100|a:8,30,30,8|c:8,48,13,8|c:23,48,13,8|p:62,12,20,100"}, {"id": "orange", "name": "Full orange band with a QR code", "seen": "Tabby, MetaMask, Lunar", "wf": "a:0,0,100,100|d:8,26,40,9|d:8,40,28,9|c:66,22,24,56|q:70,28,16,26|t:70,60,16,3"}, {"id": "card", "name": "Rounded card floating above the footer", "seen": "Affirm, Current", "wf": "c:6,12,88,56|T:12,24,34,8|t:12,38,26,3|b:12,48,14,8|i:60,20,28,40|t:6,80,14,3|t:26,80,14,3|t:46,80,14,3|t:66,80,14,3"}]}], "refs": [{"id": "storepay", "name": "StorePay", "url": "https://storepay.mn", "group": "mn", "why": "The direct competitor and the cleanest local site. Headline, two buttons, three numbers and press badges in one calm first screen.", "take": ["Three numbers right under the buttons: 680,000+ users, 9,000+ merchants, 5.3 million purchases", "Three phone screens that walk through invoice, split terms and confirmation", "Light and dark toggle, plus text-size controls for accessibility"], "skip": ["The right half of the hero stayed empty in our capture", "The token section (SPCFIN) pulls attention away from the pay-later story"], "round": 1, "tags": ["minimal", "light", "photography"], "palette": ["#f5f6f8", "#0022ff", "#1b1a1d", "#a6a9bb"], "fonts": ["TT Hoves Regular", "TT Hoves DemiBold"], "mobile": true}, {"id": "toki", "name": "Toki", "url": "https://www.toki.mn", "group": "mn", "why": "Super-app positioning. Opens on a full-screen lifestyle photo, then turns black with one large photo card per product pillar.", "take": ["One card per pillar (Lifestyle, Shop, Pay, Mobile) with real UI chips over photography", "Credit limits shown as coloured tiles: 1,000,000₮, 3,000,000₮, 8,000,000₮", "Closing band with a phone and all three store badges"], "skip": ["Sky-and-person hero is the same idea as Revolut, so it will not feel distinctive", "The English slogan tells a new visitor nothing about what the app does"], "round": 1, "tags": ["photography", "dark", "bold"], "palette": ["#0089fb", "#362a2b", "#72b4fe", "#deecfd", "#a5c8f7"], "fonts": ["googleSans", "geologica"], "mobile": true}, {"id": "pocket", "name": "Pocket", "url": "https://pocket.mn", "group": "mn", "why": "Digital lender. The home page is a rotating campaign banner followed by a loan-terms table next to a phone.", "take": ["Loan terms as a plain table beside the app screen: amount, rate and term at a glance"], "skip": ["Rotating banner hero: the message changes before you finish reading it", "Long empty stretches further down the page"], "round": 1, "tags": ["light", "photography"], "palette": ["#ffffff", "#e6395c", "#e9e4e6", "#d1bec3", "#b78994"], "fonts": ["Geologica Variable"], "mobile": true}, {"id": "hipay", "name": "Hipay", "url": "https://hipay.mn", "group": "mn", "why": "Payment wallet on a 2019-style template: phone render, icon trio, partner logos, contact form. Useful as the baseline to beat.", "take": ["Merchant onboarding as 01, 02, 03 on a full pink band", "Partner logo row"], "skip": ["Generic phone mockup with an all-caps slogan", "Blog and contact form on the home page make it long and unfocused"], "round": 1, "tags": ["light"], "palette": ["#f3f4f4", "#b88673", "#cddddd"], "fonts": ["Roboto"], "mobile": true}, {"id": "monpay", "name": "MonPay", "url": "https://monpay.mn/mn", "group": "mn", "why": "Mobicom's wallet. Tidy hero with three store badges (App Store, Google Play, AppGallery) sitting where the button would be.", "take": ["Store badges in the hero, including Huawei AppGallery", "Partner count as a section title: 6,000+ partner organisations"], "skip": ["All-caps headline with no concrete benefit", "Two overlapping phone screenshots too small to read"], "round": 1, "tags": ["light", "minimal"], "palette": ["#f2f5fa", "#76788f"], "fonts": ["Code Next"], "mobile": true}, {"id": "simple", "name": "Simple", "url": "https://simple.mn", "group": "mn", "why": "Digital lender. Tilted phone renders and a teal paragraph where the headline should be.", "take": ["Audience split in the nav: citizens, business, merchants, investors"], "skip": ["A six-line paragraph as the hero headline", "No button or download prompt in the first screen"], "round": 1, "tags": ["light", "minimal", "3d"], "palette": ["#ebefef", "#bacbcc", "#fbf7ba"], "fonts": ["Rubik", "rs-regular"], "mobile": true}, {"id": "sono", "name": "Sono", "url": "https://sono.mn", "group": "mn", "why": "Fintech lender with the most current-looking local layout: centred headline, small pill label, two buttons, stats row, product cards.", "take": ["Pill label above the headline that says what the company is", "Four-number stats card overlapping the edge of the hero", "Product cards with one-line terms"], "skip": ["Large empty purple block in the hero (a video that had not loaded in our capture)"], "round": 1, "tags": ["light", "minimal"], "palette": ["#ffffff", "#231c4a", "#a09eb7", "#393270"], "fonts": ["Inter"], "mobile": true}, {"id": "bid", "name": "BiD today", "url": "https://bid.mn", "group": "mn", "why": "The lender's current site and the older BiD app's home. Opens on a loan calculator with the horse mascot over a city photo.", "take": ["A working calculator in the first screen: move a slider, see the monthly payment", "The mascot gives the brand a face that BID Pay could reuse sparingly"], "skip": ["Red and navy identity: BID Pay is orange, so the two need a visible link without sharing a palette", "Corporate sections (about, news, sustainability) do not belong on a product page"], "round": 1, "tags": ["light", "illustration", "photography"], "palette": ["#ffffff", "#abb3c9", "#64565e", "#d4e6f7", "#9dd1fc"], "fonts": ["Inter"], "mobile": true}, {"id": "klarna", "name": "Klarna", "url": "https://www.klarna.com/us/", "group": "bnpl", "why": "The category leader. Photo carousel hero with a pink Get-the-app QR card, then a pinned section that steps through five promises.", "take": ["QR card fixed to the corner of the hero on desktop", "Four headline numbers directly under the hero", "Pinned list where one line lights up at a time as you scroll", "Real Trustpilot reviews"], "skip": ["Carousel hero hides the main message behind rotating campaigns"], "round": 1, "tags": ["light", "minimal"], "mobbin": "https://mobbin.com/explore/sections/d3b6543d-b83d-40e3-a72f-60caa7b86cc7", "sectionsSeen": ["how it works"], "palette": ["#ffffff", "#1a0e0f", "#bd9796", "#523120", "#765042"], "fonts": ["Klarna Text", "Klarna Title"], "mobile": true}, {"id": "affirm", "name": "Affirm", "url": "https://www.affirm.com", "group": "bnpl", "why": "Pay-over-time lender. Dark navy, thin type with one italic word, and a seasonal headline. The product is explained in stacked glass cards.", "take": ["One italic word in the headline: warmth without illustration", "A store search field as its own section", "App rating with a QR code beside the footer"], "skip": ["Seasonal hero says nothing about how payment works", "Low contrast inside the card stack"], "round": 1, "tags": ["dark", "minimal", "typography"], "palette": ["#13131f", "#55555f", "#373745", "#afafb3"], "fonts": ["Calibre", "Axiforma for Affirm"], "mobile": true}, {"id": "afterpay", "name": "Afterpay", "url": "https://www.afterpay.com/en-US", "group": "bnpl", "why": "Shortest page of the set: fashion photo, a white card with one sentence and a QR code, three benefits, done.", "take": ["Hero card: one line, one sentence, one QR code", "Three plain benefits with small icons and no boxes", "The offer in three words: Pay in 4"], "skip": ["Editorial photography only works with a real shoot"], "round": 1, "tags": ["photography", "light", "bold"], "palette": ["#ffffff", "#82504e", "#ddb9a4", "#1e2b38", "#1a93dd"], "fonts": ["Cash Sans", "Italian Plate No2 Expanded"], "mobile": true}, {"id": "tabby", "name": "Tabby", "url": "https://tabby.ai/en-AE", "group": "bnpl", "why": "Gulf BNPL turned money app. Mint green first screen, store ratings above the headline, a crowd of drawn characters, QR button.", "take": ["Store ratings above the headline: 4.8 stars with review counts", "Each feature gets its own colour tile with a phone screen inside", "Closing band repeats the hero colour with a hand-held phone and QR", "Wordmark as tall as the footer"], "skip": ["The character illustrations are theirs. Copying the style would read as Tabby"], "round": 1, "tags": ["colorful", "illustration", "fun", "bold"], "palette": ["#6cff93", "#ffffff", "#4f6254", "#9ea29f", "#5dd87e"], "fonts": ["Roboto", "Tabby Sans Text"], "mobile": true}, {"id": "tamara", "name": "Tamara", "url": "https://tamara.co/en-SA", "group": "bnpl", "why": "Saudi BNPL. Heavy navy headline with a QR under it, and benefit chips floating over a portrait: No late fees, Sharia compliant.", "take": ["Floating chips that state the terms in two words each", "Four photo cards in a grid, one promise per card", "Product carousel that shows what you can actually buy", "FAQ accordion before the footer"], "skip": ["Sparkle decorations will date quickly"], "round": 1, "tags": ["bold", "light", "photography", "fun"], "palette": ["#ffffff", "#d3e0e8", "#c4b9b3", "#764f5f", "#23233b"], "fonts": ["Plusjakartasans 2", "Degulardisplay"], "mobile": true}, {"id": "atome", "name": "Atome", "url": "https://www.atome.sg", "group": "bnpl", "why": "Southeast Asian BNPL. Yellow comic-style campaign hero, then a store directory. The page is mostly a shop window.", "take": ["QR card that follows you down the whole page", "Merchant tiles by category right after the hero", "A plain sentence: split your purchase into 3 or more payments"], "skip": ["A prize-campaign hero is out of date in weeks", "Busy: yellow, comic art, photos and tiles all compete"], "round": 1, "tags": ["colorful", "illustration", "bold"], "palette": ["#ffffff", "#dac249", "#443c3c", "#c79d35", "#e2e0ae"], "fonts": ["GTWalsheimPro"], "mobile": true}, {"id": "zip", "name": "Zip", "url": "https://zip.co/us", "group": "bnpl", "why": "US BNPL. Deep purple with a lime button, and the best one-liner in the category: split big payments into not-so-big ones.", "take": ["Headline plus one line that says exactly what the product does", "Three store ratings under the button", "How it works as a pinned phone that changes while the steps scroll past: anywhere, online, in store", "Calendar screen showing that a payment date can be moved"], "skip": ["Purple on purple is hard to read in places"], "round": 1, "tags": ["dark", "colorful", "bold"], "palette": ["#1a0826", "#ece8fa", "#3f2e56", "#9385ac", "#d8d1d6"], "fonts": ["Sharp Grotesk", "Sharp Grotesk 25"], "mobile": true}, {"id": "cashapp", "name": "Cash App", "url": "https://cash.app", "group": "mobbin", "why": "The whole home page is one green screen: six words, one phone, two buttons. Nothing else.", "take": ["Total colour commitment: brand green from edge to edge", "A real app screen as the only image", "Proof that a home page can be one screen long"], "skip": ["It works because everyone already knows Cash App. A new product has more explaining to do"], "round": 1, "tags": ["brutalist", "bold"], "mobbin": "https://mobbin.com/explore/sections/f148f488-39dc-4369-9385-912e6e40d157", "sectionsSeen": ["stats", "social proof", "features", "hero", "downloads"], "palette": ["#00e013", "#ffffff", "#14140d", "#4d281e", "#009a0f"], "fonts": ["Cash Sans"], "mobile": true}, {"id": "revolut", "name": "Revolut", "url": "https://www.revolut.com", "group": "mobbin", "why": "A portrait against blue sky with the account balance floating over it. Then cinematic full-width photos, one per product.", "take": ["App UI floating directly over a photo instead of inside a phone frame", "One full-screen scene per feature", "Plans table at the end"], "skip": ["Needs a campaign-grade photo shoot", "Toki already uses this look locally"], "round": 1, "tags": ["3d", "minimal"], "mobbin": "https://mobbin.com/explore/sections/b249fdf5-adbf-4ff8-bc2d-5d69e7009644", "sectionsSeen": ["how it works"], "palette": ["#438acc", "#60aadf", "#585153", "#dfd8d3"], "fonts": ["Inter", "Aeonik Pro"], "mobile": true}, {"id": "current", "name": "Current", "url": "https://current.com", "group": "mobbin", "why": "US neobank. White page, very large light type, one photo, a phone-number field instead of a button, press logos below.", "take": ["Phone-number field in the hero: get the download link by SMS", "Press logo row closing the first screen", "Collage illustrations that mix photos with drawn shapes", "Testimonials with store star ratings"], "skip": ["Long legal footer"], "round": 1, "tags": ["minimal"], "mobbin": "https://mobbin.com/explore/sections/763c860b-0eb9-48ef-950c-4d63bc3935bd", "sectionsSeen": ["hero", "features", "social proof", "downloads"], "palette": ["#ffffff", "#000000", "#ccdbe3", "#615753", "#9d958c"], "fonts": ["soehne", "proxima-nova"], "mobile": true}, {"id": "fluz", "name": "Fluz", "url": "https://fluz.app", "group": "mobbin", "why": "Cashback app. Dark warm gradient and a condensed all-caps headline, with a Business / Personal switch above it.", "take": ["Audience switch in the hero: the BiD / BID Pay question could use the same control", "Short all-caps headline: YOUR MONEY ON MAX", "Blunt one-line statement bands between sections"], "skip": ["The dark brown palette feels heavy for shopping"], "round": 1, "tags": ["colorful", "bold", "illustration"], "mobbin": "https://mobbin.com/explore/sections/d30649f3-8fde-444e-9bb8-1ac00b6a61e9", "sectionsSeen": ["how it works", "social proof", "features", "cta", "downloads", "hero"], "palette": ["#171512", "#a5a096", "#7e6b60", "#3e3434"], "fonts": ["Area-Semibold", "Area-Bold"], "mobile": true}, {"id": "jeton", "name": "Jeton", "url": "https://www.jeton.com", "group": "mobbin", "why": "Wallet app. Coral-to-peach gradient, a glass disc and huge white type. Orange-family colour used softly rather than loudly.", "take": ["How to make warm orange feel premium: gradient, glass, white type", "Store badges in the hero", "Single words that fill the screen as you scroll: Add, Send, Exchange", "Closing line: 1 million users, plus you"], "skip": ["Very long page with one idea per screen", "Regulatory pop-up on arrival"], "round": 1, "tags": ["3d", "scroll effects", "glass"], "mobbin": "https://mobbin.com/explore/sections/0b95529f-32e7-4a3a-a24d-33950e75b984", "sectionsSeen": ["hero", "downloads", "stats"], "palette": ["#f3bd9e", "#e7667d", "#fefdfd"], "fonts": ["Sequel Sans"], "mobile": true}, {"id": "uglycash", "name": "Uglycash", "url": "https://ugly.cash", "group": "mobbin", "why": "Stablecoin account. Black condensed capitals stacked over a phone, neon tiles, and a wordmark as tall as the footer.", "take": ["Headline as a provocation: YOUR BANK WON'T DO THIS", "Three-card how-it-works straight after the hero", "A one-sentence statement band with a real number in it"], "skip": ["Deliberately rough. Wrong tone for a licensed lender"], "round": 1, "tags": ["brutalist", "bold", "motion", "glass"], "mobbin": "https://mobbin.com/explore/sections/27fefd7e-6150-457d-81f1-f5a250f589cd", "sectionsSeen": ["how it works", "hero", "features"], "palette": ["#f7f7f7", "#090409", "#beb9bf", "#534b52"], "fonts": ["Inter", "Helvetica Now Display Cn Bold"], "mobile": true}, {"id": "origin", "name": "Origin", "url": "https://useorigin.com", "group": "mobbin", "why": "AI financial advisor. Serif headline over a photographed sky, a phone rising from the bottom edge, then near-black sections.", "take": ["Phone cropped by the bottom of the hero so the screen reads large", "Award laurels as quiet proof", "Nature photography inside cards to warm up a dark page"], "skip": ["Serif plus sky reads as wealth management, not shopping"], "round": 1, "tags": ["dark", "glass"], "mobbin": "https://mobbin.com/explore/sections/8f04ae13-2a06-4368-8224-4c133eb6ba06", "sectionsSeen": ["hero", "features", "social proof", "downloads"], "palette": ["#0f5b8f", "#4f84a8", "#8aacc3"], "fonts": ["Suisseintltrial", "Inter"], "mobile": true}, {"id": "mercury", "name": "Mercury", "url": "https://mercury.com", "group": "mobbin", "why": "Business banking. A desk on a mountain at dawn, a thin centred headline and an email field. The benchmark for calm.", "take": ["One surreal image that carries the brand promise", "Sign-up field in the hero", "Slow, restrained scroll motion"], "skip": ["Built for founders. Too quiet for a consumer shopping app"], "round": 1, "tags": ["scroll effects", "motion", "minimal"], "mobbin": "https://mobbin.com/explore/sections/ab8cd60c-9f06-46bc-b6be-7cac655a72dd", "sectionsSeen": ["hero", "features", "cta", "social proof", "downloads"], "palette": ["#88858d", "#32393f", "#171e2a", "#535251", "#756b65"], "fonts": ["arcadia", "arcadiaDisplay"], "mobile": true}, {"id": "ramp", "name": "Ramp", "url": "https://ramp.com", "group": "mobbin", "why": "Corporate cards. White, one sentence, an email field with a yellow button, and the product working underneath.", "take": ["Five-word headline: Time is money. Save both.", "Product UI shown in use under the hero, not as a flat screenshot", "Thin announcement strip above the nav"], "skip": ["B2B density further down the page"], "round": 1, "tags": ["minimal"], "mobbin": "https://mobbin.com/explore/sections/120806fe-e3c4-4992-aee7-1f99024cc6ce", "sectionsSeen": ["hero", "features", "how it works", "stats", "social proof", "downloads"], "palette": ["#ffffff", "#6a6a64", "#eef680"], "fonts": ["TWK Lausanne", "Lausanne"], "mobile": true}, {"id": "titan", "name": "Titan", "url": "https://www.titan.com", "group": "mobbin", "why": "Wealth manager. Black, a serif wordmark the width of the page, three lines of plain copy, employer logos.", "take": ["Proof through who uses it: trusted by employees of…", "Four facts in a row with no decoration"], "skip": ["Formal and exclusive on purpose. The opposite of pay-later"], "round": 1, "tags": ["b&w", "illustration", "minimal"], "mobbin": "https://mobbin.com/explore/sections/5e0d4910-5a39-4fa3-ae69-df856ef207a9", "sectionsSeen": ["features", "hero"], "palette": ["#0f0d0c", "#f4f5f1", "#292826"], "fonts": ["neueMontreal"], "mobile": true}, {"id": "fruitful", "name": "Fruitful", "url": "https://www.fruitful.com", "group": "mobbin", "why": "Financial planning. Soft blue-green wash, centred headline, and a question field with five goal chips under it.", "take": ["Goal chips under the hero: tap what you came for", "A phone that stays pinned while the text beside it changes", "Award badges directly under the first screen", "Customer photos with quotes"], "skip": ["A chat-style input promises a conversation the product must then deliver"], "round": 1, "tags": ["light", "scroll effects", "minimal"], "mobbin": "https://mobbin.com/explore/sections/b6807166-b6b4-44f5-9040-1bfdf61ceb43", "sectionsSeen": ["how it works", "social proof"], "palette": ["#d0e1e5", "#ffffff", "#99aca8"], "fonts": ["Figtree Variable", "PP Neue Montreal"], "mobile": true}, {"id": "metamask", "name": "MetaMask", "url": "https://metamask.io", "group": "mobbin", "why": "Crypto wallet. Condensed black headline, one gradient shape, then a grid of bright illustrated cards.", "take": ["Four colour-blocked cards in a row, each a different product", "Orange closing banner with a QR code", "Stat strip of three numbers with two-word labels"], "skip": ["Crypto cues throughout: tickers, trading screens"], "round": 1, "tags": ["fun", "3d", "colorful", "scroll effects", "motion", "illustration"], "mobbin": "https://mobbin.com/explore/sections/04c3b0d2-79a7-49ce-9fdb-d45dea38ee69", "sectionsSeen": ["cta"], "palette": ["#f5f5f5", "#171717", "#c86eee", "#e95650", "#887d8e"], "fonts": ["Inter", "GrotzecCondensedLatin"], "mobile": true}, {"id": "slush", "name": "Slush", "url": "https://slush.app", "group": "mobbin", "why": "Crypto wallet. The name fills the screen in black capitals over a 3D blue ribbon, with sticker icons scattered on top.", "take": ["Stickers and 3D objects layered over the type", "Rounded page frame: the whole site sits inside a card", "Marquee band repeating one call to action"], "skip": ["Maximal. Every section shouts"], "round": 1, "tags": ["fun", "colorful", "scroll effects", "motion", "illustration"], "mobbin": "https://mobbin.com/explore/sections/8d140707-21a4-46fd-a06b-94d9fb26eba0", "sectionsSeen": ["how it works"], "palette": ["#dceeff", "#0a77d8", "#000000", "#6795ba", "#9bcbe5"], "fonts": ["Aeonik Pro", "Lateral"], "mobile": true}, {"id": "headspace", "name": "Headspace", "url": "https://www.headspace.com", "group": "mobbin", "why": "Not finance. It is here as the best-known orange brand on the web: an orange sun, a pink-to-peach wash, blue buttons.", "take": ["Orange as the hero object, not the background", "A contrasting button colour, so the action does not vanish into the brand colour", "Goal picker right under the hero", "Three big numbers over a sky photo"], "skip": ["Discount-led hero"], "round": 1, "tags": ["colorful", "illustration"], "mobbin": "https://mobbin.com/explore/sections/c4f49eaf-9d0e-4802-821c-542eab815334", "sectionsSeen": ["stats", "social proof", "hero"], "palette": ["#ffffff", "#feb06c", "#febfac", "#fe7a06", "#fed7e1"], "fonts": ["Headspace Apercu"], "mobile": true}, {"id": "cred", "name": "CRED", "url": "https://cred.club", "group": "craft", "why": "Indian credit-card rewards club. Pure black, lowercase serif, and a QR code in the first screen. The closest thing to Night Glass that already exists.", "take": ["Download QR card in the corner of a fully dark hero", "A paragraph that lights up word by word as you scroll", "Neon-lit product tiles on black, one glow colour per feature", "Ratings as giant numerals: 4.8 and 4.8"], "skip": ["Members-only tone (“not everyone gets it”) is wrong for a product that wants everyone", "Low-contrast grey body text on black"], "round": 2, "tags": ["dark", "typography", "3d", "scroll effects"], "palette": ["#121415", "#5c5c5b", "#3b3b3b", "#b9b6b0"], "fonts": ["gilroy-regular", "gilroy"], "mobile": true}, {"id": "robinhoodgold", "name": "Robinhood Gold Card", "url": "https://robinhood.com/creditcard/", "group": "craft", "why": "One gold card standing in a pool of light, and a thin serif headline. The card is the whole hero.", "take": ["A single 3D card as the hero object: the BiD debit card could play this part", "Light that fades from black into a warm glow behind the object", "Three plain facts in a row under the fold", "Wordmark filling the footer"], "skip": ["Serif plus gold says exclusive. BID Pay needs to feel reachable"], "round": 2, "tags": ["dark", "3d", "minimal"], "palette": ["#dec2a3", "#7a705e", "#000000", "#b59e7f", "#484745"], "fonts": ["Capsule Sans Text", "Phonic"], "mobile": true}, {"id": "lunar", "name": "Lunar", "url": "https://www.lunar.app/en/personal", "group": "craft", "why": "Danish neobank. Dim evening photo, a glass tablet floating beside the person, three benefits with icons, green button.", "take": ["A glass 3D object layered into a real photograph", "Three one-line benefits in the hero instead of a paragraph", "Trustpilot and App Store ratings right under the button", "Closing band in the brand colour with a QR code"], "skip": ["Switches between dark, white and green sections, so the mood breaks"], "round": 2, "tags": ["dark", "photography", "3d", "glass"], "palette": ["#363125", "#060b09", "#5d4d39", "#6e7e71", "#f0ede3"], "fonts": ["SharpGrotesk"], "mobile": true}, {"id": "atlas", "name": "Atlas Card", "url": "https://atlascard.com", "group": "craft", "why": "Invite-only charge card. A glass card over a fogged city, then full-screen photographs with a single line of small text each.", "take": ["Glass card floating over a city: the Ulaanbaatar skyline could do the same job", "Cinematic full-width photos with almost no words", "Restraint: one typeface, one size, a lot of black"], "skip": ["So quiet it explains nothing about the product", "Luxury-only audience"], "round": 2, "tags": ["dark", "photography", "glass", "minimal"], "palette": ["#5f768d", "#8b9fae", "#c9d6dd", "#17232e"], "fonts": ["Sequel Sans Book", "Sequel Sans Headline Book"], "mobile": true}, {"id": "wealthsimple", "name": "Wealthsimple", "url": "https://www.wealthsimple.com/en-ca", "group": "craft", "why": "Canadian investing app. Navy hero with a slowly turning gold coin, then one sculpted 3D object per product.", "take": ["One 3D object per feature: coin, card, mountain, pie", "Product list set as five very large words", "Email field in the hero", "Closing proof line: trusted by over 4 million Canadians"], "skip": ["Alternates dark and cream sections"], "round": 2, "tags": ["dark", "3d", "typography"], "palette": ["#1b3a56", "#1a1e1f", "#eeeff0", "#675f47", "#cdcecd"], "fonts": ["the-future", "tiempos"], "mobile": true}, {"id": "applecard", "name": "Apple Card", "url": "https://www.apple.com/apple-card/", "group": "craft", "why": "Pastel gradient, a phone rising from the bottom edge, and a grid of tiles where two or three huge words do all the talking.", "take": ["Tiles with one claim each in very large type: No fees. Not even hidden ones.", "Gradient as a brand surface instead of a flat colour", "The physical card gets its own dark, dramatic tile"], "skip": ["Light and pastel: borrow the tile system, not the palette"], "round": 2, "tags": ["light", "colorful", "minimal", "3d"], "palette": ["#fed072", "#d5b6f3", "#f3eae5", "#886574"], "fonts": ["SF Pro Text", "SF Pro Display"], "mobile": true}, {"id": "copilot", "name": "Copilot Money", "url": "https://www.copilot.money", "group": "craft", "why": "Budgeting app and Apple Design Award finalist. Soft blue wash, a phone cropped by the bottom of the hero, three small proof chips.", "take": ["Three proof chips under the subtitle: award, platforms, 4.8 stars", "Phone cropped by the fold so the screen reads large", "Each feature in its own softly tinted card with one line of copy", "Ratings and reviews before the footer"], "skip": ["Light theme: use the structure, not the colour"], "round": 2, "tags": ["light", "minimal", "glass"], "palette": ["#dbe9fc", "#608bbe"], "fonts": ["Matter", "JetBrains Mono"], "mobile": true}, {"id": "toss", "name": "Toss", "url": "https://toss.im", "group": "craft", "why": "Korea’s finance super-app. A rounded photo that cross-fades as you scroll, then phones on white with one short line each.", "take": ["Hero photo inside a rounded frame, changing while the headline stays put", "One sentence per feature: Send money in seconds", "Super-app scope explained without a feature grid"], "skip": ["Very long, with little variation between sections"], "round": 2, "tags": ["photography", "minimal", "light", "scroll effects"], "palette": ["#7a838a", "#c6d2db", "#eceff7", "#1b2226", "#4a5055"], "fonts": ["Toss Product Sans OTF"], "mobile": true}, {"id": "slash", "name": "Slash", "url": "https://www.slash.com", "group": "mobbin", "why": "Business banking. Black, a card set into dark stone, serif headlines with one italic word, and a gold stats row.", "take": ["Photographed 3D card as the hero image", "Rating chip above the headline: 4.8 stars", "Four gold numbers in a row on black", "One italic word per headline to break the seriousness"], "skip": ["B2B dashboard screenshots further down"], "round": 2, "tags": ["dark", "minimal"], "mobbin": "https://mobbin.com/explore/sections/47253673-e861-4941-8c05-e9cfae39fefb", "sectionsSeen": [], "palette": ["#0a0a0b", "#393a3e", "#9b9b9d", "#636366"], "fonts": ["Inter", "ivyPresto"], "mobile": true}, {"id": "discord", "name": "Discord", "url": "https://discord.com", "group": "mobbin", "why": "Chat app. Indigo night sky, heavy capitals, and features shown in large rounded glass cards.", "take": ["Glass cards with a thick translucent border, alternating left and right", "All-caps headlines in a heavy weight, close to what you liked in Uglycash", "Closing joke: YOU CAN’T SCROLL ANYMORE. BETTER GO CHAT.", "Marquee band of single words"], "skip": ["The mascot characters are a brand of their own"], "round": 2, "tags": ["dark", "illustration", "glass"], "mobbin": "https://mobbin.com/explore/sections/3c9dffba-1ae2-4d2b-ad29-1228e20aa1c5", "sectionsSeen": [], "palette": ["#181c7d", "#02021b", "#5755a6", "#b8b8d3"], "fonts": ["Ggsans", "Abcgintodiscord"], "mobile": true}, {"id": "framer", "name": "Framer", "url": "https://www.framer.com", "group": "mobbin", "why": "Website builder, not finance. Included for one thing: product UI framed by a glowing edge on pure black.", "take": ["Glow outline around a UI panel: the Night Glass effect done cleanly", "Logo row in white on black", "Dense dark product sections that stay readable"], "skip": ["Tool-for-professionals density"], "round": 2, "tags": ["3d", "scroll effects", "dark", "motion"], "mobbin": "https://mobbin.com/explore/sections/5da6c164-bbc2-4322-ac56-a6aed51c7369", "sectionsSeen": [], "palette": ["#000000", "#222341", "#93959f", "#354074"], "fonts": ["Inter", "Inter Variable"], "mobile": true}, {"id": "sezzle", "name": "Sezzle", "url": "https://sezzle.com", "group": "bnpl", "why": "US BNPL. Dark violet with a glowing outlined button, three award laurels and three phones fanned across the fold.", "take": ["Glow around the download button itself", "Award laurels between the button and the phones", "Pinned scenes that swap as you scroll: shop, play, earn"], "skip": ["Three-part headline tries to say everything at once", "Long pinned sections with little on screen"], "round": 2, "tags": ["dark", "colorful", "3d", "scroll effects"], "palette": ["#201733", "#5d3784", "#8c8c9a"], "fonts": ["Satoshi"], "mobile": true}, {"id": "zilch", "name": "Zilch", "url": "https://www.zilch.com/uk/", "group": "bnpl", "why": "UK pay-over-time card. Mint ground and green type as tall as the screen, with a 3D ribbon wrapped around a phone.", "take": ["Headline at poster size: three words fill the hero", "Legal terms set small but right beside the claim", "Grid of green tiles, each a short promise: No late fees. No jargon.", "Marquee of the wordmark before the footer"], "skip": ["Mint green is theirs", "The plans table adds length"], "round": 2, "tags": ["bold", "colorful", "3d", "typography"], "palette": ["#e6fbf3", "#c7d2cf", "#08d188", "#569e80", "#67d0a9"], "fonts": ["Circular"], "mobile": true}, {"id": "podeli", "name": "Podeli", "url": "https://podeli.ru", "group": "bnpl", "why": "Alfa-Bank’s BNPL. A Cyrillic headline that states the offer outright: split the payment into 4 parts. Product photos sit on a pink card.", "take": ["The offer as the headline, in heavy Cyrillic", "Four small cards under the hero: nothing extra, the limit, 4 payments, 10,000+ products", "Catalogue of what you can buy, right on the home page", "Dark app band with a QR code", "FAQ accordion"], "skip": ["Service-notice banner above the hero"], "round": 2, "tags": ["cyrillic", "light", "bold", "photography"], "palette": ["#f5f5f5", "#d9c0d6", "#be6273"], "fonts": ["StyreneBLC"], "mobile": true}, {"id": "dolyame", "name": "Dolyame", "url": "https://dolyame.ru", "group": "bnpl", "why": "T-Bank’s BNPL. Pink card hero with a 3D icon and a sharp line: postpone the payment, not the shopping.", "take": ["Headline with a twist instead of a description", "Three benefits in one row, icon above, no boxes", "How-to-pay stepper beside a phone in a coloured circle", "QR code inside a phone frame for the app section"], "skip": ["Store and product grids make it feel like a marketplace"], "round": 2, "tags": ["cyrillic", "light", "colorful", "3d"], "palette": ["#ffffff", "#c6b1c2", "#191819", "#856f7e", "#fcc6ea"], "fonts": ["haas", "Factor A"], "mobile": true}, {"id": "yandexsplit", "name": "Yandex Split", "url": "https://splitbnpl.yandex.ru", "group": "bnpl", "why": "Yandex’s BNPL in one screen: a green band, the name, one sentence, then where you can use it. Nothing else.", "take": ["One-sentence pitch: split the payment into parts with no overpayment", "Partner list as the only content after the hero", "Heavy geometric Cyrillic at display size"], "skip": ["Too bare to stand alone as BID Pay’s page"], "round": 2, "tags": ["cyrillic", "light", "minimal", "bold"], "palette": ["#ffffff", "#c1f79b", "#a4bd9a", "#646556", "#e2f7d5"], "fonts": ["YS Text"], "mobile": true}, {"id": "kaspi", "name": "Kaspi.kz", "url": "https://kaspi.kz/kz", "group": "bnpl", "why": "Kazakhstan’s super-app and the regional benchmark for paying in instalments. App icon, name, one line, phone.", "take": ["Hero built from the app icon itself", "Claim of rank: super-app No. 1 in Kazakhstan", "Products as a horizontal row of plain cards", "Large QR code as the final section"], "skip": ["Catalogue-style product list with little visual craft"], "round": 2, "tags": ["cyrillic", "light", "minimal"], "palette": ["#f0f0f0", "#c0b2ae"], "fonts": ["Roboto"], "mobile": true}, {"id": "alif", "name": "Alif", "url": "https://www.alif.uz", "group": "bnpl", "why": "Uzbek fintech with instalment shopping. Mint card hero with store badges and a QR code side by side.", "take": ["Store badges and QR together in the hero", "Ring of 2,000+ service icons as a proof graphic", "QR repeated at the close with ratings"], "skip": ["Green on mint is low contrast in places"], "round": 2, "tags": ["light", "minimal"], "palette": ["#edfdf1", "#a8bdb6", "#4e5760", "#c2e8d4"], "fonts": ["Roboto Flex Variable"], "mobile": true}, {"id": "ard", "name": "Ard", "url": "https://ard.mn/mn", "group": "mn", "why": "Ard’s super-app. Photo hero, then black sections with a 3D phone, blue glass shards and a card floating on black.", "take": ["A local site already doing dark with 3D objects: phone, shards, card", "Card options shown as one white card on black", "Photo bands between the dark sections"], "skip": ["English WELCOME TO ARD headline says nothing", "Promo pop-up covers the page on arrival", "Jumps between photo, black and white sections"], "round": 2, "tags": ["dark", "photography", "3d"], "palette": ["#91cade", "#544742", "#967a74", "#d1a5a0", "#61afc7"], "fonts": ["mulish"], "mobile": true}, {"id": "zeel", "name": "Zeel", "url": "https://www.zeel.mn", "group": "mn", "why": "P2P lending app. Full-screen mountain video, a two-word promise, an outlined button, then black sections with three big numbers.", "take": ["Cinematic nature video as the hero, close to Mercury and Origin", "Three numbers on black: 90,000+, 480,000+, 53.5+ billion", "Phone photographed on moss: the product in a real scene"], "skip": ["Thin outlined button is easy to miss", "Short page with little explanation"], "round": 2, "tags": ["dark", "photography", "minimal"], "palette": ["#171c18", "#4d5b50", "#b6bfc5", "#d8dbdb", "#69766b"], "fonts": ["montserrat"], "mobile": true}, {"id": "mbank", "name": "M bank", "url": "https://www.m-bank.mn", "group": "mn", "why": "Mongolia’s digital bank. Teal gradient hero with a phone and card, then dark sections. The most polished bank site locally.", "take": ["Gradient hero with a real phone and Visa card", "Dark blocks for business features", "Download section with a QR tile and store badges"], "skip": ["Rotating hero banner", "Blog on the home page"], "round": 2, "tags": ["dark", "colorful", "3d"], "palette": ["#ffffff", "#191f27", "#224c76", "#227a90", "#2bc1b6"], "fonts": [], "mobile": true}, {"id": "netcapital", "name": "NetCapital", "url": "https://www.netcapital.mn/mn/", "group": "mn", "why": "Lender behind NetPay. White page, a pill-shaped headline, and three photo cards for personal, business and savings.", "take": ["Audience cards with real photos: personal, business, savings", "Floating quick-links bar at the bottom of the hero", "Dark band with a loan-card carousel"], "skip": ["Carousel hero", "News section on the home page"], "round": 2, "tags": ["light", "photography", "minimal"], "palette": ["#ffffff", "#473b2d", "#a3978a", "#1b120f", "#c2c4be"], "fonts": ["Manrope"], "mobile": true}]};
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, attrs = {}, kids = []) => { const e = document.createElement(tag); for (const k in attrs) { if (k === 'text') e.textContent = attrs[k]; else if (k === 'html') e.innerHTML = attrs[k]; else e.setAttribute(k, attrs[k]); } [].concat(kids).forEach(c => c && e.append(c)); return e; };
+const REFS = DATA.refs, BY = Object.fromEntries(REFS.map(r => [r.id, r]));
+const GROUPS = { mn: 'Mongolia', bnpl: 'BNPL abroad', craft: 'Premium fintech', mobbin: 'Mobbin picks' };
+const VOTES = { love: 'Love', maybe: 'Maybe', pass: 'Pass' };
+const LS = 'bidpay-board-v1';
+
+/* ---------- state ---------- */
+let state = { votes: {}, notes: {}, dirs: {}, sections: {}, brief: '' };
+/* Saved picks arrive frozen from the store, so always work on a deep copy. */
+const clean = s => { const c = JSON.parse(JSON.stringify(s || {})); return { votes: c.votes || {}, notes: c.notes || {}, dirs: c.dirs || {}, sections: c.sections || {}, brief: c.brief || '' }; };
+try { const raw = localStorage.getItem(LS); if (raw) state = clean(JSON.parse(raw)); } catch (e) {}
+const hasPicks = s => Object.keys(s.votes).length + Object.keys(s.notes).length + Object.keys(s.dirs).length + Object.keys(s.sections).length > 0 || !!s.brief;
+
+let docRef = null, writing = false, dirty = false, timer = null;
+const saveEl = $('#save');
+const setSave = (s, t) => { saveEl.dataset.s = s; saveEl.textContent = t; };
+function persist() {
+  try { localStorage.setItem(LS, JSON.stringify(state)); } catch (e) {}
+  if (!docRef) { setSave('local', 'Saved in this browser only'); return; }
+  dirty = true; setSave('saving', 'Saving…'); clearTimeout(timer); timer = setTimeout(flush, 500);
+}
+async function flush() {
+  if (writing || !dirty || !docRef) return;
+  writing = true; dirty = false;
+  try { await docRef.set({ ...JSON.parse(JSON.stringify(state)), updatedAt: new Date().toISOString() }); if (!dirty) setSave('saved', 'Saved to the board'); }
+  catch (e) { setSave('local', e && e.code === 'invalid_argument' ? 'View only: picks stay in this browser' : 'Could not save. Kept in this browser'); }
+  writing = false; if (dirty) flush();
+}
+(async () => {
+  const db = window.claude && window.claude.use ? await window.claude.use('db') : null;
+  if (!db) { setSave('local', hasPicks(state) ? 'Saved in this browser only' : 'Picks save in this browser'); return; }
+  const ref = db.doc('board/picks');
+  let first = true;
+  const slow = setTimeout(() => setSave('local', 'Saved picks not reachable yet'), 10000);
+  ref.onSnapshot(snap => {
+    if (snap.metadata.fromCache && first && !snap.exists) return;
+    clearTimeout(slow);
+    if (first) {
+      first = false; docRef = ref;
+      if (snap.exists) { state = clean(snap.data()); try { localStorage.setItem(LS, JSON.stringify(state)); } catch (e) {} renderAll(); setSave('saved', 'Saved to the board'); }
+      else if (hasPicks(state)) { persist(); }
+      else setSave('saved', 'Picks save to the board');
+      return;
+    }
+    if (snap.metadata.hasPendingWrites || writing || dirty || !snap.exists) return;
+    const next = clean(snap.data());
+    if (JSON.stringify(next) !== JSON.stringify(clean(state))) { state = next; renderAll(); }
+  }, () => { clearTimeout(slow); docRef = null; setSave('local', 'Saved in this browser only'); });
+})();
+
+/* ---------- static copy ---------- */
+$('#lede').textContent = DATA.lede;
+$('#findSub').textContent = DATA.findSub;
+$('#refSub').textContent = DATA.refSub;
+$('#dirH').textContent = DATA.dirH; $('#dirSub').textContent = DATA.dirSub;
+$('#foot').textContent = DATA.foot;
+DATA.findings.forEach(f => $('#finds').append(el('div', { class: 'find' }, [el('h3', { text: f.h }), el('p', { html: f.p })])));
+
+/* ---------- directions ---------- */
+function renderDirs() {
+  const box = $('#dirs'); box.textContent = '';
+  DATA.directions.forEach(d => {
+    const on = !!state.dirs[d.id];
+    const refs = el('div', { class: 'chips' }, d.refs.map(id => el('button', { class: 'chip', type: 'button', 'data-open': id, text: BY[id] ? BY[id].name : id })));
+    const dl = el('dl', {}, [el('dt', { text: 'Mixes' }), el('dd', {}, refs), el('dt', { text: 'Colour' }), el('dd', { text: d.colour }), el('dt', { text: 'Type' }), el('dd', { text: d.type }), el('dt', { text: 'Motion' }), el('dd', { text: d.motion }), el('dt', { text: 'Risk' }), el('dd', { text: d.risk })]);
+    box.append(el('article', { class: 'dir' + (d.wide ? ' wide' : ''), 'data-on': on ? '1' : '0' }, [
+      el('div', { class: 'mock m' + d.id, role: 'img', 'aria-label': 'Sketch of the ' + d.name + ' hero', html: d.mock }),
+      el('div', { class: 'dir-body' }, [el('div', { class: 'dir-top' }, [el('h3', { text: d.name }), el('span', { class: 'mono', text: d.wide ? 'From your picks' : 'Direction ' + d.id })]), el('p', { class: 'pitch', text: d.pitch }), d.from ? el('p', { class: 'from', text: d.from }) : null, dl,
+        el('button', { class: 'pick', type: 'button', 'data-dir': d.id, 'aria-pressed': String(on), text: on ? 'Picked' : (d.wide ? 'Yes, build from this' : 'Pick this direction') })])
+    ]));
+  });
+}
+
+/* ---------- reference wall ---------- */
+const filt = { group: 'all', style: 'all', vote: 'all' };
+const STYLES = (() => { const c = {}; REFS.forEach(r => r.tags.forEach(t => c[t] = (c[t] || 0) + 1)); return Object.entries(c).filter(e => e[1] >= 3).sort((a, b) => b[1] - a[1]).map(e => e[0]); })();
+function fbtn(kind, val, label, n) { const b = el('button', { class: 'fbtn', type: 'button', 'data-f': kind, 'data-val': val, 'aria-pressed': String(filt[kind] === val), text: label }); if (n != null) b.append(el('small', { text: String(n) })); return b; }
+function renderFilters() {
+  const g = $('#fGroup'), s = $('#fStyle'), v = $('#fVote');
+  [g, s, v].forEach(x => { while (x.children.length > 1) x.lastChild.remove(); });
+  g.append(fbtn('group', 'all', 'All', REFS.length)); Object.keys(GROUPS).forEach(k => g.append(fbtn('group', k, GROUPS[k], REFS.filter(r => r.group === k).length))); if (REFS.some(r => r.round === 2)) g.append(fbtn('group', 'new', 'New in round 2', REFS.filter(r => r.round === 2).length));
+  s.append(fbtn('style', 'all', 'Any')); STYLES.forEach(t => s.append(fbtn('style', t, t)));
+  const cnt = k => REFS.filter(r => (state.votes[r.id] || 'none') === k).length;
+  v.append(fbtn('vote', 'all', 'All')); v.append(fbtn('vote', 'none', 'Not reviewed', cnt('none'))); Object.keys(VOTES).forEach(k => v.append(fbtn('vote', k, VOTES[k], cnt(k))));
+}
+function voteBox(id) { const cur = state.votes[id]; return Object.keys(VOTES).map(k => el('button', { type: 'button', 'data-vote': id, 'data-v': k, 'aria-pressed': String(cur === k), text: VOTES[k] })); }
+function visible() { return REFS.filter(r => (filt.group === 'all' || (filt.group === 'new' ? r.round === 2 : r.group === filt.group)) && (filt.style === 'all' || r.tags.includes(filt.style)) && (filt.vote === 'all' || (state.votes[r.id] || 'none') === filt.vote)).sort((a, b) => (b.round || 1) - (a.round || 1)); }
+function renderWall() {
+  const w = $('#wall'); w.textContent = ''; const list = visible();
+  if (!list.length) { w.append(el('p', { class: 'empty', text: 'Nothing matches these filters.' })); return; }
+  list.forEach(r => {
+    const shot = el('button', { class: 'shot', type: 'button', 'data-open': r.id, 'aria-label': 'Open ' + r.name }, [el('img', { src: 'img/' + r.id + '-hero.webp', alt: r.name + ' home page, first screen', loading: 'lazy' }), el('span', { class: 'open', text: 'Scroll the page' })]);
+    w.append(el('article', { class: 'ref', 'data-v': state.votes[r.id] || '' }, [shot,
+      el('div', { class: 'rhead' }, [el('h3', {}, [r.name, r.round === 2 ? el('span', { class: 'new', text: 'New' }) : null]), el('span', { class: 'mono', text: GROUPS[r.group] })]),
+      el('p', { class: 'why', text: r.why }),
+      el('div', { class: 'tags' }, r.tags.map(t => el('span', { class: 'tag', text: t }))),
+      el('div', { class: 'vote', role: 'group', 'aria-label': 'Your call on ' + r.name }, voteBox(r.id))]));
+  });
+}
+
+/* ---------- sections ---------- */
+function wf(spec) { const box = el('div', { class: 'wf', 'aria-hidden': 'true' }); spec.split('|').forEach(s => { const [k, v] = s.split(':'); const [x, y, w, h] = v.split(',').map(Number); const i = el('i', { class: k }); i.style.cssText = `left:${x}%;top:${y}%;width:${w}%;height:${h}%`; box.append(i); }); return box; }
+function renderSecs() {
+  const box = $('#secs'); box.textContent = '';
+  DATA.sections.forEach(s => {
+    const opts = el('div', { class: 'opts' }, s.opts.map(o => el('button', { class: 'opt', type: 'button', 'data-sec': s.id, 'data-opt': o.id, 'aria-pressed': String(state.sections[s.id] === o.id) }, [wf(o.wf), el('b', { text: o.name }), el('span', { text: o.seen })])));
+    box.append(el('div', { class: 'sec' }, [el('div', {}, [el('h3', { text: s.name }), el('p', { text: s.note })]), opts]));
+  });
+}
+
+/* ---------- picks summary ---------- */
+function briefText() {
+  const L = [], names = k => REFS.filter(r => state.votes[r.id] === k).map(r => r.name + (state.notes[r.id] ? ' (' + state.notes[r.id].trim() + ')' : ''));
+  const dirs = DATA.directions.filter(d => state.dirs[d.id]).map(d => d.id + ' ' + d.name);
+  L.push('BID Pay landing page picks', '', 'Direction: ' + (dirs.join(' + ') || 'not chosen'), 'Love: ' + (names('love').join('; ') || 'none'), 'Maybe: ' + (names('maybe').join('; ') || 'none'), 'Pass: ' + (names('pass').join('; ') || 'none'), '', 'Sections:');
+  DATA.sections.forEach(s => { const o = s.opts.find(o => o.id === state.sections[s.id]); L.push('- ' + s.name + ': ' + (o ? o.name : 'no pick')); });
+  const loose = REFS.filter(r => state.notes[r.id] && !state.votes[r.id]).map(r => r.name + ': ' + state.notes[r.id].trim());
+  if (loose.length) L.push('', 'Notes on unrated references:', ...loose.map(x => '- ' + x));
+  if (state.brief.trim()) L.push('', 'Notes: ' + state.brief.trim());
+  return L.join('\n');
+}
+function renderSum() {
+  const s = $('#sum'); s.textContent = '';
+  const dirs = DATA.directions.filter(d => state.dirs[d.id]);
+  s.append(el('h3', { text: 'Direction' }), dirs.length ? el('ul', {}, dirs.map(d => el('li', { text: d.id + ' · ' + d.name }))) : el('p', { class: 'none', text: 'None picked yet.' }));
+  ['love', 'maybe'].forEach(k => { const l = REFS.filter(r => state.votes[r.id] === k); s.append(el('h3', { text: VOTES[k] + ' · ' + l.length })); s.append(l.length ? el('div', { class: 'chips' }, l.map(r => el('button', { class: 'chip', type: 'button', 'data-open': r.id, text: r.name }))) : el('p', { class: 'none', text: k === 'love' ? 'Mark the references you want the page to feel like.' : 'Nothing here yet.' })); });
+  const picked = DATA.sections.filter(x => state.sections[x.id]);
+  s.append(el('h3', { text: 'Sections · ' + picked.length + ' of ' + DATA.sections.length }));
+  s.append(picked.length ? el('ul', {}, picked.map(x => { const li = el('li'); li.append(el('span', { text: x.name + ': ' }), x.opts.find(o => o.id === state.sections[x.id]).name); return li; })) : el('p', { class: 'none', text: 'No section patterns chosen yet.' }));
+}
+function renderProg() {
+  const n = REFS.filter(r => state.votes[r.id]).length, t = REFS.length, f = n / t;
+  $('#progLbl').textContent = n + ' of ' + t + ' reviewed';
+  document.querySelectorAll('.seg4 b i').forEach((i, k) => i.style.width = Math.max(0, Math.min(1, f * 4 - k)) * 100 + '%');
+}
+function renderAll() { renderDirs(); renderFilters(); renderWall(); renderSecs(); renderSum(); renderProg(); const b = $('#brief'); if (document.activeElement !== b) b.value = state.brief; if (cur) fillDlg(false); }
+
+/* ---------- dialog ---------- */
+const dlg = $('#dlg'); let cur = null, view = 'page';
+function fillDlg(resetNote = true) {
+  const r = BY[cur]; if (!r) return;
+  $('#dName').textContent = r.name; $('#dGroup').textContent = GROUPS[r.group]; $('#dWhy').textContent = r.why; $('#dUrl').textContent = r.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  const img = $('#dImg'); const src = 'img/' + r.id + (view === 'mob' ? '-mobile.webp' : '-page.webp'); if (img.getAttribute('src') !== src) { img.src = src; img.alt = r.name + (view === 'mob' ? ' on a phone' : ' full page capture'); }
+  $('#pagebox').classList.toggle('mob', view === 'mob');
+  document.querySelectorAll('#pagebox .seg button').forEach(b => { b.setAttribute('aria-pressed', String(b.dataset.view === view)); b.hidden = b.dataset.view === 'mob' && !r.mobile; });
+  const fill = (id, arr) => { const u = $(id); u.textContent = ''; arr.forEach(t => u.append(el('li', { text: t }))); };
+  fill('#dTake', r.take); fill('#dSkip', r.skip || []); $('#dSkipBox').hidden = !(r.skip && r.skip.length);
+  $('#dTagsH').textContent = r.mobbin ? 'Mobbin tags' : 'Tags';
+  const tg = $('#dTags'); tg.textContent = ''; r.tags.concat(r.sectionsSeen || []).forEach(t => tg.append(el('span', { class: 'tag', text: t })));
+  const pal = $('#dPal'); pal.textContent = ''; (r.palette || []).forEach(c => { const s = el('span', { class: 'sw', title: c }); s.style.background = c; pal.append(s); });
+  $('#dFonts').textContent = r.fonts && r.fonts.length ? 'Fonts: ' + r.fonts.join(', ') : 'Fonts: system or image-based';
+  const v = $('#dVote'); v.textContent = ''; v.append(...voteBox(r.id));
+  if (resetNote || document.activeElement !== $('#dNote')) $('#dNote').value = state.notes[r.id] || '';
+  const ln = $('#dLinks'); ln.textContent = ''; ln.append(el('a', { href: r.url, target: '_blank', rel: 'noopener', text: 'Open live site ↗' })); if (r.mobbin) ln.append(el('a', { href: r.mobbin, target: '_blank', rel: 'noopener', text: 'View on Mobbin ↗' }));
+}
+function openDlg(id) { cur = id; view = 'page'; fillDlg(); if (!dlg.open) dlg.showModal(); $('#pagebox').scrollTop = 0; }
+function step(d) { const list = visible().length ? visible() : REFS; let i = list.findIndex(r => r.id === cur); i = (i + d + list.length) % list.length; openDlg(list[i].id); }
+$('#dClose').onclick = () => dlg.close(); dlg.addEventListener('close', () => { cur = null; });
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+$('#dPrev').onclick = () => step(-1); $('#dNext').onclick = () => step(1);
+dlg.addEventListener('keydown', e => { if (e.target.tagName === 'TEXTAREA') return; if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1); });
+$('#dNote').addEventListener('input', e => { const v = e.target.value; if (v.trim()) state.notes[cur] = v; else delete state.notes[cur]; persist(); renderSum(); });
+$('#brief').addEventListener('input', e => { state.brief = e.target.value; persist(); });
+
+/* ---------- events ---------- */
+document.addEventListener('click', e => {
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.vote) { const id = t.dataset.vote, v = t.dataset.v; if (state.votes[id] === v) delete state.votes[id]; else state.votes[id] = v; persist(); renderFilters(); renderWall(); renderSum(); renderProg(); if (cur) fillDlg(false); return; }
+  if (t.dataset.open) { openDlg(t.dataset.open); return; }
+  if (t.dataset.dir) { const id = t.dataset.dir; if (state.dirs[id]) delete state.dirs[id]; else state.dirs[id] = true; persist(); renderDirs(); renderSum(); return; }
+  if (t.dataset.sec) { const s = t.dataset.sec, o = t.dataset.opt; if (state.sections[s] === o) delete state.sections[s]; else state.sections[s] = o; persist(); renderSecs(); renderSum(); return; }
+  if (t.dataset.f) { filt[t.dataset.f] = t.dataset.val; renderFilters(); renderWall(); return; }
+  if (t.dataset.view) { view = t.dataset.view; fillDlg(false); $('#pagebox').scrollTop = 0; return; }
+});
+$('#copy').onclick = async () => {
+  const text = briefText(), toast = $('#toast'), out = $('#copyOut');
+  try { await navigator.clipboard.writeText(text); toast.textContent = 'Copied'; out.hidden = true; }
+  catch (e) { out.hidden = false; out.value = text; out.focus(); out.select(); toast.textContent = 'Select the text below and copy it'; }
+  setTimeout(() => { toast.textContent = ''; }, 4000);
+};
+renderAll();
+</script>

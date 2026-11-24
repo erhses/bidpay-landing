@@ -1,0 +1,16 @@
+<!doctype html>
+<!-- Renders one still from src/three/stills.js: stills.html?name=tiers. Served by research/tools/render-stills.js. -->
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@400..700&display=swap">
+<style>html, body { margin: 0; background: transparent } canvas { display: block; width: 1200px; height: 900px }</style>
+<script type="importmap">{ "imports": { "three": "./three.module.js" } }</script>
+</head><body>
+<canvas id="c"></canvas>
+<script type="module">
+  import { still } from './stills.js';
+  const name = new URLSearchParams(location.search).get('name');
+  await document.fonts.load('600 40px Geologica', 'BiD 0123456789 •');
+  await document.fonts.load('500 40px Geologica', '••••  4173');
+  try { still(document.getElementById('c'), name, { font: 'Geologica' }); window.done = 'ok'; } catch (e) { window.done = 'error: ' + e.message; }
+</script>
+</body></html>

@@ -1,0 +1,1754 @@
+[
+ {
+  "id": "storepay",
+  "name": "StorePay",
+  "url": "https://storepay.mn",
+  "group": "mn",
+  "why": "The direct competitor and the cleanest local site. Headline, two buttons, three numbers and press badges in one calm first screen.",
+  "take": [
+   "Three numbers right under the buttons: 680,000+ users, 9,000+ merchants, 5.3 million purchases",
+   "Three phone screens that walk through invoice, split terms and confirmation",
+   "Light and dark toggle, plus text-size controls for accessibility"
+  ],
+  "skip": [
+   "The right half of the hero stayed empty in our capture",
+   "The token section (SPCFIN) pulls attention away from the pay-later story"
+  ],
+  "round": 1,
+  "tags": [
+   "minimal",
+   "light",
+   "photography"
+  ],
+  "palette": [
+   "#f5f6f8",
+   "#0022ff",
+   "#1b1a1d",
+   "#a6a9bb"
+  ],
+  "fonts": [
+   "TT Hoves Regular",
+   "TT Hoves DemiBold"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "toki",
+  "name": "Toki",
+  "url": "https://www.toki.mn",
+  "group": "mn",
+  "why": "Super-app positioning. Opens on a full-screen lifestyle photo, then turns black with one large photo card per product pillar.",
+  "take": [
+   "One card per pillar (Lifestyle, Shop, Pay, Mobile) with real UI chips over photography",
+   "Credit limits shown as coloured tiles: 1,000,000₮, 3,000,000₮, 8,000,000₮",
+   "Closing band with a phone and all three store badges"
+  ],
+  "skip": [
+   "Sky-and-person hero is the same idea as Revolut, so it will not feel distinctive",
+   "The English slogan tells a new visitor nothing about what the app does"
+  ],
+  "round": 1,
+  "tags": [
+   "photography",
+   "dark",
+   "bold"
+  ],
+  "palette": [
+   "#0089fb",
+   "#362a2b",
+   "#72b4fe",
+   "#deecfd",
+   "#a5c8f7"
+  ],
+  "fonts": [
+   "googleSans",
+   "geologica"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "pocket",
+  "name": "Pocket",
+  "url": "https://pocket.mn",
+  "group": "mn",
+  "why": "Digital lender. The home page is a rotating campaign banner followed by a loan-terms table next to a phone.",
+  "take": [
+   "Loan terms as a plain table beside the app screen: amount, rate and term at a glance"
+  ],
+  "skip": [
+   "Rotating banner hero: the message changes before you finish reading it",
+   "Long empty stretches further down the page"
+  ],
+  "round": 1,
+  "tags": [
+   "light",
+   "photography"
+  ],
+  "palette": [
+   "#ffffff",
+   "#e6395c",
+   "#e9e4e6",
+   "#d1bec3",
+   "#b78994"
+  ],
+  "fonts": [
+   "Geologica Variable"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "hipay",
+  "name": "Hipay",
+  "url": "https://hipay.mn",
+  "group": "mn",
+  "why": "Payment wallet on a 2019-style template: phone render, icon trio, partner logos, contact form. Useful as the baseline to beat.",
+  "take": [
+   "Merchant onboarding as 01, 02, 03 on a full pink band",
+   "Partner logo row"
+  ],
+  "skip": [
+   "Generic phone mockup with an all-caps slogan",
+   "Blog and contact form on the home page make it long and unfocused"
+  ],
+  "round": 1,
+  "tags": [
+   "light"
+  ],
+  "palette": [
+   "#f3f4f4",
+   "#b88673",
+   "#cddddd"
+  ],
+  "fonts": [
+   "Roboto"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "monpay",
+  "name": "MonPay",
+  "url": "https://monpay.mn/mn",
+  "group": "mn",
+  "why": "Mobicom's wallet. Tidy hero with three store badges (App Store, Google Play, AppGallery) sitting where the button would be.",
+  "take": [
+   "Store badges in the hero, including Huawei AppGallery",
+   "Partner count as a section title: 6,000+ partner organisations"
+  ],
+  "skip": [
+   "All-caps headline with no concrete benefit",
+   "Two overlapping phone screenshots too small to read"
+  ],
+  "round": 1,
+  "tags": [
+   "light",
+   "minimal"
+  ],
+  "palette": [
+   "#f2f5fa",
+   "#76788f"
+  ],
+  "fonts": [
+   "Code Next"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "simple",
+  "name": "Simple",
+  "url": "https://simple.mn",
+  "group": "mn",
+  "why": "Digital lender. Tilted phone renders and a teal paragraph where the headline should be.",
+  "take": [
+   "Audience split in the nav: citizens, business, merchants, investors"
+  ],
+  "skip": [
+   "A six-line paragraph as the hero headline",
+   "No button or download prompt in the first screen"
+  ],
+  "round": 1,
+  "tags": [
+   "light",
+   "minimal",
+   "3d"
+  ],
+  "palette": [
+   "#ebefef",
+   "#bacbcc",
+   "#fbf7ba"
+  ],
+  "fonts": [
+   "Rubik",
+   "rs-regular"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "sono",
+  "name": "Sono",
+  "url": "https://sono.mn",
+  "group": "mn",
+  "why": "Fintech lender with the most current-looking local layout: centred headline, small pill label, two buttons, stats row, product cards.",
+  "take": [
+   "Pill label above the headline that says what the company is",
+   "Four-number stats card overlapping the edge of the hero",
+   "Product cards with one-line terms"
+  ],
+  "skip": [
+   "Large empty purple block in the hero (a video that had not loaded in our capture)"
+  ],
+  "round": 1,
+  "tags": [
+   "light",
+   "minimal"
+  ],
+  "palette": [
+   "#ffffff",
+   "#231c4a",
+   "#a09eb7",
+   "#393270"
+  ],
+  "fonts": [
+   "Inter"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "bid",
+  "name": "BiD today",
+  "url": "https://bid.mn",
+  "group": "mn",
+  "why": "The lender's current site and the older BiD app's home. Opens on a loan calculator with the horse mascot over a city photo.",
+  "take": [
+   "A working calculator in the first screen: move a slider, see the monthly payment",
+   "The mascot gives the brand a face that BID Pay could reuse sparingly"
+  ],
+  "skip": [
+   "Red and navy identity: BID Pay is orange, so the two need a visible link without sharing a palette",
+   "Corporate sections (about, news, sustainability) do not belong on a product page"
+  ],
+  "round": 1,
+  "tags": [
+   "light",
+   "illustration",
+   "photography"
+  ],
+  "palette": [
+   "#ffffff",
+   "#abb3c9",
+   "#64565e",
+   "#d4e6f7",
+   "#9dd1fc"
+  ],
+  "fonts": [
+   "Inter"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "klarna",
+  "name": "Klarna",
+  "url": "https://www.klarna.com/us/",
+  "group": "bnpl",
+  "why": "The category leader. Photo carousel hero with a pink Get-the-app QR card, then a pinned section that steps through five promises.",
+  "take": [
+   "QR card fixed to the corner of the hero on desktop",
+   "Four headline numbers directly under the hero",
+   "Pinned list where one line lights up at a time as you scroll",
+   "Real Trustpilot reviews"
+  ],
+  "skip": [
+   "Carousel hero hides the main message behind rotating campaigns"
+  ],
+  "round": 1,
+  "tags": [
+   "light",
+   "minimal"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/d3b6543d-b83d-40e3-a72f-60caa7b86cc7",
+  "sectionsSeen": [
+   "how it works"
+  ],
+  "palette": [
+   "#ffffff",
+   "#1a0e0f",
+   "#bd9796",
+   "#523120",
+   "#765042"
+  ],
+  "fonts": [
+   "Klarna Text",
+   "Klarna Title"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "affirm",
+  "name": "Affirm",
+  "url": "https://www.affirm.com",
+  "group": "bnpl",
+  "why": "Pay-over-time lender. Dark navy, thin type with one italic word, and a seasonal headline. The product is explained in stacked glass cards.",
+  "take": [
+   "One italic word in the headline: warmth without illustration",
+   "A store search field as its own section",
+   "App rating with a QR code beside the footer"
+  ],
+  "skip": [
+   "Seasonal hero says nothing about how payment works",
+   "Low contrast inside the card stack"
+  ],
+  "round": 1,
+  "tags": [
+   "dark",
+   "minimal",
+   "typography"
+  ],
+  "palette": [
+   "#13131f",
+   "#55555f",
+   "#373745",
+   "#afafb3"
+  ],
+  "fonts": [
+   "Calibre",
+   "Axiforma for Affirm"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "afterpay",
+  "name": "Afterpay",
+  "url": "https://www.afterpay.com/en-US",
+  "group": "bnpl",
+  "why": "Shortest page of the set: fashion photo, a white card with one sentence and a QR code, three benefits, done.",
+  "take": [
+   "Hero card: one line, one sentence, one QR code",
+   "Three plain benefits with small icons and no boxes",
+   "The offer in three words: Pay in 4"
+  ],
+  "skip": [
+   "Editorial photography only works with a real shoot"
+  ],
+  "round": 1,
+  "tags": [
+   "photography",
+   "light",
+   "bold"
+  ],
+  "palette": [
+   "#ffffff",
+   "#82504e",
+   "#ddb9a4",
+   "#1e2b38",
+   "#1a93dd"
+  ],
+  "fonts": [
+   "Cash Sans",
+   "Italian Plate No2 Expanded"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "tabby",
+  "name": "Tabby",
+  "url": "https://tabby.ai/en-AE",
+  "group": "bnpl",
+  "why": "Gulf BNPL turned money app. Mint green first screen, store ratings above the headline, a crowd of drawn characters, QR button.",
+  "take": [
+   "Store ratings above the headline: 4.8 stars with review counts",
+   "Each feature gets its own colour tile with a phone screen inside",
+   "Closing band repeats the hero colour with a hand-held phone and QR",
+   "Wordmark as tall as the footer"
+  ],
+  "skip": [
+   "The character illustrations are theirs. Copying the style would read as Tabby"
+  ],
+  "round": 1,
+  "tags": [
+   "colorful",
+   "illustration",
+   "fun",
+   "bold"
+  ],
+  "palette": [
+   "#6cff93",
+   "#ffffff",
+   "#4f6254",
+   "#9ea29f",
+   "#5dd87e"
+  ],
+  "fonts": [
+   "Roboto",
+   "Tabby Sans Text"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "tamara",
+  "name": "Tamara",
+  "url": "https://tamara.co/en-SA",
+  "group": "bnpl",
+  "why": "Saudi BNPL. Heavy navy headline with a QR under it, and benefit chips floating over a portrait: No late fees, Sharia compliant.",
+  "take": [
+   "Floating chips that state the terms in two words each",
+   "Four photo cards in a grid, one promise per card",
+   "Product carousel that shows what you can actually buy",
+   "FAQ accordion before the footer"
+  ],
+  "skip": [
+   "Sparkle decorations will date quickly"
+  ],
+  "round": 1,
+  "tags": [
+   "bold",
+   "light",
+   "photography",
+   "fun"
+  ],
+  "palette": [
+   "#ffffff",
+   "#d3e0e8",
+   "#c4b9b3",
+   "#764f5f",
+   "#23233b"
+  ],
+  "fonts": [
+   "Plusjakartasans 2",
+   "Degulardisplay"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "atome",
+  "name": "Atome",
+  "url": "https://www.atome.sg",
+  "group": "bnpl",
+  "why": "Southeast Asian BNPL. Yellow comic-style campaign hero, then a store directory. The page is mostly a shop window.",
+  "take": [
+   "QR card that follows you down the whole page",
+   "Merchant tiles by category right after the hero",
+   "A plain sentence: split your purchase into 3 or more payments"
+  ],
+  "skip": [
+   "A prize-campaign hero is out of date in weeks",
+   "Busy: yellow, comic art, photos and tiles all compete"
+  ],
+  "round": 1,
+  "tags": [
+   "colorful",
+   "illustration",
+   "bold"
+  ],
+  "palette": [
+   "#ffffff",
+   "#dac249",
+   "#443c3c",
+   "#c79d35",
+   "#e2e0ae"
+  ],
+  "fonts": [
+   "GTWalsheimPro"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "zip",
+  "name": "Zip",
+  "url": "https://zip.co/us",
+  "group": "bnpl",
+  "why": "US BNPL. Deep purple with a lime button, and the best one-liner in the category: split big payments into not-so-big ones.",
+  "take": [
+   "Headline plus one line that says exactly what the product does",
+   "Three store ratings under the button",
+   "How it works as a pinned phone that changes while the steps scroll past: anywhere, online, in store",
+   "Calendar screen showing that a payment date can be moved"
+  ],
+  "skip": [
+   "Purple on purple is hard to read in places"
+  ],
+  "round": 1,
+  "tags": [
+   "dark",
+   "colorful",
+   "bold"
+  ],
+  "palette": [
+   "#1a0826",
+   "#ece8fa",
+   "#3f2e56",
+   "#9385ac",
+   "#d8d1d6"
+  ],
+  "fonts": [
+   "Sharp Grotesk",
+   "Sharp Grotesk 25"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "cashapp",
+  "name": "Cash App",
+  "url": "https://cash.app",
+  "group": "mobbin",
+  "why": "The whole home page is one green screen: six words, one phone, two buttons. Nothing else.",
+  "take": [
+   "Total colour commitment: brand green from edge to edge",
+   "A real app screen as the only image",
+   "Proof that a home page can be one screen long"
+  ],
+  "skip": [
+   "It works because everyone already knows Cash App. A new product has more explaining to do"
+  ],
+  "round": 1,
+  "tags": [
+   "brutalist",
+   "bold"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/f148f488-39dc-4369-9385-912e6e40d157",
+  "sectionsSeen": [
+   "stats",
+   "social proof",
+   "features",
+   "hero",
+   "downloads"
+  ],
+  "palette": [
+   "#00e013",
+   "#ffffff",
+   "#14140d",
+   "#4d281e",
+   "#009a0f"
+  ],
+  "fonts": [
+   "Cash Sans"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "revolut",
+  "name": "Revolut",
+  "url": "https://www.revolut.com",
+  "group": "mobbin",
+  "why": "A portrait against blue sky with the account balance floating over it. Then cinematic full-width photos, one per product.",
+  "take": [
+   "App UI floating directly over a photo instead of inside a phone frame",
+   "One full-screen scene per feature",
+   "Plans table at the end"
+  ],
+  "skip": [
+   "Needs a campaign-grade photo shoot",
+   "Toki already uses this look locally"
+  ],
+  "round": 1,
+  "tags": [
+   "3d",
+   "minimal"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/b249fdf5-adbf-4ff8-bc2d-5d69e7009644",
+  "sectionsSeen": [
+   "how it works"
+  ],
+  "palette": [
+   "#438acc",
+   "#60aadf",
+   "#585153",
+   "#dfd8d3"
+  ],
+  "fonts": [
+   "Inter",
+   "Aeonik Pro"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "current",
+  "name": "Current",
+  "url": "https://current.com",
+  "group": "mobbin",
+  "why": "US neobank. White page, very large light type, one photo, a phone-number field instead of a button, press logos below.",
+  "take": [
+   "Phone-number field in the hero: get the download link by SMS",
+   "Press logo row closing the first screen",
+   "Collage illustrations that mix photos with drawn shapes",
+   "Testimonials with store star ratings"
+  ],
+  "skip": [
+   "Long legal footer"
+  ],
+  "round": 1,
+  "tags": [
+   "minimal"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/763c860b-0eb9-48ef-950c-4d63bc3935bd",
+  "sectionsSeen": [
+   "hero",
+   "features",
+   "social proof",
+   "downloads"
+  ],
+  "palette": [
+   "#ffffff",
+   "#000000",
+   "#ccdbe3",
+   "#615753",
+   "#9d958c"
+  ],
+  "fonts": [
+   "soehne",
+   "proxima-nova"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "fluz",
+  "name": "Fluz",
+  "url": "https://fluz.app",
+  "group": "mobbin",
+  "why": "Cashback app. Dark warm gradient and a condensed all-caps headline, with a Business / Personal switch above it.",
+  "take": [
+   "Audience switch in the hero: the BiD / BID Pay question could use the same control",
+   "Short all-caps headline: YOUR MONEY ON MAX",
+   "Blunt one-line statement bands between sections"
+  ],
+  "skip": [
+   "The dark brown palette feels heavy for shopping"
+  ],
+  "round": 1,
+  "tags": [
+   "colorful",
+   "bold",
+   "illustration"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/d30649f3-8fde-444e-9bb8-1ac00b6a61e9",
+  "sectionsSeen": [
+   "how it works",
+   "social proof",
+   "features",
+   "cta",
+   "downloads",
+   "hero"
+  ],
+  "palette": [
+   "#171512",
+   "#a5a096",
+   "#7e6b60",
+   "#3e3434"
+  ],
+  "fonts": [
+   "Area-Semibold",
+   "Area-Bold"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "jeton",
+  "name": "Jeton",
+  "url": "https://www.jeton.com",
+  "group": "mobbin",
+  "why": "Wallet app. Coral-to-peach gradient, a glass disc and huge white type. Orange-family colour used softly rather than loudly.",
+  "take": [
+   "How to make warm orange feel premium: gradient, glass, white type",
+   "Store badges in the hero",
+   "Single words that fill the screen as you scroll: Add, Send, Exchange",
+   "Closing line: 1 million users, plus you"
+  ],
+  "skip": [
+   "Very long page with one idea per screen",
+   "Regulatory pop-up on arrival"
+  ],
+  "round": 1,
+  "tags": [
+   "3d",
+   "scroll effects",
+   "glass"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/0b95529f-32e7-4a3a-a24d-33950e75b984",
+  "sectionsSeen": [
+   "hero",
+   "downloads",
+   "stats"
+  ],
+  "palette": [
+   "#f3bd9e",
+   "#e7667d",
+   "#fefdfd"
+  ],
+  "fonts": [
+   "Sequel Sans"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "uglycash",
+  "name": "Uglycash",
+  "url": "https://ugly.cash",
+  "group": "mobbin",
+  "why": "Stablecoin account. Black condensed capitals stacked over a phone, neon tiles, and a wordmark as tall as the footer.",
+  "take": [
+   "Headline as a provocation: YOUR BANK WON'T DO THIS",
+   "Three-card how-it-works straight after the hero",
+   "A one-sentence statement band with a real number in it"
+  ],
+  "skip": [
+   "Deliberately rough. Wrong tone for a licensed lender"
+  ],
+  "round": 1,
+  "tags": [
+   "brutalist",
+   "bold",
+   "motion",
+   "glass"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/27fefd7e-6150-457d-81f1-f5a250f589cd",
+  "sectionsSeen": [
+   "how it works",
+   "hero",
+   "features"
+  ],
+  "palette": [
+   "#f7f7f7",
+   "#090409",
+   "#beb9bf",
+   "#534b52"
+  ],
+  "fonts": [
+   "Inter",
+   "Helvetica Now Display Cn Bold"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "origin",
+  "name": "Origin",
+  "url": "https://useorigin.com",
+  "group": "mobbin",
+  "why": "AI financial advisor. Serif headline over a photographed sky, a phone rising from the bottom edge, then near-black sections.",
+  "take": [
+   "Phone cropped by the bottom of the hero so the screen reads large",
+   "Award laurels as quiet proof",
+   "Nature photography inside cards to warm up a dark page"
+  ],
+  "skip": [
+   "Serif plus sky reads as wealth management, not shopping"
+  ],
+  "round": 1,
+  "tags": [
+   "dark",
+   "glass"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/8f04ae13-2a06-4368-8224-4c133eb6ba06",
+  "sectionsSeen": [
+   "hero",
+   "features",
+   "social proof",
+   "downloads"
+  ],
+  "palette": [
+   "#0f5b8f",
+   "#4f84a8",
+   "#8aacc3"
+  ],
+  "fonts": [
+   "Suisseintltrial",
+   "Inter"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "mercury",
+  "name": "Mercury",
+  "url": "https://mercury.com",
+  "group": "mobbin",
+  "why": "Business banking. A desk on a mountain at dawn, a thin centred headline and an email field. The benchmark for calm.",
+  "take": [
+   "One surreal image that carries the brand promise",
+   "Sign-up field in the hero",
+   "Slow, restrained scroll motion"
+  ],
+  "skip": [
+   "Built for founders. Too quiet for a consumer shopping app"
+  ],
+  "round": 1,
+  "tags": [
+   "scroll effects",
+   "motion",
+   "minimal"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/ab8cd60c-9f06-46bc-b6be-7cac655a72dd",
+  "sectionsSeen": [
+   "hero",
+   "features",
+   "cta",
+   "social proof",
+   "downloads"
+  ],
+  "palette": [
+   "#88858d",
+   "#32393f",
+   "#171e2a",
+   "#535251",
+   "#756b65"
+  ],
+  "fonts": [
+   "arcadia",
+   "arcadiaDisplay"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "ramp",
+  "name": "Ramp",
+  "url": "https://ramp.com",
+  "group": "mobbin",
+  "why": "Corporate cards. White, one sentence, an email field with a yellow button, and the product working underneath.",
+  "take": [
+   "Five-word headline: Time is money. Save both.",
+   "Product UI shown in use under the hero, not as a flat screenshot",
+   "Thin announcement strip above the nav"
+  ],
+  "skip": [
+   "B2B density further down the page"
+  ],
+  "round": 1,
+  "tags": [
+   "minimal"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/120806fe-e3c4-4992-aee7-1f99024cc6ce",
+  "sectionsSeen": [
+   "hero",
+   "features",
+   "how it works",
+   "stats",
+   "social proof",
+   "downloads"
+  ],
+  "palette": [
+   "#ffffff",
+   "#6a6a64",
+   "#eef680"
+  ],
+  "fonts": [
+   "TWK Lausanne",
+   "Lausanne"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "titan",
+  "name": "Titan",
+  "url": "https://www.titan.com",
+  "group": "mobbin",
+  "why": "Wealth manager. Black, a serif wordmark the width of the page, three lines of plain copy, employer logos.",
+  "take": [
+   "Proof through who uses it: trusted by employees of…",
+   "Four facts in a row with no decoration"
+  ],
+  "skip": [
+   "Formal and exclusive on purpose. The opposite of pay-later"
+  ],
+  "round": 1,
+  "tags": [
+   "b&w",
+   "illustration",
+   "minimal"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/5e0d4910-5a39-4fa3-ae69-df856ef207a9",
+  "sectionsSeen": [
+   "features",
+   "hero"
+  ],
+  "palette": [
+   "#0f0d0c",
+   "#f4f5f1",
+   "#292826"
+  ],
+  "fonts": [
+   "neueMontreal"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "fruitful",
+  "name": "Fruitful",
+  "url": "https://www.fruitful.com",
+  "group": "mobbin",
+  "why": "Financial planning. Soft blue-green wash, centred headline, and a question field with five goal chips under it.",
+  "take": [
+   "Goal chips under the hero: tap what you came for",
+   "A phone that stays pinned while the text beside it changes",
+   "Award badges directly under the first screen",
+   "Customer photos with quotes"
+  ],
+  "skip": [
+   "A chat-style input promises a conversation the product must then deliver"
+  ],
+  "round": 1,
+  "tags": [
+   "light",
+   "scroll effects",
+   "minimal"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/b6807166-b6b4-44f5-9040-1bfdf61ceb43",
+  "sectionsSeen": [
+   "how it works",
+   "social proof"
+  ],
+  "palette": [
+   "#d0e1e5",
+   "#ffffff",
+   "#99aca8"
+  ],
+  "fonts": [
+   "Figtree Variable",
+   "PP Neue Montreal"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "metamask",
+  "name": "MetaMask",
+  "url": "https://metamask.io",
+  "group": "mobbin",
+  "why": "Crypto wallet. Condensed black headline, one gradient shape, then a grid of bright illustrated cards.",
+  "take": [
+   "Four colour-blocked cards in a row, each a different product",
+   "Orange closing banner with a QR code",
+   "Stat strip of three numbers with two-word labels"
+  ],
+  "skip": [
+   "Crypto cues throughout: tickers, trading screens"
+  ],
+  "round": 1,
+  "tags": [
+   "fun",
+   "3d",
+   "colorful",
+   "scroll effects",
+   "motion",
+   "illustration"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/04c3b0d2-79a7-49ce-9fdb-d45dea38ee69",
+  "sectionsSeen": [
+   "cta"
+  ],
+  "palette": [
+   "#f5f5f5",
+   "#171717",
+   "#c86eee",
+   "#e95650",
+   "#887d8e"
+  ],
+  "fonts": [
+   "Inter",
+   "GrotzecCondensedLatin"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "slush",
+  "name": "Slush",
+  "url": "https://slush.app",
+  "group": "mobbin",
+  "why": "Crypto wallet. The name fills the screen in black capitals over a 3D blue ribbon, with sticker icons scattered on top.",
+  "take": [
+   "Stickers and 3D objects layered over the type",
+   "Rounded page frame: the whole site sits inside a card",
+   "Marquee band repeating one call to action"
+  ],
+  "skip": [
+   "Maximal. Every section shouts"
+  ],
+  "round": 1,
+  "tags": [
+   "fun",
+   "colorful",
+   "scroll effects",
+   "motion",
+   "illustration"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/8d140707-21a4-46fd-a06b-94d9fb26eba0",
+  "sectionsSeen": [
+   "how it works"
+  ],
+  "palette": [
+   "#dceeff",
+   "#0a77d8",
+   "#000000",
+   "#6795ba",
+   "#9bcbe5"
+  ],
+  "fonts": [
+   "Aeonik Pro",
+   "Lateral"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "headspace",
+  "name": "Headspace",
+  "url": "https://www.headspace.com",
+  "group": "mobbin",
+  "why": "Not finance. It is here as the best-known orange brand on the web: an orange sun, a pink-to-peach wash, blue buttons.",
+  "take": [
+   "Orange as the hero object, not the background",
+   "A contrasting button colour, so the action does not vanish into the brand colour",
+   "Goal picker right under the hero",
+   "Three big numbers over a sky photo"
+  ],
+  "skip": [
+   "Discount-led hero"
+  ],
+  "round": 1,
+  "tags": [
+   "colorful",
+   "illustration"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/c4f49eaf-9d0e-4802-821c-542eab815334",
+  "sectionsSeen": [
+   "stats",
+   "social proof",
+   "hero"
+  ],
+  "palette": [
+   "#ffffff",
+   "#feb06c",
+   "#febfac",
+   "#fe7a06",
+   "#fed7e1"
+  ],
+  "fonts": [
+   "Headspace Apercu"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "cred",
+  "name": "CRED",
+  "url": "https://cred.club",
+  "group": "craft",
+  "why": "Indian credit-card rewards club. Pure black, lowercase serif, and a QR code in the first screen. The closest thing to Night Glass that already exists.",
+  "take": [
+   "Download QR card in the corner of a fully dark hero",
+   "A paragraph that lights up word by word as you scroll",
+   "Neon-lit product tiles on black, one glow colour per feature",
+   "Ratings as giant numerals: 4.8 and 4.8"
+  ],
+  "skip": [
+   "Members-only tone (“not everyone gets it”) is wrong for a product that wants everyone",
+   "Low-contrast grey body text on black"
+  ],
+  "round": 2,
+  "tags": [
+   "dark",
+   "typography",
+   "3d",
+   "scroll effects"
+  ],
+  "palette": [
+   "#121415",
+   "#5c5c5b",
+   "#3b3b3b",
+   "#b9b6b0"
+  ],
+  "fonts": [
+   "gilroy-regular",
+   "gilroy"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "robinhoodgold",
+  "name": "Robinhood Gold Card",
+  "url": "https://robinhood.com/creditcard/",
+  "group": "craft",
+  "why": "One gold card standing in a pool of light, and a thin serif headline. The card is the whole hero.",
+  "take": [
+   "A single 3D card as the hero object: the BiD debit card could play this part",
+   "Light that fades from black into a warm glow behind the object",
+   "Three plain facts in a row under the fold",
+   "Wordmark filling the footer"
+  ],
+  "skip": [
+   "Serif plus gold says exclusive. BID Pay needs to feel reachable"
+  ],
+  "round": 2,
+  "tags": [
+   "dark",
+   "3d",
+   "minimal"
+  ],
+  "palette": [
+   "#dec2a3",
+   "#7a705e",
+   "#000000",
+   "#b59e7f",
+   "#484745"
+  ],
+  "fonts": [
+   "Capsule Sans Text",
+   "Phonic"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "lunar",
+  "name": "Lunar",
+  "url": "https://www.lunar.app/en/personal",
+  "group": "craft",
+  "why": "Danish neobank. Dim evening photo, a glass tablet floating beside the person, three benefits with icons, green button.",
+  "take": [
+   "A glass 3D object layered into a real photograph",
+   "Three one-line benefits in the hero instead of a paragraph",
+   "Trustpilot and App Store ratings right under the button",
+   "Closing band in the brand colour with a QR code"
+  ],
+  "skip": [
+   "Switches between dark, white and green sections, so the mood breaks"
+  ],
+  "round": 2,
+  "tags": [
+   "dark",
+   "photography",
+   "3d",
+   "glass"
+  ],
+  "palette": [
+   "#363125",
+   "#060b09",
+   "#5d4d39",
+   "#6e7e71",
+   "#f0ede3"
+  ],
+  "fonts": [
+   "SharpGrotesk"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "atlas",
+  "name": "Atlas Card",
+  "url": "https://atlascard.com",
+  "group": "craft",
+  "why": "Invite-only charge card. A glass card over a fogged city, then full-screen photographs with a single line of small text each.",
+  "take": [
+   "Glass card floating over a city: the Ulaanbaatar skyline could do the same job",
+   "Cinematic full-width photos with almost no words",
+   "Restraint: one typeface, one size, a lot of black"
+  ],
+  "skip": [
+   "So quiet it explains nothing about the product",
+   "Luxury-only audience"
+  ],
+  "round": 2,
+  "tags": [
+   "dark",
+   "photography",
+   "glass",
+   "minimal"
+  ],
+  "palette": [
+   "#5f768d",
+   "#8b9fae",
+   "#c9d6dd",
+   "#17232e"
+  ],
+  "fonts": [
+   "Sequel Sans Book",
+   "Sequel Sans Headline Book"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "wealthsimple",
+  "name": "Wealthsimple",
+  "url": "https://www.wealthsimple.com/en-ca",
+  "group": "craft",
+  "why": "Canadian investing app. Navy hero with a slowly turning gold coin, then one sculpted 3D object per product.",
+  "take": [
+   "One 3D object per feature: coin, card, mountain, pie",
+   "Product list set as five very large words",
+   "Email field in the hero",
+   "Closing proof line: trusted by over 4 million Canadians"
+  ],
+  "skip": [
+   "Alternates dark and cream sections"
+  ],
+  "round": 2,
+  "tags": [
+   "dark",
+   "3d",
+   "typography"
+  ],
+  "palette": [
+   "#1b3a56",
+   "#1a1e1f",
+   "#eeeff0",
+   "#675f47",
+   "#cdcecd"
+  ],
+  "fonts": [
+   "the-future",
+   "tiempos"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "applecard",
+  "name": "Apple Card",
+  "url": "https://www.apple.com/apple-card/",
+  "group": "craft",
+  "why": "Pastel gradient, a phone rising from the bottom edge, and a grid of tiles where two or three huge words do all the talking.",
+  "take": [
+   "Tiles with one claim each in very large type: No fees. Not even hidden ones.",
+   "Gradient as a brand surface instead of a flat colour",
+   "The physical card gets its own dark, dramatic tile"
+  ],
+  "skip": [
+   "Light and pastel: borrow the tile system, not the palette"
+  ],
+  "round": 2,
+  "tags": [
+   "light",
+   "colorful",
+   "minimal",
+   "3d"
+  ],
+  "palette": [
+   "#fed072",
+   "#d5b6f3",
+   "#f3eae5",
+   "#886574"
+  ],
+  "fonts": [
+   "SF Pro Text",
+   "SF Pro Display"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "copilot",
+  "name": "Copilot Money",
+  "url": "https://www.copilot.money",
+  "group": "craft",
+  "why": "Budgeting app and Apple Design Award finalist. Soft blue wash, a phone cropped by the bottom of the hero, three small proof chips.",
+  "take": [
+   "Three proof chips under the subtitle: award, platforms, 4.8 stars",
+   "Phone cropped by the fold so the screen reads large",
+   "Each feature in its own softly tinted card with one line of copy",
+   "Ratings and reviews before the footer"
+  ],
+  "skip": [
+   "Light theme: use the structure, not the colour"
+  ],
+  "round": 2,
+  "tags": [
+   "light",
+   "minimal",
+   "glass"
+  ],
+  "palette": [
+   "#dbe9fc",
+   "#608bbe"
+  ],
+  "fonts": [
+   "Matter",
+   "JetBrains Mono"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "toss",
+  "name": "Toss",
+  "url": "https://toss.im",
+  "group": "craft",
+  "why": "Korea’s finance super-app. A rounded photo that cross-fades as you scroll, then phones on white with one short line each.",
+  "take": [
+   "Hero photo inside a rounded frame, changing while the headline stays put",
+   "One sentence per feature: Send money in seconds",
+   "Super-app scope explained without a feature grid"
+  ],
+  "skip": [
+   "Very long, with little variation between sections"
+  ],
+  "round": 2,
+  "tags": [
+   "photography",
+   "minimal",
+   "light",
+   "scroll effects"
+  ],
+  "palette": [
+   "#7a838a",
+   "#c6d2db",
+   "#eceff7",
+   "#1b2226",
+   "#4a5055"
+  ],
+  "fonts": [
+   "Toss Product Sans OTF"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "slash",
+  "name": "Slash",
+  "url": "https://www.slash.com",
+  "group": "mobbin",
+  "why": "Business banking. Black, a card set into dark stone, serif headlines with one italic word, and a gold stats row.",
+  "take": [
+   "Photographed 3D card as the hero image",
+   "Rating chip above the headline: 4.8 stars",
+   "Four gold numbers in a row on black",
+   "One italic word per headline to break the seriousness"
+  ],
+  "skip": [
+   "B2B dashboard screenshots further down"
+  ],
+  "round": 2,
+  "tags": [
+   "dark",
+   "minimal"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/47253673-e861-4941-8c05-e9cfae39fefb",
+  "sectionsSeen": [],
+  "palette": [
+   "#0a0a0b",
+   "#393a3e",
+   "#9b9b9d",
+   "#636366"
+  ],
+  "fonts": [
+   "Inter",
+   "ivyPresto"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "discord",
+  "name": "Discord",
+  "url": "https://discord.com",
+  "group": "mobbin",
+  "why": "Chat app. Indigo night sky, heavy capitals, and features shown in large rounded glass cards.",
+  "take": [
+   "Glass cards with a thick translucent border, alternating left and right",
+   "All-caps headlines in a heavy weight, close to what you liked in Uglycash",
+   "Closing joke: YOU CAN’T SCROLL ANYMORE. BETTER GO CHAT.",
+   "Marquee band of single words"
+  ],
+  "skip": [
+   "The mascot characters are a brand of their own"
+  ],
+  "round": 2,
+  "tags": [
+   "dark",
+   "illustration",
+   "glass"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/3c9dffba-1ae2-4d2b-ad29-1228e20aa1c5",
+  "sectionsSeen": [],
+  "palette": [
+   "#181c7d",
+   "#02021b",
+   "#5755a6",
+   "#b8b8d3"
+  ],
+  "fonts": [
+   "Ggsans",
+   "Abcgintodiscord"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "framer",
+  "name": "Framer",
+  "url": "https://www.framer.com",
+  "group": "mobbin",
+  "why": "Website builder, not finance. Included for one thing: product UI framed by a glowing edge on pure black.",
+  "take": [
+   "Glow outline around a UI panel: the Night Glass effect done cleanly",
+   "Logo row in white on black",
+   "Dense dark product sections that stay readable"
+  ],
+  "skip": [
+   "Tool-for-professionals density"
+  ],
+  "round": 2,
+  "tags": [
+   "3d",
+   "scroll effects",
+   "dark",
+   "motion"
+  ],
+  "mobbin": "https://mobbin.com/explore/sections/5da6c164-bbc2-4322-ac56-a6aed51c7369",
+  "sectionsSeen": [],
+  "palette": [
+   "#000000",
+   "#222341",
+   "#93959f",
+   "#354074"
+  ],
+  "fonts": [
+   "Inter",
+   "Inter Variable"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "sezzle",
+  "name": "Sezzle",
+  "url": "https://sezzle.com",
+  "group": "bnpl",
+  "why": "US BNPL. Dark violet with a glowing outlined button, three award laurels and three phones fanned across the fold.",
+  "take": [
+   "Glow around the download button itself",
+   "Award laurels between the button and the phones",
+   "Pinned scenes that swap as you scroll: shop, play, earn"
+  ],
+  "skip": [
+   "Three-part headline tries to say everything at once",
+   "Long pinned sections with little on screen"
+  ],
+  "round": 2,
+  "tags": [
+   "dark",
+   "colorful",
+   "3d",
+   "scroll effects"
+  ],
+  "palette": [
+   "#201733",
+   "#5d3784",
+   "#8c8c9a"
+  ],
+  "fonts": [
+   "Satoshi"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "zilch",
+  "name": "Zilch",
+  "url": "https://www.zilch.com/uk/",
+  "group": "bnpl",
+  "why": "UK pay-over-time card. Mint ground and green type as tall as the screen, with a 3D ribbon wrapped around a phone.",
+  "take": [
+   "Headline at poster size: three words fill the hero",
+   "Legal terms set small but right beside the claim",
+   "Grid of green tiles, each a short promise: No late fees. No jargon.",
+   "Marquee of the wordmark before the footer"
+  ],
+  "skip": [
+   "Mint green is theirs",
+   "The plans table adds length"
+  ],
+  "round": 2,
+  "tags": [
+   "bold",
+   "colorful",
+   "3d",
+   "typography"
+  ],
+  "palette": [
+   "#e6fbf3",
+   "#c7d2cf",
+   "#08d188",
+   "#569e80",
+   "#67d0a9"
+  ],
+  "fonts": [
+   "Circular"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "podeli",
+  "name": "Podeli",
+  "url": "https://podeli.ru",
+  "group": "bnpl",
+  "why": "Alfa-Bank’s BNPL. A Cyrillic headline that states the offer outright: split the payment into 4 parts. Product photos sit on a pink card.",
+  "take": [
+   "The offer as the headline, in heavy Cyrillic",
+   "Four small cards under the hero: nothing extra, the limit, 4 payments, 10,000+ products",
+   "Catalogue of what you can buy, right on the home page",
+   "Dark app band with a QR code",
+   "FAQ accordion"
+  ],
+  "skip": [
+   "Service-notice banner above the hero"
+  ],
+  "round": 2,
+  "tags": [
+   "cyrillic",
+   "light",
+   "bold",
+   "photography"
+  ],
+  "palette": [
+   "#f5f5f5",
+   "#d9c0d6",
+   "#be6273"
+  ],
+  "fonts": [
+   "StyreneBLC"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "dolyame",
+  "name": "Dolyame",
+  "url": "https://dolyame.ru",
+  "group": "bnpl",
+  "why": "T-Bank’s BNPL. Pink card hero with a 3D icon and a sharp line: postpone the payment, not the shopping.",
+  "take": [
+   "Headline with a twist instead of a description",
+   "Three benefits in one row, icon above, no boxes",
+   "How-to-pay stepper beside a phone in a coloured circle",
+   "QR code inside a phone frame for the app section"
+  ],
+  "skip": [
+   "Store and product grids make it feel like a marketplace"
+  ],
+  "round": 2,
+  "tags": [
+   "cyrillic",
+   "light",
+   "colorful",
+   "3d"
+  ],
+  "palette": [
+   "#ffffff",
+   "#c6b1c2",
+   "#191819",
+   "#856f7e",
+   "#fcc6ea"
+  ],
+  "fonts": [
+   "haas",
+   "Factor A"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "yandexsplit",
+  "name": "Yandex Split",
+  "url": "https://splitbnpl.yandex.ru",
+  "group": "bnpl",
+  "why": "Yandex’s BNPL in one screen: a green band, the name, one sentence, then where you can use it. Nothing else.",
+  "take": [
+   "One-sentence pitch: split the payment into parts with no overpayment",
+   "Partner list as the only content after the hero",
+   "Heavy geometric Cyrillic at display size"
+  ],
+  "skip": [
+   "Too bare to stand alone as BID Pay’s page"
+  ],
+  "round": 2,
+  "tags": [
+   "cyrillic",
+   "light",
+   "minimal",
+   "bold"
+  ],
+  "palette": [
+   "#ffffff",
+   "#c1f79b",
+   "#a4bd9a",
+   "#646556",
+   "#e2f7d5"
+  ],
+  "fonts": [
+   "YS Text"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "kaspi",
+  "name": "Kaspi.kz",
+  "url": "https://kaspi.kz/kz",
+  "group": "bnpl",
+  "why": "Kazakhstan’s super-app and the regional benchmark for paying in instalments. App icon, name, one line, phone.",
+  "take": [
+   "Hero built from the app icon itself",
+   "Claim of rank: super-app No. 1 in Kazakhstan",
+   "Products as a horizontal row of plain cards",
+   "Large QR code as the final section"
+  ],
+  "skip": [
+   "Catalogue-style product list with little visual craft"
+  ],
+  "round": 2,
+  "tags": [
+   "cyrillic",
+   "light",
+   "minimal"
+  ],
+  "palette": [
+   "#f0f0f0",
+   "#c0b2ae"
+  ],
+  "fonts": [
+   "Roboto"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "alif",
+  "name": "Alif",
+  "url": "https://www.alif.uz",
+  "group": "bnpl",
+  "why": "Uzbek fintech with instalment shopping. Mint card hero with store badges and a QR code side by side.",
+  "take": [
+   "Store badges and QR together in the hero",
+   "Ring of 2,000+ service icons as a proof graphic",
+   "QR repeated at the close with ratings"
+  ],
+  "skip": [
+   "Green on mint is low contrast in places"
+  ],
+  "round": 2,
+  "tags": [
+   "light",
+   "minimal"
+  ],
+  "palette": [
+   "#edfdf1",
+   "#a8bdb6",
+   "#4e5760",
+   "#c2e8d4"
+  ],
+  "fonts": [
+   "Roboto Flex Variable"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "ard",
+  "name": "Ard",
+  "url": "https://ard.mn/mn",
+  "group": "mn",
+  "why": "Ard’s super-app. Photo hero, then black sections with a 3D phone, blue glass shards and a card floating on black.",
+  "take": [
+   "A local site already doing dark with 3D objects: phone, shards, card",
+   "Card options shown as one white card on black",
+   "Photo bands between the dark sections"
+  ],
+  "skip": [
+   "English WELCOME TO ARD headline says nothing",
+   "Promo pop-up covers the page on arrival",
+   "Jumps between photo, black and white sections"
+  ],
+  "round": 2,
+  "tags": [
+   "dark",
+   "photography",
+   "3d"
+  ],
+  "palette": [
+   "#91cade",
+   "#544742",
+   "#967a74",
+   "#d1a5a0",
+   "#61afc7"
+  ],
+  "fonts": [
+   "mulish"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "zeel",
+  "name": "Zeel",
+  "url": "https://www.zeel.mn",
+  "group": "mn",
+  "why": "P2P lending app. Full-screen mountain video, a two-word promise, an outlined button, then black sections with three big numbers.",
+  "take": [
+   "Cinematic nature video as the hero, close to Mercury and Origin",
+   "Three numbers on black: 90,000+, 480,000+, 53.5+ billion",
+   "Phone photographed on moss: the product in a real scene"
+  ],
+  "skip": [
+   "Thin outlined button is easy to miss",
+   "Short page with little explanation"
+  ],
+  "round": 2,
+  "tags": [
+   "dark",
+   "photography",
+   "minimal"
+  ],
+  "palette": [
+   "#171c18",
+   "#4d5b50",
+   "#b6bfc5",
+   "#d8dbdb",
+   "#69766b"
+  ],
+  "fonts": [
+   "montserrat"
+  ],
+  "mobile": true
+ },
+ {
+  "id": "mbank",
+  "name": "M bank",
+  "url": "https://www.m-bank.mn",
+  "group": "mn",
+  "why": "Mongolia’s digital bank. Teal gradient hero with a phone and card, then dark sections. The most polished bank site locally.",
+  "take": [
+   "Gradient hero with a real phone and Visa card",
+   "Dark blocks for business features",
+   "Download section with a QR tile and store badges"
+  ],
+  "skip": [
+   "Rotating hero banner",
+   "Blog on the home page"
+  ],
+  "round": 2,
+  "tags": [
+   "dark",
+   "colorful",
+   "3d"
+  ],
+  "palette": [
+   "#ffffff",
+   "#191f27",
+   "#224c76",
+   "#227a90",
+   "#2bc1b6"
+  ],
+  "fonts": [],
+  "mobile": true
+ },
+ {
+  "id": "netcapital",
+  "name": "NetCapital",
+  "url": "https://www.netcapital.mn/mn/",
+  "group": "mn",
+  "why": "Lender behind NetPay. White page, a pill-shaped headline, and three photo cards for personal, business and savings.",
+  "take": [
+   "Audience cards with real photos: personal, business, savings",
+   "Floating quick-links bar at the bottom of the hero",
+   "Dark band with a loan-card carousel"
+  ],
+  "skip": [
+   "Carousel hero",
+   "News section on the home page"
+  ],
+  "round": 2,
+  "tags": [
+   "light",
+   "photography",
+   "minimal"
+  ],
+  "palette": [
+   "#ffffff",
+   "#473b2d",
+   "#a3978a",
+   "#1b120f",
+   "#c2c4be"
+  ],
+  "fonts": [
+   "Manrope"
+  ],
+  "mobile": true
+ }
+]

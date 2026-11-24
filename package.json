@@ -1,0 +1,32 @@
+{
+  "name": "bidpay-landing",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Landing page for the BiD Pay app",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "16.4.6",
+    "qrcode": "1.5.4",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "three": "0.128.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.6",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}

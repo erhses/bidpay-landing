@@ -1,0 +1,829 @@
+{
+ "storepay": {
+  "palette": [
+   "#f5f6f8",
+   "#0022ff",
+   "#1b1a1d",
+   "#a6a9bb"
+  ],
+  "pageH": 3256,
+  "pageSrc": "storepay-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "TT Hoves Regular",
+   "TT Hoves DemiBold",
+   "TT Hoves Light"
+  ],
+  "title": "Storepay \u2022 Mongolia"
+ },
+ "toki": {
+  "palette": [
+   "#0089fb",
+   "#362a2b",
+   "#72b4fe",
+   "#deecfd",
+   "#a5c8f7"
+  ],
+  "pageH": 4845,
+  "pageSrc": "toki-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "googleSans",
+   "geologica"
+  ],
+  "title": "Toki - Future of Lifestyle"
+ },
+ "pocket": {
+  "palette": [
+   "#ffffff",
+   "#e6395c",
+   "#e9e4e6",
+   "#d1bec3",
+   "#b78994"
+  ],
+  "pageH": 3093,
+  "pageSrc": "pocket-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Geologica Variable"
+  ],
+  "title": "Pocket"
+ },
+ "hipay": {
+  "palette": [
+   "#f3f4f4",
+   "#b88673",
+   "#cddddd"
+  ],
+  "pageH": 4592,
+  "pageSrc": "hipay-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Roboto"
+  ],
+  "title": "Hipay \u2013 Update your lifestyle"
+ },
+ "monpay": {
+  "palette": [
+   "#f2f5fa",
+   "#76788f"
+  ],
+  "pageH": 3776,
+  "pageSrc": "monpay-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Code Next"
+  ],
+  "title": "Monpay"
+ },
+ "simple": {
+  "palette": [
+   "#ebefef",
+   "#bacbcc",
+   "#fbf7ba"
+  ],
+  "pageH": 2944,
+  "pageSrc": "simple-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Rubik",
+   "rs-regular",
+   "rs-medium"
+  ],
+  "title": "\u0414\u0438\u0436\u0438\u0442\u0430\u043b \u0437\u044d\u044d\u043b"
+ },
+ "sono": {
+  "palette": [
+   "#ffffff",
+   "#231c4a",
+   "#a09eb7",
+   "#393270"
+  ],
+  "pageH": 2214,
+  "pageSrc": "sono-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Inter"
+  ],
+  "title": "\u0421\u043e\u043d\u043e \u0424\u0438\u043d\u0442\u0435\u043a \u0411\u0411\u0421\u0411 \u2014 \u0428\u0443\u0443\u0440\u0445\u0430\u0439 \u0437\u044d\u044d\u043b\u0438\u0439\u043d \u0430\u043f\u043f"
+ },
+ "bid": {
+  "palette": [
+   "#ffffff",
+   "#abb3c9",
+   "#64565e",
+   "#d4e6f7",
+   "#9dd1fc"
+  ],
+  "pageH": 2622,
+  "pageSrc": "bid-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Inter"
+  ],
+  "title": "\u0411\u0418\u0414 \u0411\u0411\u0421\u0411"
+ },
+ "klarna": {
+  "palette": [
+   "#ffffff",
+   "#1a0e0f",
+   "#bd9796",
+   "#523120",
+   "#765042"
+  ],
+  "pageH": 6175,
+  "pageSrc": "klarna-full.png",
+  "mobile": true,
+  "fonts": [
+   "Klarna Text",
+   "Klarna Title"
+  ],
+  "title": "Klarna US - A secure, flexible way to manage your money"
+ },
+ "affirm": {
+  "palette": [
+   "#13131f",
+   "#55555f",
+   "#373745",
+   "#afafb3"
+  ],
+  "pageH": 3865,
+  "pageSrc": "affirm-full.png",
+  "mobile": true,
+  "fonts": [
+   "Calibre",
+   "Axiforma for Affirm"
+  ],
+  "title": "Affirm | Pay over time with flexible payment plans and no fees"
+ },
+ "afterpay": {
+  "palette": [
+   "#ffffff",
+   "#82504e",
+   "#ddb9a4",
+   "#1e2b38",
+   "#1a93dd"
+  ],
+  "pageH": 1904,
+  "pageSrc": "afterpay-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Cash Sans",
+   "Italian Plate No2 Expanded",
+   "ItalianPlateNo2Expanded-Regular"
+  ],
+  "title": "Buy Now Pay Later with Afterpay"
+ },
+ "tabby": {
+  "palette": [
+   "#6cff93",
+   "#ffffff",
+   "#4f6254",
+   "#9ea29f",
+   "#5dd87e"
+  ],
+  "pageH": 5029,
+  "pageSrc": "tabby-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Roboto",
+   "Tabby Sans Text",
+   "Tabby Sans Display"
+  ],
+  "title": "Spend, send, save and\u00a0boss money around with Tabby"
+ },
+ "tamara": {
+  "palette": [
+   "#ffffff",
+   "#d3e0e8",
+   "#c4b9b3",
+   "#764f5f",
+   "#23233b"
+  ],
+  "pageH": 5124,
+  "pageSrc": "tamara-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Plusjakartasans 2",
+   "Material Symbols Outlined",
+   "Degulardisplay"
+  ],
+  "title": "Buy now pay over 24 months in Saudi Arabia (BNPL) | Tamara"
+ },
+ "atome": {
+  "palette": [
+   "#ffffff",
+   "#dac249",
+   "#443c3c",
+   "#c79d35",
+   "#e2e0ae"
+  ],
+  "pageH": 3918,
+  "pageSrc": "atome-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "GTWalsheimPro"
+  ],
+  "title": "Atome - Buy Now Pay Later with 0% Interest\uff5cBNPL Singapore"
+ },
+ "zip": {
+  "palette": [
+   "#1a0826",
+   "#ece8fa",
+   "#3f2e56",
+   "#9385ac",
+   "#d8d1d6"
+  ],
+  "pageH": 4475,
+  "pageSrc": "zip-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Sharp Grotesk",
+   "Sharp Grotesk 25"
+  ],
+  "title": "Buy Now, Pay Later Online & In-Store | Zip"
+ },
+ "cashapp": {
+  "palette": [
+   "#00e013",
+   "#ffffff",
+   "#14140d",
+   "#4d281e",
+   "#009a0f"
+  ],
+  "pageH": 760,
+  "pageSrc": "cashapp-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Cash Sans"
+  ],
+  "title": "Send, Receive, Invest, & Manage Your Money with Cash App"
+ },
+ "revolut": {
+  "palette": [
+   "#438acc",
+   "#60aadf",
+   "#585153",
+   "#dfd8d3"
+  ],
+  "pageH": 4583,
+  "pageSrc": "revolut-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Inter",
+   "Aeonik Pro"
+  ],
+  "title": "Banking & Beyond | Revolut United Kingdom"
+ },
+ "current": {
+  "palette": [
+   "#ffffff",
+   "#000000",
+   "#ccdbe3",
+   "#615753",
+   "#9d958c"
+  ],
+  "pageH": 4290,
+  "pageSrc": "current-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "soehne",
+   "proxima-nova"
+  ],
+  "title": "Current | Future of Banking"
+ },
+ "fluz": {
+  "palette": [
+   "#171512",
+   "#a5a096",
+   "#7e6b60",
+   "#3e3434"
+  ],
+  "pageH": 5700,
+  "pageSrc": "fluz-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Area-Semibold",
+   "Area-Bold",
+   "Greed-SemiBold"
+  ],
+  "title": "Home - Fluz for Business - Fluz"
+ },
+ "jeton": {
+  "palette": [
+   "#f3bd9e",
+   "#e7667d",
+   "#fefdfd"
+  ],
+  "pageH": 5700,
+  "pageSrc": "jeton-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Sequel Sans"
+  ],
+  "title": "Jeton Bank \u2014 Your Digital Financial Partner"
+ },
+ "uglycash": {
+  "palette": [
+   "#f7f7f7",
+   "#090409",
+   "#beb9bf",
+   "#534b52"
+  ],
+  "pageH": 4060,
+  "pageSrc": "uglycash-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Inter",
+   "Helvetica Now Display Cn Bold",
+   "SF Pro Text"
+  ],
+  "title": "UGLYCASH"
+ },
+ "origin": {
+  "palette": [
+   "#0f5b8f",
+   "#4f84a8",
+   "#8aacc3"
+  ],
+  "pageH": 5700,
+  "pageSrc": "origin-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Suisseintltrial",
+   "Inter",
+   "Roboto Mono"
+  ],
+  "title": "Origin Financial | All\u2011in\u2011One Financial Platform for Budgeting, Investing & AI Planning"
+ },
+ "mercury": {
+  "palette": [
+   "#88858d",
+   "#32393f",
+   "#171e2a",
+   "#535251",
+   "#756b65"
+  ],
+  "pageH": 6175,
+  "pageSrc": "mercury-full.png",
+  "mobile": true,
+  "fonts": [
+   "arcadia",
+   "arcadiaDisplay"
+  ],
+  "title": "Online Business Banking For Startups, Small Businesses & Scaling Companies"
+ },
+ "ramp": {
+  "palette": [
+   "#ffffff",
+   "#6a6a64",
+   "#eef680"
+  ],
+  "pageH": 5700,
+  "pageSrc": "ramp-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "TWK Lausanne",
+   "Lausanne",
+   "Mono Regular"
+  ],
+  "title": "Spend Management, Corporate Cards & Accounts Payable Solutions | Ramp"
+ },
+ "titan": {
+  "palette": [
+   "#0f0d0c",
+   "#f4f5f1",
+   "#292826"
+  ],
+  "pageH": 5700,
+  "pageSrc": "titan-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "neueMontreal"
+  ],
+  "title": "Titan | Wealth Management for Tech Professionals"
+ },
+ "fruitful": {
+  "palette": [
+   "#d0e1e5",
+   "#ffffff",
+   "#99aca8"
+  ],
+  "pageH": 5700,
+  "pageSrc": "fruitful-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Figtree Variable",
+   "PP Neue Montreal",
+   "Figtree"
+  ],
+  "title": "Fruitful - Your money, finally figured out"
+ },
+ "metamask": {
+  "palette": [
+   "#f5f5f5",
+   "#171717",
+   "#c86eee",
+   "#e95650",
+   "#887d8e"
+  ],
+  "pageH": 3591,
+  "pageSrc": "metamask-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Inter",
+   "GrotzecCondensedLatin"
+  ],
+  "title": "MetaMask Crypto Wallet. Buy and Sell Bitcoin, Ethereum, Solana"
+ },
+ "slush": {
+  "palette": [
+   "#dceeff",
+   "#0a77d8",
+   "#000000",
+   "#6795ba",
+   "#9bcbe5"
+  ],
+  "pageH": 5700,
+  "pageSrc": "slush-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Aeonik Pro",
+   "Lateral"
+  ],
+  "title": "Slush \u2014 Your Money. Unstuck."
+ },
+ "headspace": {
+  "palette": [
+   "#ffffff",
+   "#feb06c",
+   "#febfac",
+   "#fe7a06",
+   "#fed7e1"
+  ],
+  "pageH": 4529,
+  "pageSrc": "headspace-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Headspace Apercu"
+  ],
+  "title": "Mental Health App for Meditation & Sleep - Headspace"
+ },
+ "cred": {
+  "palette": [
+   "#121415",
+   "#5c5c5b",
+   "#3b3b3b",
+   "#b9b6b0"
+  ],
+  "pageH": 5700,
+  "pageSrc": "cred-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "gilroy-regular",
+   "gilroy",
+   "denton"
+  ],
+  "title": "CRED. not everyone gets it."
+ },
+ "slash": {
+  "palette": [
+   "#0a0a0b",
+   "#393a3e",
+   "#9b9b9d",
+   "#636366"
+  ],
+  "pageH": 5700,
+  "pageSrc": "slash-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Inter",
+   "ivyPresto"
+  ],
+  "title": "Business Banking, Cards & Treasury | Slash"
+ },
+ "robinhoodgold": {
+  "palette": [
+   "#dec2a3",
+   "#7a705e",
+   "#000000",
+   "#b59e7f",
+   "#484745"
+  ],
+  "pageH": 4085,
+  "pageSrc": "robinhoodgold-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Capsule Sans Text",
+   "Phonic",
+   "ITC Garamond Std"
+  ],
+  "title": "Robinhood Gold Card"
+ },
+ "lunar": {
+  "palette": [
+   "#363125",
+   "#060b09",
+   "#5d4d39",
+   "#6e7e71",
+   "#f0ede3"
+  ],
+  "pageH": 5700,
+  "pageSrc": "lunar-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "SharpGrotesk"
+  ],
+  "title": "Lunar: The smarter way to bank - Lunar"
+ },
+ "applecard": {
+  "palette": [
+   "#fed072",
+   "#d5b6f3",
+   "#f3eae5",
+   "#886574"
+  ],
+  "pageH": 5700,
+  "pageSrc": "applecard-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "SF Pro Text",
+   "SF Pro Display"
+  ],
+  "title": "Apple Card - Apple"
+ },
+ "wealthsimple": {
+  "palette": [
+   "#1b3a56",
+   "#1a1e1f",
+   "#eeeff0",
+   "#675f47",
+   "#cdcecd"
+  ],
+  "pageH": 5700,
+  "pageSrc": "wealthsimple-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "the-future",
+   "tiempos"
+  ],
+  "title": "Wealthsimple | More is more"
+ },
+ "atlas": {
+  "palette": [
+   "#5f768d",
+   "#8b9fae",
+   "#c9d6dd",
+   "#17232e"
+  ],
+  "pageH": 5700,
+  "pageSrc": "atlas-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Sequel Sans Book",
+   "Sequel Sans Headline Book",
+   "ApercuMono Pro Medium"
+  ],
+  "title": "Atlas Card"
+ },
+ "copilot": {
+  "palette": [
+   "#dbe9fc",
+   "#608bbe"
+  ],
+  "pageH": 5700,
+  "pageSrc": "copilot-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Matter",
+   "JetBrains Mono",
+   "Apple Color Emoji"
+  ],
+  "title": "Copilot Money \u00b7 Your money finally has a copilot"
+ },
+ "toss": {
+  "palette": [
+   "#7a838a",
+   "#c6d2db",
+   "#eceff7",
+   "#1b2226",
+   "#4a5055"
+  ],
+  "pageH": 5581,
+  "pageSrc": "toss-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Toss Product Sans OTF"
+  ],
+  "title": "Toss"
+ },
+ "framer": {
+  "palette": [
+   "#000000",
+   "#222341",
+   "#93959f",
+   "#354074"
+  ],
+  "pageH": 5700,
+  "pageSrc": "framer-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Inter",
+   "Inter Variable",
+   "Stageshow Inter"
+  ],
+  "title": "Framer: Free website builder and AI design agent"
+ },
+ "discord": {
+  "palette": [
+   "#181c7d",
+   "#02021b",
+   "#5755a6",
+   "#b8b8d3"
+  ],
+  "pageH": 4267,
+  "pageSrc": "discord-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Ggsans",
+   "Abcgintodiscord",
+   "ABC Ginto Normal"
+  ],
+  "title": "Discord - Group Chat That\u2019s All Fun & Games"
+ },
+ "sezzle": {
+  "palette": [
+   "#201733",
+   "#5d3784",
+   "#8c8c9a"
+  ],
+  "pageH": 5700,
+  "pageSrc": "sezzle-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Satoshi"
+  ],
+  "title": "Buy Now Pay Later | Pay in 4"
+ },
+ "zilch": {
+  "palette": [
+   "#e6fbf3",
+   "#c7d2cf",
+   "#08d188",
+   "#569e80",
+   "#67d0a9"
+  ],
+  "pageH": 5436,
+  "pageSrc": "zilch-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Circular"
+  ],
+  "title": "Apply for a no-interest* credit card. *Fees apply | Zilch UK"
+ },
+ "podeli": {
+  "palette": [
+   "#f5f5f5",
+   "#d9c0d6",
+   "#be6273"
+  ],
+  "pageH": 2311,
+  "pageSrc": "podeli-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "StyreneBLC"
+  ],
+  "title": "\u041f\u043e\u0434\u0435\u043b\u0438 \u2014 \u0441\u0435\u0440\u0432\u0438\u0441 \u043e\u043f\u043b\u0430\u0442\u044b \u043f\u043e\u043a\u0443\u043f\u043e\u043a \u043f\u043e \u0447\u0430\u0441\u0442\u044f\u043c"
+ },
+ "dolyame": {
+  "palette": [
+   "#ffffff",
+   "#c6b1c2",
+   "#191819",
+   "#856f7e",
+   "#fcc6ea"
+  ],
+  "pageH": 2489,
+  "pageSrc": "dolyame-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "haas",
+   "Factor A",
+   "dsText"
+  ],
+  "title": "\u041e\u043f\u043b\u0430\u0442\u0430 \u043f\u043e\u043a\u0443\u043f\u043e\u043a \u0447\u0430\u0441\u0442\u044f\u043c\u0438 \u0441 \u0441\u0435\u0440\u0432\u0438\u0441\u043e\u043c \u0414\u043e\u043b\u044f\u043c\u0438"
+ },
+ "yandexsplit": {
+  "palette": [
+   "#ffffff",
+   "#c1f79b",
+   "#a4bd9a",
+   "#646556",
+   "#e2f7d5"
+  ],
+  "pageH": 967,
+  "pageSrc": "yandexsplit-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "YS Text"
+  ],
+  "title": "\u042f\u043d\u0434\u0435\u043a\u0441 \u0421\u043f\u043b\u0438\u0442"
+ },
+ "kaspi": {
+  "palette": [
+   "#f0f0f0",
+   "#c0b2ae"
+  ],
+  "pageH": 3577,
+  "pageSrc": "kaspi-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Roboto"
+  ],
+  "title": "Kaspi.kz \u2013 \u041c\u0430\u0433\u0430\u0437\u0438\u043d, \u041f\u043b\u0430\u0442\u0435\u0436\u0438, \u041c\u043e\u0439 \u0411\u0430\u043d\u043a, \u041f\u0435\u0440\u0435\u0432\u043e\u0434\u044b, Red, \u0411\u043e\u043d\u0443\u0441\u044b, \u0413\u0438\u0434"
+ },
+ "alif": {
+  "palette": [
+   "#edfdf1",
+   "#a8bdb6",
+   "#4e5760",
+   "#c2e8d4"
+  ],
+  "pageH": 5700,
+  "pageSrc": "alif-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Roboto Flex Variable"
+  ],
+  "title": "Alif \u2013 O\u2018zbekistondagi fintex kompaniya"
+ },
+ "mbank": {
+  "palette": [
+   "#ffffff",
+   "#191f27",
+   "#224c76",
+   "#227a90",
+   "#2bc1b6"
+  ],
+  "pageH": 2682,
+  "pageSrc": "mbank-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Bold",
+   "Regular",
+   "TTRegular"
+  ],
+  "title": "\u041c \u0431\u0430\u043d\u043a"
+ },
+ "ard": {
+  "palette": [
+   "#91cade",
+   "#544742",
+   "#967a74",
+   "#d1a5a0",
+   "#61afc7"
+  ],
+  "pageH": 5378,
+  "pageSrc": "ard-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "mulish"
+  ],
+  "title": "\u0410\u0440\u0434 \u0410\u043f\u043f"
+ },
+ "netcapital": {
+  "palette": [
+   "#ffffff",
+   "#473b2d",
+   "#a3978a",
+   "#1b120f",
+   "#c2c4be"
+  ],
+  "pageH": 2667,
+  "pageSrc": "netcapital-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "Manrope",
+   "dashicons"
+  ],
+  "title": "\u041d\u044d\u0442\u043a\u0430\u043f\u0438\u0442\u0430\u043b \u0421\u0430\u043d\u0445\u04af\u04af\u0433\u0438\u0439\u043d \u0413\u0440\u0443\u043f\u043f"
+ },
+ "zeel": {
+  "palette": [
+   "#171c18",
+   "#4d5b50",
+   "#b6bfc5",
+   "#d8dbdb",
+   "#69766b"
+  ],
+  "pageH": 2191,
+  "pageSrc": "zeel-scroll.png",
+  "mobile": true,
+  "fonts": [
+   "montserrat",
+   "wfont be9b6b",
+   "wfont babd1b"
+  ],
+  "title": "Zeel.mn | NBFI"
+ }
+}

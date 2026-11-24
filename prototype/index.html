@@ -1,0 +1,401 @@
+<title>BID Pay Landing</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@400..700&family=Golos+Text:wght@400..600&display=swap">
+<style>
+/* One system top to bottom: warm paper, ink, brand orange; hairline rules; a live 3D opening,
+   then a drawn diagram or rendered object in every section. Section markers reuse the app's four-segment payment bar. */
+:root {
+  --bg: #f7f6f2;
+  --alt: #eeece6;
+  --surface: #ffffff;
+  --ink: #16181d;
+  --mute: #5f6068;
+  --faint: #8f9097;
+  --line: #d9d6cd;
+  --orange: #f67420;
+  --on-orange: #1b0d03;
+  --f-head: "Geologica", "Golos Text", system-ui, sans-serif;
+  --f-body: "Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box }
+html { scroll-behavior: smooth }
+body { background: var(--bg); color: var(--ink); font: 17px/1.55 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: clip }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--ink) }
+h1, h2, h3, p { margin: 0 }
+h1, h2, h3 { font-family: var(--f-head); font-weight: 600; letter-spacing: -.03em; line-height: 1.04; text-wrap: balance }
+a { color: inherit; text-decoration: none }
+img { display: block }
+button { font: inherit; color: inherit }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px }
+.wrap { max-width: 1240px; margin-inline: auto; padding-left: max(clamp(16px, 4vw, 44px), env(safe-area-inset-left, 0px)); padding-right: max(clamp(16px, 4vw, 44px), env(safe-area-inset-right, 0px)) }
+.mono { font: 500 14.5px/1.3 var(--f-head); color: var(--mute) }
+.num { font-variant-numeric: tabular-nums }
+.m-only { display: none }
+
+/* ---------- top: notice strip and a floating bar ---------- */
+.strip { background: var(--ink); color: #fff; font-size: 14px; text-align: center }
+.strip a { display: block; padding-block: 9px } .strip u { text-underline-offset: 3px }
+.page { position: relative }
+/* At the top of the page the header belongs to the hero: no bar, nothing behind it. */
+.top { position: absolute; z-index: 50; top: 0; left: 0; right: 0; max-width: 1240px; margin-inline: auto; display: flex; align-items: center; gap: 8px; padding: 18px max(clamp(16px, 4vw, 44px), env(safe-area-inset-right, 0px)) 18px max(clamp(16px, 4vw, 44px), env(safe-area-inset-left, 0px)); color: var(--on-orange); transition: opacity .6s }
+.top.wait { opacity: 0 }
+.logo { display: flex; align-items: center; gap: 10px; font: 600 19px var(--f-head); letter-spacing: -.02em }
+.logo img { width: 32px; height: 32px; border-radius: 9px }
+.top nav { display: flex; gap: 2px; margin-left: auto; margin-right: 8px }
+.top nav a { padding: 9px 15px; border-radius: 99px; font-size: 15.5px; color: rgba(27, 13, 3, .8); transition: color .15s, background .15s }
+.top nav a:hover { color: var(--on-orange) }
+.top .btn { background: transparent; color: var(--on-orange); border: 1px solid rgba(27, 13, 3, .45) }
+.top .btn:hover { border-color: var(--on-orange); background: transparent }
+/* Once the hero has scrolled away, the same header returns as a floating bar. */
+.top.stuck { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 10px); width: min(1180px, calc(100% - 28px)); max-width: none; padding: 7px 7px 7px 16px; border-radius: 99px; color: var(--ink); background: rgba(255, 255, 255, .92); backdrop-filter: blur(14px) saturate(1.3); -webkit-backdrop-filter: blur(14px) saturate(1.3); box-shadow: 0 1px 0 rgba(22, 24, 29, .05), 0 10px 30px rgba(22, 24, 29, .13); animation: drop .4s cubic-bezier(.2, .8, .2, 1) }
+.top.stuck.out { animation: lift .22s ease-in forwards }
+.top.stuck nav a { color: var(--mute) } .top.stuck nav a:hover { color: var(--ink) }
+.top.stuck nav a.on { color: var(--ink); background: var(--alt) }
+.top.stuck .btn { background: var(--orange); color: #fff; border-color: var(--orange) } .top.stuck .btn:hover { background: #e96710; border-color: #e96710 }
+@keyframes drop { from { transform: translateY(-140%) } }
+@keyframes lift { to { transform: translateY(-140%) } }
+.btn { display: inline-block; border-radius: 99px; font: 600 16px var(--f-head); padding: 14px 26px; white-space: nowrap; transition: background .15s, border-color .15s, transform .15s }
+.btn:active { transform: scale(.98) }
+.btn.fill { background: var(--orange); color: #fff } .btn.fill:hover { background: #e96710 }
+.btn.line { border: 1px solid #c9c6bd; color: var(--ink) } .btn.line:hover { border-color: var(--ink) }
+.btn.small { padding: 10px 20px; font-size: 15px }
+
+/* ---------- hero: full-width orange stage, live 3D, an opening that lands ---------- */
+.hero { overflow-x: clip }
+.stage { --on: var(--on-orange); position: relative; min-height: clamp(640px, 88vh, 920px); display: flex; align-items: center; padding-top: 72px; color: var(--on); background: radial-gradient(90% 100% at 72% 44%, #ff9244, #f2650f 70%); border-radius: 0 0 clamp(28px, 4vw, 56px) clamp(28px, 4vw, 56px) }
+.stage::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(55% 60% at 62% 62%, #fff, rgba(255, 255, 255, 0) 70%); opacity: 0; pointer-events: none }
+.ghost { position: absolute; left: -2%; bottom: -17%; font: 700 clamp(300px, 44vw, 720px)/1 var(--f-head); letter-spacing: -.06em; color: rgba(255, 255, 255, .09); pointer-events: none; user-select: none }
+.view { position: absolute; inset: 0; pointer-events: none }
+.view canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block }
+.view .poster { position: absolute; right: 6%; top: 50%; height: 78%; width: auto; max-width: none; translate: 0 -50%; transition: opacity .4s }
+.stage.live .poster { opacity: 0 }
+.stage .wrap { width: 100%; position: relative; z-index: 2 }
+.say { max-width: min(48%, 640px) }
+h1 { font-size: clamp(48px, 5.9vw, 100px); font-weight: 700; letter-spacing: -.045em; line-height: .96; white-space: nowrap }
+h1 span { display: block }
+.lede { margin-top: 24px; max-width: 20em; color: rgba(27, 13, 3, .86); font-size: clamp(18px, 1.6vw, 23px); line-height: 1.42 }
+.act { margin-top: 32px; display: flex; gap: 10px; flex-wrap: wrap }
+.stage .btn.fill { background: var(--ink); color: #fff } .stage .btn.fill:hover { background: #000 }
+.stage .btn.line { border-color: rgba(27, 13, 3, .45); color: var(--on) } .stage .btn.line:hover { border-color: var(--on) }
+.scan { margin-top: 28px; display: flex; align-items: center; gap: 14px; color: rgba(27, 13, 3, .86); font-size: 15px; line-height: 1.4 }
+.code { background: #fff; border-radius: 10px; padding: 6px; width: 76px; height: 76px; flex: none }
+.code img, .code canvas { width: 100% !important; height: 100% !important; display: block }
+.stage.intro [data-n] { opacity: 0 }
+.stage.go [data-n] { animation: slam .8s cubic-bezier(.16, 1, .3, 1) both; animation-delay: calc(var(--n) * 110ms) }
+@keyframes slam { from { opacity: 0; transform: translateY(44px) scale(1.09); filter: blur(12px); letter-spacing: .02em } }
+.stage.intro .ghost { opacity: 0 } .stage.go .ghost { animation: rise 1.4s cubic-bezier(.16, 1, .3, 1) both }
+@keyframes rise { from { opacity: 0; transform: translateY(18%) } }
+.stage.hit { animation: thump .5s cubic-bezier(.2, .8, .2, 1) }
+.stage.hit::after { animation: flash .7s ease-out }
+@keyframes thump { from { transform: scale(1.022) } }
+@keyframes flash { from { opacity: .9 } to { opacity: 0 } }
+
+/* ---------- facts: three cells ---------- */
+.facts { border-bottom: 1px solid var(--line) }
+.facts .wrap { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) }
+.facts .cell { padding: clamp(26px, 3.4vw, 44px) clamp(16px, 2.6vw, 36px); border-left: 1px solid var(--line) }
+.facts .cell:first-child { border-left: 0; padding-left: 0 }
+.facts b { display: block; font: 600 clamp(44px, 5.6vw, 84px)/1 var(--f-head); letter-spacing: -.05em; margin: 14px 0 10px }
+.facts p { color: var(--mute); font-size: 16px; max-width: 17em }
+
+/* ---------- sections ---------- */
+.sec { padding-block: clamp(64px, 8.5vw, 128px) }
+.sec.alt { background: var(--alt); border-block: 1px solid var(--line) }
+.head { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, .7fr); gap: 20px 48px; align-items: end }
+.part { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; font: 500 16px var(--f-head) }
+.b4 { display: inline-grid; grid-template-columns: repeat(4, 20px); gap: 3px }
+.b4 b { height: 6px; border-radius: 3px; background: #cfccc3 } .b4 b.on { background: var(--orange) }
+.sec h2 { font-size: clamp(34px, 4.6vw, 66px); letter-spacing: -.04em }
+.head p { color: var(--mute); font-size: clamp(17px, 1.4vw, 20px); max-width: 26em; padding-bottom: 6px }
+
+/* the split, drawn as a flow */
+.flow { margin-top: clamp(32px, 4.4vw, 60px); display: grid; grid-template-columns: minmax(250px, .95fr) minmax(90px, .8fr) minmax(280px, 1.05fr); background-color: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: clamp(22px, 3.2vw, 44px); background-image: linear-gradient(var(--alt) 1px, transparent 1px), linear-gradient(90deg, var(--alt) 1px, transparent 1px); background-size: 44px 44px; background-position: -1px -1px }
+.src { align-self: center; background: var(--ink); color: #fff; border-radius: 18px; padding: 22px 24px 24px }
+.src .mono { color: #a9abb3 }
+.src b { display: block; font: 600 clamp(34px, 4vw, 56px)/1.05 var(--f-head); letter-spacing: -.04em; margin: 10px 0 18px }
+.seg { display: flex; flex-wrap: wrap; gap: 6px }
+.seg button { border: 1px solid #3a3d45; background: transparent; color: #c9cbd1; border-radius: 99px; padding: 7px 13px; font: 500 13.5px var(--f-head); cursor: pointer; transition: all .15s }
+.seg button:hover { color: #fff; border-color: #fff }
+.seg button[aria-pressed="true"] { background: var(--orange); border-color: var(--orange); color: #fff }
+.wires { width: 100%; height: 100%; overflow: visible }
+.wires path { fill: none; vector-effect: non-scaling-stroke }
+.wires .w { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .9s cubic-bezier(.6, 0, .2, 1); transition-delay: calc(var(--k) * 110ms) }
+.wires .f { stroke: var(--orange); stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: .05 .2; opacity: 0 }
+.flow.go .w { stroke-dashoffset: 0 }
+.flow.go .f { opacity: 1; animation: run 1.5s linear infinite; animation-delay: calc(var(--k) * 110ms); transition: opacity .3s .9s }
+@keyframes run { to { stroke-dashoffset: -.25 } }
+.outs { margin: 0; padding: 0; list-style: none; display: grid; grid-template-rows: repeat(4, 1fr); gap: 10px }
+.outs li { position: relative; display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 20px 14px 26px; opacity: .25; transition: opacity .5s, border-color .5s; transition-delay: calc(.7s + var(--k) * 110ms) }
+.outs li::before { content: ""; position: absolute; left: -7px; top: 50%; width: 13px; height: 13px; margin-top: -6.5px; border-radius: 50%; background: var(--surface); border: 1.5px solid var(--ink); transition: background .3s, border-color .3s; transition-delay: inherit }
+.flow.go .outs li { opacity: 1 } .flow.go .outs li::before { background: var(--orange); border-color: var(--orange) }
+.outs b { font: 600 clamp(22px, 2.5vw, 34px)/1.1 var(--f-head); letter-spacing: -.035em; justify-self: end }
+.outs li:first-child { border-color: var(--ink); background: var(--ink); color: #fff } .outs li:first-child .mono { color: #b9bbc2 }
+.fine { margin-top: 16px; font-size: 14px; color: var(--faint) }
+.steps { margin: clamp(40px, 5vw, 72px) 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--ink) }
+.steps li { position: relative; padding: 26px 28px 0 0 }
+.steps li::before { content: ""; position: absolute; left: 0; top: -6px; width: 11px; height: 11px; border-radius: 50%; background: var(--orange) }
+.steps h3 { font-size: 23px; letter-spacing: -.025em; margin: 12px 0 8px }
+.steps p { color: var(--mute); font-size: 16px; max-width: 22em }
+
+/* feature cells with rendered objects */
+.cards { margin-top: clamp(32px, 4.4vw, 60px); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 14px }
+.card { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: clamp(24px, 3vw, 40px); min-height: clamp(360px, 36vw, 480px); transition: border-color .3s }
+.card:hover { border-color: var(--ink) }
+.card h3 { font-size: clamp(26px, 3vw, 44px); letter-spacing: -.035em; margin-top: 14px; position: relative; z-index: 1 }
+.card p { margin-top: 10px; max-width: 16em; color: var(--mute); font-size: 17px; position: relative; z-index: 1 }
+.card img { position: absolute; max-width: none; pointer-events: none; transition: transform .7s cubic-bezier(.2, .8, .2, 1) }
+.card:hover img { transform: translateY(-12px) rotate(-2deg) scale(1.03) }
+.card h3 { max-width: 9em }
+.c1 { grid-column: span 7; background: var(--ink); border-color: var(--ink); color: #fff } .c1 p, .c1 .mono { color: #b9bbc2 } .c1 img { right: 4%; bottom: -14%; height: 82% }
+.c2 { grid-column: span 5 } .c2 img { right: -9%; bottom: -12%; width: 88% }
+.c3 { grid-column: span 5 } .c3 img { right: -8%; bottom: 3%; width: 104% }
+.c4 { grid-column: span 7 } .c4 img { right: 2%; bottom: 7%; width: 80% }
+
+/* app screens */
+.screens { margin-top: clamp(32px, 4.4vw, 60px); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 2.4vw, 32px) }
+.screens figure { margin: 0 }
+.phone { width: 100%; aspect-ratio: 603 / 1311; border-radius: 15.5% / 7.2%; padding: 2.8%; background: #16181d; box-shadow: 0 24px 44px rgba(22, 24, 29, .16) }
+.phone img { width: 100%; height: 100%; object-fit: cover; border-radius: 13.6% / 6.2% }
+.screens figcaption { margin-top: 20px; font-size: 16px; color: var(--mute); line-height: 1.4; border-top: 1px solid var(--line); padding-top: 14px }
+.screens figcaption b { display: block; font: 600 20px var(--f-head); color: var(--ink); letter-spacing: -.02em; margin: 6px 0 4px }
+
+/* questions */
+.faq { margin-top: clamp(28px, 3.6vw, 48px); border-top: 1px solid var(--ink) }
+.faq details { border-bottom: 1px solid var(--line) }
+.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 0; font: 600 clamp(19px, 1.9vw, 25px) var(--f-head); letter-spacing: -.02em }
+.faq summary::-webkit-details-marker { display: none }
+.faq summary::after { content: "+"; font: 400 28px/1 var(--f-head); color: var(--orange); transition: rotate .25s }
+.faq details[open] summary::after { rotate: 45deg }
+.faq p { color: var(--mute); max-width: 44em; padding: 0 0 24px }
+
+/* closing */
+.get { position: relative; background: var(--orange); color: var(--on-orange); overflow: hidden }
+.get::before { content: ""; position: absolute; inset: 0; background: radial-gradient(rgba(27, 13, 3, .16) 1.4px, transparent 1.6px) 0 0 / 18px 18px; -webkit-mask-image: linear-gradient(100deg, transparent 30%, #000); mask-image: linear-gradient(100deg, transparent 30%, #000) }
+.get .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1.3fr) auto; gap: 40px; align-items: center; padding-block: clamp(64px, 9vw, 140px) }
+.get h2 { font-size: clamp(42px, 7vw, 112px); font-weight: 700; letter-spacing: -.045em; line-height: .96 }
+.get p { margin-top: 18px; font-size: clamp(18px, 1.5vw, 22px); max-width: 24em }
+.stores { margin-top: 28px; display: flex; gap: 10px; flex-wrap: wrap }
+.store { background: var(--ink); color: #fff; border-radius: 14px; padding: 9px 20px 11px; font: 600 17px/1.2 var(--f-head) }
+.store small { display: block; font: 400 12px var(--f-body); color: #b9bdc6 }
+.store:hover { background: #000 }
+.bigqr { background: #fff; border-radius: 24px; padding: 16px; width: clamp(180px, 20vw, 250px); text-align: center; font-size: 14px; color: var(--mute) }
+.bigqr .code { width: 100%; height: auto; aspect-ratio: 1; padding: 0; margin-bottom: 10px }
+
+footer { background: var(--ink); color: #a9abb3; font-size: 15px; padding-block: 48px 56px }
+footer .wrap { display: flex; gap: 32px; justify-content: space-between; flex-wrap: wrap }
+footer .logo { color: #fff }
+footer p { max-width: 34em; margin-top: 16px; font-size: 14px; color: #83858d }
+footer ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 26px; flex-wrap: wrap }
+footer a:hover { color: #fff }
+
+/* things rise into place as they scroll in */
+.rv { transition: opacity .7s cubic-bezier(.2, .7, .2, 1), transform .7s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--d, 0) * 90ms) }
+.rv.pre { opacity: 0; transform: translateY(30px) }
+
+@media (max-width: 900px) {
+  .top nav { display: none } .top .btn { margin-left: auto }
+  .stage { flex-direction: column; align-items: stretch; min-height: 0; padding-top: 92px }
+  .say { max-width: none } h1 { white-space: normal }
+  .stage .wrap { order: 1 }
+  .view { position: relative; inset: auto; order: 2; aspect-ratio: 1 / 1.04; margin-top: 6px }
+  .view .poster { right: auto; left: 50%; translate: -50% -50%; height: 90% }
+  .ghost { font-size: 86vw; bottom: 6%; left: -4% }
+  .facts .wrap { grid-template-columns: 1fr } .facts .cell { border-left: 0; border-top: 1px solid var(--line); padding-inline: 0 } .facts .cell:first-child { border-top: 0 }
+  .head { grid-template-columns: 1fr }
+  .flow { grid-template-columns: 1fr; gap: 14px; background-image: none } .wires { display: none }
+  .outs { margin-left: 8px; padding-left: 14px; border-left: 1.5px solid var(--ink) } .outs li::before { left: -22px }
+  .steps { grid-template-columns: 1fr; border-top: 0; border-left: 1px solid var(--ink); margin-left: 6px } .steps li { padding: 0 0 30px 26px } .steps li::before { left: -6px; top: 4px }
+  .card { grid-column: 1 / -1; min-height: 380px }
+  .screens { grid-template-columns: repeat(4, 62vw); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; margin-inline: calc(max(16px, env(safe-area-inset-left, 0px)) * -1); padding-inline: max(16px, env(safe-area-inset-left, 0px)); scrollbar-width: none }
+  .screens figure { scroll-snap-align: center }
+  .get .wrap { grid-template-columns: 1fr }
+}
+@media (max-width: 560px) {
+  .scan, .bigqr, .d-only { display: none } .m-only { display: inline }
+  .act .btn { flex: 1; text-align: center }
+  .c1 img { height: 70%; right: 2% } .c4 img { width: 104%; right: -4% }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto } *, *::before, *::after { transition: none !important; animation: none !important } .flow .w { stroke-dashoffset: 0 } .flow .outs li { opacity: 1 } }
+</style>
+
+<div lang="mn">
+<div class="strip"><a href="https://bid.mn" target="_blank" rel="noopener">BiD апп хайж байна уу? Зээлийн үйлчилгээ <u>bid.mn</u> дээр хэвээрээ.</a></div>
+
+<div class="page">
+<header class="top" id="bar">
+  <a class="logo" href="#top" aria-label="BiD Pay"><img src="img/icon.webp" alt="" width="32" height="32">BiD Pay</a>
+  <nav aria-label="Үндсэн цэс"><a href="#huvaan">Хуваан төлөх</a><a href="#bolomj">Боломжууд</a><a href="#app">Апп</a><a href="#asuult">Асуулт</a></nav>
+  <a class="btn fill small" href="#tatah" data-dl>Апп татах</a>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="stage" id="stage">
+    <div class="ghost" aria-hidden="true">4×</div>
+    <div class="view"><img class="poster" src="img/hero-poster.webp" alt="" width="900" height="900"><canvas role="img" aria-label="1,600,000₮ гэсэн дүн дөрвөн төлөлт болж хуваагдана. Хажууд нь BiD Pay апптай утас, BiD debit карт."></canvas></div>
+    <div class="wrap"><div class="say">
+      <h1><span data-n style="--n:0">Одоо ав.</span><span data-n style="--n:1">Хуваан төл.</span></h1>
+      <p class="lede" data-n style="--n:2.4">Хүссэн зүйлээ өнөөдөр аваад, төлбөрөө 4 хуваан төлөх апп.</p>
+      <div class="act" data-n style="--n:3.2">
+        <a class="btn fill" href="#tatah" data-dl>Апп татах</a>
+        <a class="btn line" href="#huvaan">Хэрхэн ажилладаг вэ?</a>
+      </div>
+      <div class="scan" data-n style="--n:4"><div class="code" data-qr></div><span>Утасныхаа камераар<br>уншуулаад татаарай.</span></div>
+    </div></div>
+  </div>
+</section>
+
+<section class="facts"><div class="wrap">
+  <div class="cell"><span class="mono">Тусгай зөвшөөрөл</span><b class="num">2005</b><p>оноос хойш тусгай зөвшөөрөлтэй ажиллаж байна.</p></div>
+  <div class="cell"><span class="mono">Төлөлт</span><b class="num">4</b><p>Худалдан авалт бүрийг дөрвөн хэсэгт хуваана.</p></div>
+  <div class="cell"><span class="mono">Түвшин</span><b class="num">4</b><p>Standard-аас Алт хүртэл ахих тусам оноо нэмэгдэнэ.</p></div>
+</div></section>
+
+<section class="sec" id="huvaan"><div class="wrap">
+  <div class="head"><span class="part"><i class="b4" aria-hidden="true"><b class="on"></b><b></b><b></b><b></b></i>Хуваан төлөх</span><h2>Нэг худалдан авалт.<br>Дөрвөн төлөлт.</h2><p>Дүнгээ сонгоод хэрхэн хуваагдахыг хараарай.</p></div>
+  <div class="flow" id="flow">
+    <div class="src"><span class="mono">Худалдан авалт</span><b class="num" id="total">480,000₮</b>
+      <div class="seg" role="group" aria-label="Жишээ дүн">
+        <button type="button" data-amt="240000" aria-pressed="false">240,000₮</button><button type="button" data-amt="480000" aria-pressed="true">480,000₮</button><button type="button" data-amt="1200000" aria-pressed="false">1,200,000₮</button>
+      </div></div>
+    <svg class="wires" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <path class="w" style="--k:0" pathLength="1" d="M0 50 C 48 50, 52 12.5, 100 12.5"/><path class="w" style="--k:1" pathLength="1" d="M0 50 C 48 50, 52 37.5, 100 37.5"/><path class="w" style="--k:2" pathLength="1" d="M0 50 C 48 50, 52 62.5, 100 62.5"/><path class="w" style="--k:3" pathLength="1" d="M0 50 C 48 50, 52 87.5, 100 87.5"/>
+      <path class="f" style="--k:0" pathLength="1" d="M0 50 C 48 50, 52 12.5, 100 12.5"/><path class="f" style="--k:1" pathLength="1" d="M0 50 C 48 50, 52 37.5, 100 37.5"/><path class="f" style="--k:2" pathLength="1" d="M0 50 C 48 50, 52 62.5, 100 62.5"/><path class="f" style="--k:3" pathLength="1" d="M0 50 C 48 50, 52 87.5, 100 87.5"/>
+    </svg>
+    <ol class="outs">
+      <li style="--k:0"><span class="mono">1-р төлөлт</span><b class="num" data-pay>120,000₮</b></li>
+      <li style="--k:1"><span class="mono">2-р төлөлт</span><b class="num" data-pay>120,000₮</b></li>
+      <li style="--k:2"><span class="mono">3-р төлөлт</span><b class="num" data-pay>120,000₮</b></li>
+      <li style="--k:3"><span class="mono">4-р төлөлт</span><b class="num" data-pay>120,000₮</b></li>
+    </ol>
+  </div>
+  <p class="fine">Жишээ тооцоо. Бодит нөхцөл, төлөх өдөр апп дээр харагдана.</p>
+  <ol class="steps">
+    <li><span class="mono">Алхам 1</span><h3>Дэлгүүрээ сонго</h3><p>BiD shop эсвэл хамтрагч дэлгүүрээс худалдан авалтаа хий.</p></li>
+    <li><span class="mono">Алхам 2</span><h3>Хуваан төлөхийг сонго</h3><p>Төлөлтийн хуваарь тэр дороо гарна.</p></li>
+    <li><span class="mono">Алхам 3</span><h3>Апп-аасаа хяна</h3><p>Төлөх өдөр, үлдсэн төлөлт нүүр дэлгэц дээр харагдана.</p></li>
+  </ol>
+</div></section>
+
+<section class="sec alt" id="bolomj"><div class="wrap">
+  <div class="head"><span class="part"><i class="b4" aria-hidden="true"><b class="on"></b><b class="on"></b><b></b><b></b></i>Боломжууд</span><h2>Нэг апп,<br>дөрвөн боломж.</h2><p>Хуваан төлөлтөөс гадна мөнгөө удирдах бүх зүйл нэг дор.</p></div>
+  <div class="cards">
+    <article class="card c1"><span class="mono">Хуваан төлөх</span><h3>Дөрөв хуваагаад төл</h3><p>Төлөлт бүрээ апп-аасаа хяна.</p><img src="img/r-pills.webp" alt="" loading="lazy"></article>
+    <article class="card c2"><span class="mono">Хэтэвч</span><h3>Орлого, шилжүүлэг, QR</h3><p>BiD debit карт мөн энд.</p><img src="img/r-card.webp" alt="" loading="lazy"></article>
+    <article class="card c3"><span class="mono">Хуримтлал</span><h3>Мөнгөө өсгө</h3><p>Хуримтлал нээгээд хуримтлуул.</p><img src="img/r-coins.webp" alt="" loading="lazy"></article>
+    <article class="card c4"><span class="mono">Түвшин, оноо</span><h3>Ахих тусам илүү</h3><p>Standard-аас Алт хүртэл. Худалдан авалт бүр оноо нэмнэ.</p><img src="img/r-medals.webp" alt="" loading="lazy"></article>
+  </div>
+</div></section>
+
+<section class="sec" id="app"><div class="wrap">
+  <div class="head"><span class="part"><i class="b4" aria-hidden="true"><b class="on"></b><b class="on"></b><b class="on"></b><b></b></i>Апп</span><h2>Апп дотор</h2><p>Таны харах дөрвөн дэлгэц.</p></div>
+  <div class="screens">
+    <figure><div class="phone"><img src="img/app-home.webp" alt="Нүүр дэлгэц: боломжит эрх, дараагийн төлөлт" loading="lazy"></div><figcaption><span class="mono">Дэлгэц 1</span><b>Нүүр</b>Эрх, төлөлт, төлөх өдөр нэг дэлгэц дээр.</figcaption></figure>
+    <figure><div class="phone"><img src="img/app-wallet.webp" alt="Хэтэвч: карт, сүүлийн гүйлгээ" loading="lazy"></div><figcaption><span class="mono">Дэлгэц 2</span><b>Хэтэвч</b>Орлого, гүйлгээ, нэхэмжлэх, QR төлбөр.</figcaption></figure>
+    <figure><div class="phone"><img src="img/app-tracker.webp" alt="Орлого, зарлагын тэнцэл" loading="lazy"></div><figcaption><span class="mono">Дэлгэц 3</span><b>Миний санхүүч</b>Орлого, зарлагаа долоо хоног, сараар нь хар.</figcaption></figure>
+    <figure><div class="phone"><img src="img/app-tiers.webp" alt="Хэрэглэгчийн түвшин" loading="lazy"></div><figcaption><span class="mono">Дэлгэц 4</span><b>Түвшин</b>Ахих тусам оноо нэмэгдэнэ.</figcaption></figure>
+  </div>
+</div></section>
+
+<section class="sec alt" id="asuult"><div class="wrap">
+  <div class="head"><span class="part"><i class="b4" aria-hidden="true"><b class="on"></b><b class="on"></b><b class="on"></b><b class="on"></b></i>Асуулт</span><h2>Асуулт, хариулт</h2></div>
+  <div class="faq">
+    <details><summary>BiD Pay гэж юу вэ?</summary><p>«Бизнес Инвест Девелопмент ББСБ» ХХК-ийн апп. Хуваан төлөх, төлбөр тооцоо, хуримтлал, BiD shop нэг дор.</p></details>
+    <details><summary>Хаанаас татах вэ?</summary><p>App Store болон Google Play дээр «BID Pay» гэж хайгаад татна.</p></details>
+    <details><summary>Хуучин BiD апп яах вэ?</summary><p>BiD апп хэвээр ажиллана. Дэлгэрэнгүйг bid.mn-ээс харна уу.</p></details>
+    <details><summary>Миний мэдээлэл аюулгүй юу?</summary><p>Бид мөнгө угаах, терроризмыг санхүүжүүлэхтэй тэмцэх болон хувь хүний мэдээлэл хамгаалах хууль тогтоомжийг мөрддөг. Таны мэдээлэл өндөр хамгаалалттай орчинд хадгалагдана.</p></details>
+  </div>
+</div></section>
+
+<section class="get" id="tatah"><div class="wrap">
+  <div>
+    <h2><span class="d-only">QR уншуулаад<br>BiD Pay-г тат</span><span class="m-only">BiD Pay-г тат</span></h2>
+    <p>Бүртгүүлээд боломжит эрхээ шууд хар.</p>
+    <div class="stores">
+      <a class="store" href="https://apps.apple.com/mn/app/bid-pay/id6745394883" target="_blank" rel="noopener"><small>iPhone</small>App Store</a>
+      <a class="store" href="https://play.google.com/store/apps/details?id=com.bidpay" target="_blank" rel="noopener"><small>Android</small>Google Play</a>
+    </div>
+  </div>
+  <div class="bigqr"><div class="code" data-qr></div>Камераар уншуулна уу</div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div>
+    <a class="logo" href="#top"><img src="img/icon.webp" alt="" width="32" height="32">BiD Pay</a>
+    <p>BiD Pay нь «Бизнес Инвест Девелопмент ББСБ» ХХК-ийн апп. Компани 2004 онд байгуулагдаж, 2005 оноос тусгай зөвшөөрөлтэй үйл ажиллагаа явуулж байна.</p>
+  </div>
+  <ul><li><a href="#huvaan">Хуваан төлөх</a></li><li><a href="#bolomj">Боломжууд</a></li><li><a href="#asuult">Асуулт</a></li><li><a href="https://bid.mn" target="_blank" rel="noopener">bid.mn</a></li></ul>
+</div></footer>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="bp3d.js"></script>
+<script>
+(() => {
+  const IOS = 'https://apps.apple.com/mn/app/bid-pay/id6745394883', AND = 'https://play.google.com/store/apps/details?id=com.bidpay';
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches, IO = 'IntersectionObserver' in window;
+  const $$ = s => [...document.querySelectorAll(s)];
+  const fmt = n => Math.round(n).toLocaleString('en-US') + '₮';
+
+  /* On a phone the download buttons open the right store; on desktop they jump to the QR section. */
+  const ua = navigator.userAgent, store = /iPhone|iPad|iPod/.test(ua) ? IOS : /Android/.test(ua) ? AND : null;
+  if (store) $$('[data-dl]').forEach(a => { a.href = store; a.target = '_blank'; a.rel = 'noopener'; });
+
+  /* Scannable QR codes. Placeholder target: the App Store listing. */
+  if (window.QRCode) $$('[data-qr]').forEach(el => { try { new QRCode(el, { text: IOS, width: 320, height: 320, colorDark: '#16181d', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M }); el.removeAttribute('title'); } catch (e) {} });
+
+  /* Live 3D hero with its opening sequence. If WebGL is missing or motion is reduced, the rendered poster stays. */
+  const stage = document.getElementById('stage'), bar = document.getElementById('bar');
+  if (window.BP3D && !calm) {
+    try {
+      const show = () => { stage.classList.remove('intro'); stage.classList.add('go'); bar.classList.remove('wait'); };
+      const hero = BP3D.hero(stage.querySelector('canvas'), { pad: () => ({ top: 88, bottom: 26 }), onBeat(b) { if (b === 'impact') stage.classList.add('hit'); else show(); } });
+      stage.classList.add('live', 'intro'); bar.classList.add('wait'); hero.start(); setTimeout(show, 4000);
+      const lim = v => Math.max(-1, Math.min(1, v));
+      if (matchMedia('(hover: hover)').matches) {
+        stage.addEventListener('pointermove', e => { const r = stage.getBoundingClientRect(); hero.point(lim((e.clientX - r.left) / r.width * 2 - 1), lim((e.clientY - r.top) / r.height * 2 - 1)); });
+        stage.addEventListener('pointerleave', () => hero.point(0, 0));
+      }
+      stage.addEventListener('click', e => { if (!e.target.closest('a, .scan')) hero.next(); });
+      if (IO) new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? hero.start() : hero.stop())).observe(stage);
+      document.addEventListener('visibilitychange', () => document.hidden ? hero.stop() : hero.start());
+    } catch (e) { stage.classList.remove('live', 'intro'); bar.classList.remove('wait'); }
+  }
+
+  /* The split diagram: choose an amount, watch it flow into four payments. */
+  const flow = document.getElementById('flow'), total = document.getElementById('total'), cells = $$('[data-pay]');
+  let shown = 480000;
+  const play = () => { if (calm) return; flow.classList.remove('go'); void flow.offsetWidth; flow.classList.add('go'); };
+  function setAmt(v) {
+    const from = shown, t0 = performance.now(); shown = v;
+    const step = t => { const k = calm ? 1 : Math.min(1, (t - t0) / 500), e = 1 - Math.pow(1 - k, 3), cur = from + (v - from) * e; total.textContent = fmt(cur); cells.forEach(c => c.textContent = fmt(cur / 4)); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step); play();
+  }
+  $$('.seg button').forEach(b => b.addEventListener('click', () => { $$('.seg button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); setAmt(+b.dataset.amt); }));
+  if (IO && !calm) new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { flow.classList.add('go'); o.disconnect(); } }), { threshold: .35 }).observe(flow); else flow.classList.add('go');
+
+  /* Things rise in as they enter. */
+  if (IO && !calm) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.remove('pre'); io.unobserve(e.target); } }), { threshold: .12 });
+    $$('.facts .cell, .head, .flow, .steps li, .card, .screens figure, .faq details, .get .wrap > *').forEach(el => { el.classList.add('rv'); el.style.setProperty('--d', [...el.parentNode.children].indexOf(el) % 4); if (el.getBoundingClientRect().top > innerHeight * .9) { el.classList.add('pre'); io.observe(el); } });
+  }
+
+  /* Header links light up for the section in view; card renders drift a little against the scroll. */
+  const links = $$('.top nav a'), marks = links.map(a => document.querySelector(a.getAttribute('href'))), pics = $$('.card img');
+  let busy = false, stuck = false;
+  bar.addEventListener('animationend', e => { if (e.animationName === 'lift') bar.classList.remove('stuck', 'out'); });
+  function track() {
+    busy = false; const mid = innerHeight * .4; let now = -1;
+    const want = stage.getBoundingClientRect().bottom < 90;
+    if (want !== stuck) { stuck = want; if (want) { bar.classList.remove('out'); bar.classList.add('stuck'); } else if (calm) bar.classList.remove('stuck'); else bar.classList.add('out'); }
+    marks.forEach((m, i) => { if (m && m.getBoundingClientRect().top <= mid) now = i; });
+    links.forEach((a, i) => a.classList.toggle('on', i === now));
+    if (!calm) pics.forEach(im => { const r = im.parentNode.getBoundingClientRect(); if (r.bottom > 0 && r.top < innerHeight) im.style.translate = '0 ' + ((r.top + r.height / 2 - innerHeight / 2) * -.07).toFixed(1) + 'px'; });
+  }
+  addEventListener('scroll', () => { if (!busy) { busy = true; requestAnimationFrame(track); } }, { passive: true }); addEventListener('resize', track); track();
+})();
+</script>
