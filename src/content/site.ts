@@ -81,17 +81,66 @@ export const split = {
   ],
 };
 
+/**
+ * Section 3 is there to earn trust: the lender behind the app, and the real products in it. Facts here are only those
+ * the team has confirmed (founded 2004, licensed since 2005); no counts, ratings or terms.
+ */
 export const features = {
   name: 'Боломжууд',
-  title: ['Хуваан төлөлтөөс', 'гадна.'],
-  lede: 'Хэтэвч, хуримтлал, түвшин. Мөнгөө удирдах бүх зүйл нэг дор.',
-  /** The stills are rendered from src/three/stills.js; the tier names on the podium are printed into the image. */
-  cards: [
-    { tag: 'Хэтэвч', title: 'Орлого, шилжүүлэг, QR', text: 'BiD debit карт мөн энд.', image: '/img/f-wallet.webp' },
-    { tag: 'Хуримтлал', title: 'Мөнгөө өсгө', text: 'Хуримтлал нээгээд хуримтлуул.', image: '/img/f-save.webp' },
-    { tag: 'Түвшин, оноо', title: 'Ахих тусам илүү', text: 'Standard-аас Алт хүртэл. Худалдан авалт бүр оноо нэмнэ.', image: '/img/f-tiers.webp' },
+  title: ['20 гаруй жилийн', 'итгэлцэл.'],
+  lede: '«Бизнес Инвест Девелопмент ББСБ» ХХК 2005 оноос тусгай зөвшөөрөлтэй. Хуримтлал, түвшин, BiD-ийн үйлчилгээ бүгд BiD Pay-д.',
+  facts: [
+    { big: '2004', small: 'онд байгуулагдсан' },
+    { big: '2005', small: 'оноос тусгай зөвшөөрөлтэй ББСБ' },
+    { big: '4', small: 'BiD-ийн үйлчилгээ нэг апп-д' },
   ],
-};
+  /**
+   * BiD's services, drawn as a stack of cards the way the app shows them. They are not cards: BiD offers no card
+   * service, so never call them карт, and never give them a chip or a contactless mark. Each shows its own wordmark
+   * and one line. The first is in front; the stack turns over on its own.
+   */
+  services: {
+    title: 'BiD-ийн үйлчилгээ',
+    text: 'Credit, debit, point, барьцаат credit. Бүгд нэг апп-д.',
+    /** Placeholder colours and one-line descriptions: confirm both with the team. */
+    tiles: [
+      { id: 'debit', name: 'BiD debit', line: 'Өдөр тутмын төлбөр', tone: 'orange' },
+      { id: 'credit', name: 'BiD credit', line: 'Зээлийн эрх', tone: 'dark' },
+      { id: 'point', name: 'BiD point', line: 'Оноо цуглуулах', tone: 'slate' },
+      { id: 'secured', name: 'BiD Барьцаат credit', line: 'Барьцаат зээл', tone: 'light' },
+    ],
+  },
+  /**
+   * Savings goals floating on a stage (after X Money's savings pots and Quicken's goal cards). The goal names are
+   * examples, and the bars show progress without amounts. The reward goal keeps giving off a small "+" chip.
+   */
+  savings: {
+    title: 'Хуримтлал',
+    text: 'Зорилгоо тавиад хуримтлуул. Ганцаараа, эсвэл бусадтай хамт.',
+    note: 'Мөнгө, Алт түвшинд урамшууллын хуримтлал таны нэр дээр нэмэгдэнэ.',
+    plus: '+ урамшуулал',
+    pots: [
+      { icon: 'trip', name: 'Аялал', sub: 'Өөрийн хуримтлал', fill: 68 },
+      { icon: 'phone', name: 'Шинэ утас', sub: 'Өөрийн хуримтлал', fill: 41 },
+      { icon: 'group', name: 'Гэр бүлийн аялал', sub: 'Хамтын хуримтлал', fill: 55, faces: ['Б', 'Н', 'О'] },
+      { icon: 'star', name: 'Урамшууллын хуримтлал', sub: 'Мөнгө, Алт түвшинд', fill: 30, reward: true },
+    ],
+  },
+  /**
+   * One badge in the spotlight, turning from Standard to gold, with a track of the four tiers below (after FARFETCH's
+   * tier switcher). The mechanism only: thresholds and percentages are not published. Points come from paying on time.
+   */
+  tiers: {
+    title: 'Түвшин',
+    text: 'Цагтаа төлөх тусам Стандартаас Алт хүртэл ахина.',
+    list: [
+      { id: 'standard', name: 'Стандарт', line: 'Эхлэл. Цагтаа хийсэн төлөлт бүр оноо болно.' },
+      { id: 'bronze', name: 'Хүрэл', line: 'Бүрэн төлж дуусгасан худалдан авалт бүр таныг ахиулна.' },
+      { id: 'silver', name: 'Мөнгө', line: 'Credit зээлийн төлсөн хүүгийн нэг хэсэг урамшууллын хуримтлал болно.' },
+      { id: 'gold', name: 'Алт', line: 'Хамгийн дээд түвшин. Урамшууллын хуримтлал таны нэр дээр.' },
+    ],
+  },
+} as const;
 
 export const screens = {
   name: 'Апп',
@@ -99,7 +148,7 @@ export const screens = {
   lede: 'Таны харах дөрвөн дэлгэц.',
   items: [
     { label: 'Дэлгэц 1', title: 'Нүүр', text: 'Эрх, төлөлт, төлөх өдөр нэг дэлгэц дээр.', image: '/img/app-home.webp', alt: 'Нүүр дэлгэц: боломжит эрх, дараагийн төлөлт' },
-    { label: 'Дэлгэц 2', title: 'Хэтэвч', text: 'Орлого, гүйлгээ, нэхэмжлэх, QR төлбөр.', image: '/img/app-wallet.webp', alt: 'Хэтэвч: карт, сүүлийн гүйлгээ' },
+    { label: 'Дэлгэц 2', title: 'Хэтэвч', text: 'Орлого, гүйлгээ, нэхэмжлэх, QR төлбөр.', image: '/img/app-wallet.webp', alt: 'Хэтэвч: BiD debit, сүүлийн гүйлгээ' },
     { label: 'Дэлгэц 3', title: 'Миний санхүүч', text: 'Орлого, зарлагаа долоо хоног, сараар нь хар.', image: '/img/app-tracker.webp', alt: 'Орлого, зарлагын тэнцэл' },
     { label: 'Дэлгэц 4', title: 'Түвшин', text: 'Ахих тусам оноо нэмэгдэнэ.', image: '/img/app-tiers.webp', alt: 'Хэрэглэгчийн түвшин' },
   ],

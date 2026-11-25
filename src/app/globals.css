@@ -22,6 +22,7 @@ html { scroll-behavior: smooth }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.55 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: clip }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--ink) }
 h1, h2, h3, p { margin: 0 }
+p { text-wrap: pretty }
 h1, h2, h3 { font-family: var(--f-head); font-weight: 600; letter-spacing: -.03em; line-height: 1.04; text-wrap: balance }
 a { color: inherit; text-decoration: none }
 img { display: block; max-width: 100% }
@@ -100,15 +101,79 @@ html[data-3d] .view .poster { opacity: 0; animation: unhide 0s linear 5s forward
 .how li:hover .plate img { transform: scale(1.04) }
 .how li:hover h3 { color: var(--orange) }
 
-/* features: three cards of the same build */
-.cards { margin-top: clamp(32px, 4.4vw, 60px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 26px; padding: 12px 12px clamp(22px, 2.4vw, 30px); transition: border-color .3s }
-.card .plate { margin-bottom: 20px }
-.card .mono, .card h3, .card p { margin-inline: clamp(8px, 1.2vw, 14px) }
-.card .mono { display: block }
-.card h3 { font-size: clamp(22px, 2.2vw, 30px); letter-spacing: -.03em; margin-top: 6px; transition: color .3s }
-.card p { margin-top: 8px; color: var(--mute); font-size: 16.5px; max-width: 22em }
-.card:hover { border-color: var(--orange) } .card:hover h3 { color: var(--orange) } .card:hover .plate img { transform: scale(1.04) }
+/* features: trust first, then what is in the app, each part on its own white panel */
+.facts { margin: clamp(26px, 3.2vw, 40px) 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 14px 0; color: var(--mute); font-size: 15.5px }
+.facts li { padding-inline: 0 clamp(20px, 3vw, 44px); margin-right: clamp(20px, 3vw, 44px); border-right: 1px solid var(--line) }
+.facts li:last-child { border-right: 0; margin-right: 0 }
+.facts b { display: block; color: var(--ink); font: 650 clamp(32px, 3.6vw, 48px)/1.05 var(--f-head); letter-spacing: -.035em; font-variant-numeric: tabular-nums; margin-bottom: 4px }
+.pillars { margin-top: clamp(26px, 3.4vw, 44px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px }
+.pillar { background: var(--surface); border: 1px solid var(--line); border-radius: 28px; padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column; gap: 26px; min-width: 0; overflow: hidden }
+.pillar h3 { font-size: clamp(26px, 2.6vw, 36px); letter-spacing: -.03em }
+.pillar .say p { margin-top: 10px; color: var(--mute); font-size: 17px; max-width: 30em }
+.pillar .fine { margin-top: auto; color: var(--mute); font-size: 14.5px; max-width: 34em }
+.pillar.wide { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: 28px 40px }
+
+/* BiD's services as a stack of cards, back ones peeking above; FeatureMotion turns it over */
+.stack { position: relative; width: min(100%, 440px); justify-self: center; aspect-ratio: 1.586 / 1.48 }
+.svc { position: absolute; left: 0; top: 0; width: 100%; aspect-ratio: 1.586; border-radius: clamp(16px, 1.8vw, 22px); padding: 7% 8%; display: flex; flex-direction: column; justify-content: space-between; transform-origin: 50% 0; box-shadow: 0 16px 32px rgba(22, 24, 29, .14), 0 2px 5px rgba(22, 24, 29, .06); transition: transform .7s cubic-bezier(.2, .8, .2, 1), opacity .45s cubic-bezier(.2, .8, .2, 1) }
+.svc img { width: 100%; height: clamp(18px, 2vw, 25px); object-fit: contain; object-position: left center }
+.svc span { font: 600 clamp(17px, 1.7vw, 22px)/1.2 var(--f-head); letter-spacing: -.02em }
+.svc[data-pos="0"] { transform: translateY(48%); z-index: 4 }
+.svc[data-pos="1"] { transform: translateY(32%) scale(.94); z-index: 3 }
+.svc[data-pos="2"] { transform: translateY(16%) scale(.88); z-index: 2 }
+.svc[data-pos="3"] { transform: translateY(0) scale(.82); z-index: 1 }
+.svc[data-pos="out"] { transform: translateY(80%) scale(1.02); opacity: 0; z-index: 5 }
+.svc.snap { transition: none; opacity: 0 }
+.svc[data-tone="orange"] { background: var(--orange); color: var(--ink) }
+.svc[data-tone="dark"] { background: #16181d; color: #fff }
+.svc[data-tone="slate"] { background: #4b4e58; color: #fff }
+.svc[data-tone="light"] { background: #ebe8e0; color: var(--ink) }
+
+/* savings: goals floating on a stage; on arrival they rise in turn and their bars fill, then they drift */
+.pillar.flip { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr) }
+.pillar.flip > .say { order: 2 }
+.pillar .say .fine { margin-top: 18px }
+.pots { position: relative; height: clamp(320px, 30vw, 380px); background: #f7f6f2; border-radius: 22px; overflow: hidden }
+.pot { position: absolute; width: min(250px, 44%); display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4px 12px; padding: 14px 16px 16px; background: #fff; border-radius: 16px; box-shadow: 0 10px 24px rgba(22, 24, 29, .08), 0 1px 3px rgba(22, 24, 29, .06); animation: drift 7s ease-in-out infinite; animation-delay: calc(var(--i) * -1.8s); transition: opacity .6s cubic-bezier(.2, .8, .2, 1), transform .7s cubic-bezier(.2, .8, .2, 1); transition-delay: calc(var(--i) * .13s) }
+.pot:nth-child(1) { left: 5%; top: 8% } .pot:nth-child(2) { right: 5%; top: 20% } .pot:nth-child(3) { left: 5%; top: 50% } .pot:nth-child(4) { right: 5%; bottom: 8% }
+.pot > i { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: #fde9db; color: #c9560f }
+.pot.reward > i { background: var(--orange); color: #fff }
+.pot b { display: block; font: 600 15.5px/1.25 var(--f-head); letter-spacing: -.01em }
+.pot small { display: block; color: var(--mute); font-size: 12.5px; margin-top: 2px }
+.pot .grow { grid-column: 1 / -1 }
+.faces { position: absolute; right: 14px; top: -12px; display: flex }
+.faces span { width: 24px; height: 24px; margin-left: -7px; border-radius: 50%; border: 2px solid #fff; display: grid; place-items: center; font: 600 10.5px var(--f-head); color: #fff; background: #4b4e58 }
+.faces span:nth-child(2) { background: var(--orange); color: var(--ink) } .faces span:nth-child(3) { background: #16181d }
+.grow { display: block; height: 6px; margin-top: 10px; border-radius: 3px; background: #ebe8e0; overflow: hidden }
+.grow em { display: block; height: 100%; width: var(--fill); border-radius: 3px; background: var(--orange); transform-origin: left; transition: transform 1.2s cubic-bezier(.2, .8, .2, 1); transition-delay: calc(.35s + var(--i) * .15s) }
+.plus { position: absolute; right: 14px; top: -14px; padding: 4px 11px; border-radius: 99px; background: var(--ink); color: #fff; font: 600 12px/1.2 var(--f-head); white-space: nowrap; opacity: 0; animation: plus 3.6s ease-out 1.4s infinite }
+@keyframes drift { 0%, 100% { translate: 0 0 } 50% { translate: 0 -9px } }
+@keyframes plus { 0% { opacity: 0; translate: 0 8px } 12% { opacity: 1; translate: 0 0 } 55% { opacity: 1; translate: 0 -3px } 75%, 100% { opacity: 0; translate: 0 -14px } }
+.pots[data-play="ready"] .pot { opacity: 0; transform: translateY(24px) scale(.96) }
+.pots[data-play="ready"] .grow em { transform: scaleX(0) }
+
+/* tiers: one badge in a spotlight that turns to the next tier, and the four tiers on a track below (TierSpot) */
+.pillar.center { grid-column: 1 / -1; align-items: center; text-align: center; gap: 18px }
+.pillar.center .say p { margin-inline: auto }
+.spot { display: grid; justify-items: center; gap: 16px; padding: 10px 0 4px }
+.spot-stage { position: relative; width: min(250px, 66%); aspect-ratio: 1; perspective: 900px }
+.spot-stage::before { content: ""; position: absolute; inset: 4%; border-radius: 50%; background: var(--tint, #e9eaf6); transition: background .7s ease }
+.spot[data-tier="standard"] { --tint: #e9eaf6 } .spot[data-tier="bronze"] { --tint: #f8e7d8 } .spot[data-tier="silver"] { --tint: #ebedf0 } .spot[data-tier="gold"] { --tint: #fbefd2 }
+.spot-badge { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; transform: scale(.72) rotateY(75deg); transition: opacity .4s ease, transform .9s cubic-bezier(.2, .8, .2, 1) }
+.spot-badge.on { opacity: 1; transform: none }
+.spot-badge .badge { width: 64%; height: auto; filter: drop-shadow(0 14px 18px rgba(22, 24, 29, .18)) }
+.spot-line { min-height: 3em; max-width: 26em; text-align: center; font: 500 17px/1.45 var(--f-body) }
+.nodes { position: relative; width: 100%; max-width: 520px; margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) }
+.nodes::before, .nodes::after { content: ""; position: absolute; left: 12.5%; top: 9px; height: 4px; border-radius: 2px }
+.nodes::before { right: 12.5%; background: #e6e3dc }
+.nodes::after { width: calc(75% * var(--at) / 3); background: var(--orange); transition: width .7s cubic-bezier(.2, .8, .2, 1) }
+.nodes button { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0; border: 0; background: none; color: var(--mute); font: 500 14.5px var(--f-body); cursor: pointer }
+.nodes button i { width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 3px solid #d9d6cd; transition: border-color .4s, background .4s, transform .4s cubic-bezier(.2, .8, .2, 1) }
+.nodes button.done i { border-color: var(--orange) }
+.nodes button[aria-pressed="true"] { color: var(--ink); font-weight: 600 }
+.nodes button[aria-pressed="true"] i { background: var(--orange); transform: scale(1.15) }
+.nodes button:hover { color: var(--ink) }
+.nodes button:focus-visible { outline-offset: 4px }
 
 /* app screens */
 .screens { margin-top: clamp(32px, 4.4vw, 60px); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 2.4vw, 32px) }
@@ -162,12 +227,15 @@ footer a { transition: color .15s } footer a:hover { color: var(--orange) }
   .view { max-width: 520px; width: 100%; margin-inline: auto }
   .head { grid-template-columns: 1fr }
   .how { grid-template-columns: 1fr; gap: 40px } .how .next { display: none }
-  .cards { grid-template-columns: 1fr; gap: 16px }
+  .pillars { grid-template-columns: 1fr }
+  .pillar.wide, .pillar.flip { grid-template-columns: 1fr } .pillar.flip > .say { order: 0 }
+  .pots { height: auto; display: grid; gap: 12px; padding: 14px } .pot { position: static; width: auto }
   .screens { grid-template-columns: repeat(4, 62vw); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; margin-inline: calc(max(16px, env(safe-area-inset-left, 0px)) * -1); padding-inline: max(16px, env(safe-area-inset-left, 0px)); scrollbar-width: none }
   .screens figure { scroll-snap-align: center }
   .get .panel { grid-template-columns: 1fr }
 }
 @media (max-width: 560px) {
+  .facts { display: grid; gap: 0 } .facts li { display: grid; grid-template-columns: 4.2em 1fr; align-items: baseline; gap: 12px; padding: 12px 0; margin: 0; border-right: 0; border-top: 1px solid var(--line) } .facts b { font-size: 30px; margin: 0 }
   .bigqr, .d-only { display: none } .m-only { display: inline }
   .act .btn { flex: 1; text-align: center }
 }

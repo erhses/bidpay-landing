@@ -47,7 +47,7 @@ docker run -p 3000:3000 bidpay-landing
 | `src/content/site.ts` | All wording, links, example amounts. Change text here, not in the components. |
 | `src/app/layout.tsx` | Fonts, page title and description, share and app-banner tags. |
 | `src/app/globals.css` | All styles. Colours and type are the variables at the top. |
-| `src/components/` | One file per section of the page, top to bottom: `Notice`, `Header`, `Hero`, `Split`, `Features`, `Screens`, `Faq`, `Download`, `Footer`. |
+| `src/components/` | One file per section of the page, top to bottom: `Notice`, `Header`, `Hero`, `Split`, `Features` (with `TierBadge`), `Screens`, `Faq`, `Download`, `Footer`. |
 | `src/three/` | The 3D kit (`kit.js`), the hero scene built from it (`bp3d.js`), and the poses for the still images (`stills.js`). |
 | `public/img/` | App screenshots, the rendered 3D stills, the icon. |
 | `prototype/` | An earlier approved prototype, kept for reference only; the page has moved on since. Not part of the build. |
@@ -93,7 +93,7 @@ The copy uses the real prerendered markup and stylesheet, and the real 3D module
   light. All of it is defined once in `src/three/kit.js`: the palette, the `clay()` material, the light, and every
   model (phone, price slab, bag, payment pieces, cards, coins, tier medals). New objects belong there too.
 - `src/three/bp3d.js` is the live hero scene; `src/three/stills.js` poses the still images. Both build from the kit.
-- The stills (`public/img/s-*.webp` for the payment steps, `f-*.webp` for the features, and `hero-poster.webp`)
+- The stills (`public/img/s-*.webp` for the payment steps, and `hero-poster.webp`)
   are rendered, never drawn by hand. After changing a model, render them all again:
 
   ```bash
@@ -103,7 +103,13 @@ The copy uses the real prerendered markup and stylesheet, and the real 3D module
   This needs Playwright with Chromium on `NODE_PATH` (`npm i playwright@1.48.2` anywhere, then
   `npx playwright install chromium`). Every still is framed by its own outline at the same camera angle, on a
   transparent background; the page puts each on the same plate.
-- The tiers still shows four medals, Standard to gold, growing and rising; no words are printed on it.
+- Section 3 (`Features.tsx`) no longer uses 3D stills: it shows the real service wordmarks (`public/img/bid/`) and
+  the app's own tier badge artwork (`public/img/tiers/`, shown by `TierBadge.tsx`). Its motion lives in
+  `FeatureMotion.tsx` and `TierSpot.tsx`: the service stack turns over every few seconds while on screen (pausing
+  under the pointer); savings goals (after X Money's pots and Quicken's goal cards) rise in, fill their bars, drift,
+  and the reward goal gives off a "+ урамшуулал" chip; the tier badge turns from Standard to gold in a spotlight
+  above a track of the four tiers (after FARFETCH), and tapping a tier stops it there. Without script or with
+  reduced motion everything shows complete and still, resting on Standard. The savings goal names are examples. The `f-*.webp` stills and their models in the kit are no longer on the page.
 - `three` is pinned to 0.128.0. The colour and lighting code targets that release; later releases changed colour
   management and light units, so an upgrade needs the scene re-tuned by eye.
 - The phone in the scene shows `public/img/app-home.webp`. Replace that file to update the screen.
@@ -117,8 +123,13 @@ These are placeholders or unconfirmed and need a decision from the BiD Pay team:
   (`hero.cycles` in `site.ts`), which is the team's working range, not yet confirmed. Also unconfirmed: whether
   payments are equal, and anything about fees or interest (the page says nothing on either).
 - **Amounts.** The figures in the hero are examples. The rest of the page shows none.
-- **Card design.** The BiD debit card in the Хэтэвч still is invented, including the number.
-- **Tier colours.** The medals use charcoal for Standard, then bronze, silver and gold, after the app's tier badges.
+- **Services.** Section 3 shows BiD credit, debit, point and Барьцаат credit with their real wordmarks (originals in
+  `research/assets/`), drawn as a stack of cards. They are not cards: BiD offers no card service, so the copy never
+  says карт and the cards carry no chip or contactless mark. Their colours and one-line descriptions are
+  placeholders; confirm both.
+- **Tier screenshot.** Section 3 uses the app's own tier badges (`public/img/tiers/`, originals in
+  `research/assets/`). The Хэрэглэгчийн түвшин screenshot in the Апп дотор section still shows tier thresholds and
+  point percentages, which PRODUCT.md keeps off the page.
 - **QR target.** `qrTarget` in `site.ts` is the App Store listing, so Android phones scanning it land in the
   wrong store. Use a link that routes each phone to its own store.
 - **Legal pages.** There are no terms or privacy links yet.
