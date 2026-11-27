@@ -25,6 +25,9 @@ export default function Footer() {
           ))}
         </ul>
       </div>
+      <div className="wrap legal">
+        <small>{footer.copyright}</small>
+      </div>
     </footer>
   );
 }

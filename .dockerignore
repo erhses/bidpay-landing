@@ -7,3 +7,9 @@ prototype
 research
 README.md
 Dockerfile
+Makefile
+*.tar
+.claude
+PRODUCT.md
+.DS_Store
+npm-debug.log*

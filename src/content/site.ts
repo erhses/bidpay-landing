@@ -4,12 +4,10 @@
  */
 
 /**
- * Public address of the site, used for canonical links, the sitemap and share previews. Set NEXT_PUBLIC_SITE_URL
- * once there is a real domain. Until then, a Vercel build uses the project's production address, which Vercel
- * provides at build time.
+ * Public address of the site, with no trailing slash. It goes into the canonical link, the sitemap, robots.txt and
+ * the share previews (Facebook and Messenger need the full address of the preview image).
  */
-const vercelHost = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || (vercelHost ? `https://${vercelHost}` : 'http://localhost:3000')).replace(/\/$/, '');
+export const siteUrl = 'https://bidpay.mn';
 
 export const links = {
   appStore: 'https://apps.apple.com/mn/app/bid-pay/id6745394883',
@@ -72,12 +70,12 @@ export const hero = {
 export const split = {
   name: 'Хуваан төлөх',
   title: ['Гурван алхамаар', 'хуваан төл.'],
-  lede: 'Хүссэн зүйлээ өнөөдөр аваад, төлбөрийг нь хэсэг хэсгээр төлнө.',
+  lede: 'Бүгд BiD Pay апп дотор.',
   /** No amounts or number of payments here: the stills show the idea, the app shows the offer. */
   steps: [
     { label: 'Алхам 1', title: 'Худалдан авалтаа сонго', text: 'BiD shop эсвэл хамтрагч дэлгүүрээс хүссэн зүйлээ сонго.', image: '/img/s-choose.webp', alt: 'Дэлгүүрийн цүнх' },
     { label: 'Алхам 2', title: 'Хуваан төлөхийг сонго', text: 'Төлбөр хэсгүүдэд хуваагдаж, хуваарь тэр дороо гарна.', image: '/img/s-split.webp', alt: 'Хэсгүүдэд хуваагдсан төлбөр' },
-    { label: 'Алхам 3', title: 'Хэсэг бүрийг цагт нь төл', text: 'Төлөх өдөр, үлдсэн төлөлтөө апп-аасаа хараад төл.', image: '/img/s-pay.webp', alt: 'Эхний хэсэг нь төлөгдсөн, үлдсэн нь хүлээгдэж буй төлбөр' },
+    { label: 'Алхам 3', title: 'Хэсэг бүрийг цагт нь төл', text: 'Төлөх өдөр, үлдсэн төлөлтөө аппаасаа хараад төл.', image: '/img/s-pay.webp', alt: 'Эхний хэсэг нь төлөгдсөн, үлдсэн нь хүлээгдэж буй төлбөр' },
   ],
 };
 
@@ -88,11 +86,11 @@ export const split = {
 export const features = {
   name: 'Боломжууд',
   title: ['20 гаруй жилийн', 'итгэлцэл.'],
-  lede: '«Бизнес Инвест Девелопмент ББСБ» ХХК 2005 оноос тусгай зөвшөөрөлтэй. Хуримтлал, түвшин, BiD-ийн үйлчилгээ бүгд BiD Pay-д.',
+  lede: '“Бизнес Инвест Девелопмент ББСБ” ХХК 2005 оноос тусгай зөвшөөрөлтэй. Хуримтлал, түвшин, BiD-ийн үйлчилгээ бүгд BiD Pay-д.',
   facts: [
     { big: '2004', small: 'онд байгуулагдсан' },
     { big: '2005', small: 'оноос тусгай зөвшөөрөлтэй ББСБ' },
-    { big: '4', small: 'BiD-ийн үйлчилгээ нэг апп-д' },
+    { big: '4', small: 'BiD-ийн үйлчилгээ нэг апп дээр' },
   ],
   /**
    * BiD's services, drawn as a stack of cards the way the app shows them. They are not cards: BiD offers no card
@@ -101,13 +99,14 @@ export const features = {
    */
   services: {
     title: 'BiD-ийн үйлчилгээ',
-    text: 'Credit, debit, point, барьцаат credit. Бүгд нэг апп-д.',
-    /** Placeholder colours and one-line descriptions: confirm both with the team. */
+    text: 'Credit, debit, point, барьцаат credit. Бүгд нэг апп дээр.',
+    /** Colours: bright orange, ink, cool slate and a deep navy (see globals.css). The one-line descriptions are
+     *  placeholders. */
     tiles: [
       { id: 'debit', name: 'BiD debit', line: 'Өдөр тутмын төлбөр', tone: 'orange' },
       { id: 'credit', name: 'BiD credit', line: 'Зээлийн эрх', tone: 'dark' },
       { id: 'point', name: 'BiD point', line: 'Оноо цуглуулах', tone: 'slate' },
-      { id: 'secured', name: 'BiD Барьцаат credit', line: 'Барьцаат зээл', tone: 'light' },
+      { id: 'secured', name: 'BiD Барьцаат credit', line: 'Барьцаат зээл', tone: 'navy' },
     ],
   },
   /**
@@ -145,12 +144,12 @@ export const features = {
 export const screens = {
   name: 'Апп',
   title: ['Апп дотор'],
-  lede: 'Таны харах дөрвөн дэлгэц.',
+  lede: 'Аппын үндсэн дөрвөн дэлгэц.',
   items: [
     { label: 'Дэлгэц 1', title: 'Нүүр', text: 'Эрх, төлөлт, төлөх өдөр нэг дэлгэц дээр.', image: '/img/app-home.webp', alt: 'Нүүр дэлгэц: боломжит эрх, дараагийн төлөлт' },
     { label: 'Дэлгэц 2', title: 'Хэтэвч', text: 'Орлого, гүйлгээ, нэхэмжлэх, QR төлбөр.', image: '/img/app-wallet.webp', alt: 'Хэтэвч: BiD debit, сүүлийн гүйлгээ' },
     { label: 'Дэлгэц 3', title: 'Миний санхүүч', text: 'Орлого, зарлагаа долоо хоног, сараар нь хар.', image: '/img/app-tracker.webp', alt: 'Орлого, зарлагын тэнцэл' },
-    { label: 'Дэлгэц 4', title: 'Түвшин', text: 'Ахих тусам оноо нэмэгдэнэ.', image: '/img/app-tiers.webp', alt: 'Хэрэглэгчийн түвшин' },
+    { label: 'Дэлгэц 4', title: 'Түвшин', text: 'Түвшин, оноогоо эндээс хар.', image: '/img/app-tiers.webp', alt: 'Хэрэглэгчийн түвшин' },
   ],
 };
 
@@ -158,8 +157,8 @@ export const faq = {
   name: 'Асуулт',
   title: ['Асуулт, хариулт'],
   items: [
-    { q: 'BiD Pay гэж юу вэ?', a: '«Бизнес Инвест Девелопмент ББСБ» ХХК-ийн апп. Хуваан төлөх, төлбөр тооцоо, хуримтлал, BiD shop нэг дор.' },
-    { q: 'Хаанаас татах вэ?', a: 'App Store болон Google Play дээр «BID Pay» гэж хайгаад татна.' },
+    { q: 'BiD Pay гэж юу вэ?', a: '“Бизнес Инвест Девелопмент ББСБ” ХХК-ийн апп. Хуваан төлөх, төлбөр тооцоо, хуримтлал, BiD shop нэг дор.' },
+    { q: 'Хаанаас татах вэ?', a: 'App Store болон Google Play дээр “BiD Pay” гэж хайгаад татна.' },
     { q: 'Хуучин BiD апп яах вэ?', a: 'BiD апп хэвээр ажиллана. Дэлгэрэнгүйг bid.mn-ээс харна уу.' },
     { q: 'Миний мэдээлэл аюулгүй юу?', a: 'Бид мөнгө угаах, терроризмыг санхүүжүүлэхтэй тэмцэх болон хувь хүний мэдээлэл хамгаалах хууль тогтоомжийг мөрддөг. Таны мэдээлэл өндөр хамгаалалттай орчинд хадгалагдана.' },
   ],
@@ -178,7 +177,9 @@ export const getApp = {
 };
 
 export const footer = {
-  about: 'BiD Pay нь «Бизнес Инвест Девелопмент ББСБ» ХХК-ийн апп. Компани 2004 онд байгуулагдаж, 2005 оноос тусгай зөвшөөрөлтэй үйл ажиллагаа явуулж байна.',
+  /** The same line as bid.mn's footer. The year is the year the site was built. */
+  copyright: `© 2004-${new Date().getFullYear()} он. “БИД Санхүүгийн Нэгдэл”.`,
+  about: 'BiD Pay нь “Бизнес Инвест Девелопмент ББСБ” ХХК-ийн апп. Компани 2004 онд байгуулагдаж, 2005 оноос тусгай зөвшөөрөлтэй үйл ажиллагаа явуулж байна.',
   links: [
     { href: '#huvaan', label: 'Хуваан төлөх' },
     { href: '#bolomj', label: 'Боломжууд' },

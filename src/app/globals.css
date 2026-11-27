@@ -117,17 +117,20 @@ html[data-3d] .view .poster { opacity: 0; animation: unhide 0s linear 5s forward
 .stack { position: relative; width: min(100%, 440px); justify-self: center; aspect-ratio: 1.586 / 1.48 }
 .svc { position: absolute; left: 0; top: 0; width: 100%; aspect-ratio: 1.586; border-radius: clamp(16px, 1.8vw, 22px); padding: 7% 8%; display: flex; flex-direction: column; justify-content: space-between; transform-origin: 50% 0; box-shadow: 0 16px 32px rgba(22, 24, 29, .14), 0 2px 5px rgba(22, 24, 29, .06); transition: transform .7s cubic-bezier(.2, .8, .2, 1), opacity .45s cubic-bezier(.2, .8, .2, 1) }
 .svc img { width: 100%; height: clamp(18px, 2vw, 25px); object-fit: contain; object-position: left center }
-.svc span { font: 600 clamp(17px, 1.7vw, 22px)/1.2 var(--f-head); letter-spacing: -.02em }
+.svc span { font: 600 clamp(19px, 1.7vw, 22px)/1.2 var(--f-head); letter-spacing: -.02em }
 .svc[data-pos="0"] { transform: translateY(48%); z-index: 4 }
 .svc[data-pos="1"] { transform: translateY(32%) scale(.94); z-index: 3 }
 .svc[data-pos="2"] { transform: translateY(16%) scale(.88); z-index: 2 }
 .svc[data-pos="3"] { transform: translateY(0) scale(.82); z-index: 1 }
 .svc[data-pos="out"] { transform: translateY(80%) scale(1.02); opacity: 0; z-index: 5 }
 .svc.snap { transition: none; opacity: 0 }
-.svc[data-tone="orange"] { background: var(--orange); color: var(--ink) }
+/* Bright orange against its opposite, a deep navy, with ink and a cool slate between them. No darkened orange or warm
+   grey: those read as brown. Every card has BiD's white wordmark; the label stays at least 19px so white on the
+   orange (3.7:1) counts as large text. */
+.svc[data-tone="orange"] { background: #e2580a; color: #fff }
 .svc[data-tone="dark"] { background: #16181d; color: #fff }
 .svc[data-tone="slate"] { background: #4b4e58; color: #fff }
-.svc[data-tone="light"] { background: #ebe8e0; color: var(--ink) }
+.svc[data-tone="navy"] { background: #1d3557; color: #fff }
 
 /* savings: goals floating on a stage; on arrival they rise in turn and their bars fill, then they drift */
 .pillar.flip { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr) }
@@ -216,6 +219,7 @@ footer .logo { color: #fff }
 footer p { max-width: 34em; margin-top: 16px; font-size: 14px; color: #83858d }
 footer ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 26px; flex-wrap: wrap }
 footer a { transition: color .15s } footer a:hover { color: var(--orange) }
+footer .legal { margin-top: 40px; padding-top: 20px; border-top: 1px solid #2b2d34; font-size: 13px; color: #83858d }
 
 /* things rise into place as they scroll in */
 [data-rv] { transition: opacity .7s cubic-bezier(.2, .7, .2, 1), transform .7s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--d, 0) * 90ms) }

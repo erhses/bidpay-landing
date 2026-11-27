@@ -17,3 +17,6 @@ npm-debug.log*
 
 # Vercel CLI project link
 .vercel
+
+# image saved by `make save` for copying to the server
+/*.tar

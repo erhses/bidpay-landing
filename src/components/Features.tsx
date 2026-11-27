@@ -49,7 +49,7 @@ export default function Features() {
             <div className="stack" data-stack="">
               {services.tiles.map((t, i) => (
                 <div className="svc" data-tone={t.tone} data-pos={i} key={t.id}>
-                  <img src={`/img/bid/${t.id}${t.tone === 'light' ? '-ink' : ''}.webp`} alt={t.name} height={65} />
+                  <img src={`/img/bid/${t.id}.webp`} alt={t.name} height={65} />
                   <span>{t.line}</span>
                 </div>
               ))}

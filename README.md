@@ -19,26 +19,47 @@ Open http://localhost:3000.
 ```bash
 npm run lint
 npm run type-check
-NEXT_PUBLIC_SITE_URL=https://your-domain.mn npm run build
+npm run build
 ```
 
-`NEXT_PUBLIC_SITE_URL` is the public address of the site. It is read at build time and goes into the canonical
-link, the sitemap, `robots.txt` and the share preview. Without it, a build on Vercel uses the project's production
-address (`*.vercel.app`), and any other build uses `http://localhost:3000`.
+The site's public address is `siteUrl` in `src/content/site.ts`. It goes into the canonical link, the sitemap,
+`robots.txt` and the share preview, so change it there if the domain ever changes.
 
 ## Deploy
 
-The live site is on Vercel, connected to this GitHub repository. Every push to `main` builds and publishes it;
-any other branch or pull request gets its own preview address. Vercel detects Next.js, so the project needs no
-build settings. Once the real domain is known, add it in Vercel and set `NEXT_PUBLIC_SITE_URL` under the
-project's Environment Variables, then redeploy.
-
-The build produces a self-contained server in `.next/standalone`. The Dockerfile packages it:
+The site deploys the same way as the BiD landing (`bid-landing-front-new`): a Docker image is built on your machine,
+copied to the BiD server (`103.153.141.134`, into `/home/cloudmn/bidpay/`, created on the first push) and run there. It needs Docker running
+locally and SSH access to the server as `root`. The `Makefile` holds every step and every setting, with
+nothing else to set: the site's address lives in the code (`siteUrl` in `src/content/site.ts`). To deploy:
 
 ```bash
-docker build --build-arg NEXT_PUBLIC_SITE_URL=https://your-domain.mn -t bidpay-landing .
-docker run -p 3000:3000 bidpay-landing
+make full-deploy
 ```
+
+That runs three steps, which also work on their own:
+
+| Step | What it does |
+| --- | --- |
+| `make build` | Builds the `bidpay-landing` image for `linux/amd64`. |
+| `make push` | Saves the image to `bidpay-landing.tar` and copies it to `/home/cloudmn/bidpay/` on the server with `scp`. |
+| `make ssh-deploy` | On the server: loads the image, replaces the `bidpay-landing` container, and prints its status and logs. |
+
+The container listens on port 3004 (that server already uses 3001, 3003 and 8086), restarts with the server, and serves
+plain HTTP. On the server, nginx serves `https://bidpay.mn` and `www.bidpay.mn` and passes them to `127.0.0.1:3004`
+(`/etc/nginx/conf.d/bidpay.conf`, next to the BiD sites' `bid_web.conf`; a copy is in `deploy/nginx-bidpay.conf`).
+Plain `http://` is redirected to `https://bidpay.mn`. The certificate is Let's Encrypt, from certbot, and renews by
+itself. Deploys never touch nginx. Any of the Makefile's settings can be changed per run, e.g.
+`make ssh-deploy HOST_PORT=3010`.
+
+To try the image locally:
+
+```bash
+make build
+docker run --rm -p 3004:3004 bidpay-landing
+```
+
+The build produces a self-contained server in `.next/standalone`, which is what the image ships. The site also
+builds on Vercel with no settings, if a preview address is ever needed.
 
 ## Where things are
 
@@ -125,14 +146,13 @@ These are placeholders or unconfirmed and need a decision from the BiD Pay team:
 - **Amounts.** The figures in the hero are examples. The rest of the page shows none.
 - **Services.** Section 3 shows BiD credit, debit, point and Барьцаат credit with their real wordmarks (originals in
   `research/assets/`), drawn as a stack of cards. They are not cards: BiD offers no card service, so the copy never
-  says карт and the cards carry no chip or contactless mark. Their colours and one-line descriptions are
-  placeholders; confirm both.
+  says карт and the cards carry no chip or contactless mark. Their colours are bright orange, ink, a cool slate and
+  a deep navy (orange's opposite); the one-line descriptions are placeholders; confirm them.
 - **Tier screenshot.** Section 3 uses the app's own tier badges (`public/img/tiers/`, originals in
   `research/assets/`). The Хэрэглэгчийн түвшин screenshot in the Апп дотор section still shows tier thresholds and
   point percentages, which PRODUCT.md keeps off the page.
 - **QR target.** `qrTarget` in `site.ts` is the App Store listing, so Android phones scanning it land in the
   wrong store. Use a link that routes each phone to its own store.
 - **Legal pages.** There are no terms or privacy links yet.
-- **Domain.** Set `NEXT_PUBLIC_SITE_URL` in Vercel once the address is known (see Deploy).
 - **Real devices.** The 3D scene has been checked in a headless browser only. Test it on mid-range Android
   phones before launch.
